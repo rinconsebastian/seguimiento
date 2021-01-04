@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using seguimiento.Data;
 using seguimiento.Models;
 using System;
@@ -24,19 +25,49 @@ namespace seguimiento.Controllers
         }
 
 
-        [Authorize]
-        public IActionResult Index()
+        [Authorize(Policy = "Configuracion.General")]
+        public async Task<IActionResult> Index()
         {
-            //otificationController controlNotificaciones = new NotificationController();
-
-            Sesion sesion = HttpContext.Session.Get<Sesion>("sesion");
-            if (sesion == null)
-            {
-                return RedirectToAction("Index", "Main");
-            }
-            //controlNotificaciones.ToUser(sesion.usuario, "ingreso al panel de configuación", "<h2>texto prueba</h2>");
-
             return View();
+        }
+
+
+        [Authorize(Policy = "Configuracion.General")]
+        public async Task<IActionResult> Index2()
+        {
+           return View(await db.Configuracion.ToListAsync());
+        }
+       
+
+        [Authorize(Policy = "Configuracion.General")]
+        public async  Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            Configuracion configuracion = await  db.Configuracion.FindAsync(id);
+            if (configuracion == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View(configuracion);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Configuracion.General")]
+        public async Task<IActionResult> Edit(Configuracion configuracion)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(configuracion).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index2");
+            }
+            return View(configuracion);
         }
     }
 }

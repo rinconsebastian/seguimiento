@@ -1,0 +1,294 @@
+﻿@{
+    Layout = "";
+    var n = 0;
+    var grupo = 1;
+
+}
+@if (ViewBag.listado.Count > 0)
+{
+    <div class="row titulo IndicadoresTituloGeneral">
+        <h3 class="text-center width100 IndicadoresTitulo-margen">INDICADORES</h3>
+    </div>
+}
+
+@foreach (var registro in ViewBag.listado)
+{
+
+    grupo = 1;
+    <div class="row titulo">
+        <div class="col-md-11">
+            <span class="IndicadorNumero">
+                @if (@registro[0].codigo != null)
+                {@registro[0].codigo}
+            else
+            {@registro[0].id}
+            </span> <span class="IndicadorTitulo"> @registro[0].nombre</span>
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-default btn-sm boton-bajo button-open-indicador" data-id="@registro[0].id"><i class="fas fa-external-link-alt"></i></button>
+        </div>
+    </div>
+    <div class="row IndicadorHistoricoCabecera IndicadorCabecera">
+        Histórico
+    </div>
+    <div class="row rowIndicador">
+        <div class="col-md-12 tablaEjecucion">
+            <table class="table table-bordered table-condensed tablaIndicador">
+
+                <tbody>
+                    <tr>
+                        @{n = 0;
+                        }
+                        <td class="IndicadorHistoricoCol1 IndicadorHistoricoCabecera ">Perido</td>
+                        @foreach (var ejecucion in registro[1])
+                        {
+                            var periodoDesplegado = "periodo";
+                            if (@ejecucion.Periodo.desplegado == true)
+                            { periodoDesplegado = ""; }
+                            if (ejecucion.Periodo.Ocultar != true)
+                            {
+                                n = n + 1;
+                                if (ejecucion.Periodo.tipo == "periodo")
+                                {
+                                    <td class="paddingTablaEjecucion IndicadorHistoricoCabecera text-center @periodoDesplegado periodoaccion fondoGrupo_@(grupo % 2) indicador_@(ejecucion.idindicador) grupo_@(ejecucion.idindicador)_@grupo" data-grupo="@grupo">@ejecucion.Periodo.nombre</td>
+                                }
+                                else if (ejecucion.Periodo.tipo == "subtotal")
+                                {
+                                    <td class="paddingTablaEjecucion IndicadorHistoricoCabecera  text-center fondoGrupo_@(grupo % 2) control_grupo control_grupo_@ejecucion.idindicador" data-grupo="@grupo" data-indicador="@(ejecucion.idindicador)" data-displayed="hide">@ejecucion.Periodo.nombre   <span class="glyphicon  glyphicon glyphicon-plus-sign boton_indicador_@ejecucion.idindicador boton_grupo_@(ejecucion.idindicador)_@grupo" aria-hidden="true" style="color:red; float:right">  </span></td>
+                                    grupo = grupo + 1;
+                                }
+                                else if (ejecucion.Periodo.tipo == "lineabase")
+                                {
+                                    <td class="paddingTablaEjecucion IndicadorHistoricoCabecera text-center IndicadorHistoricoCol2">@ejecucion.Periodo.nombre</td>
+                                }
+                                else
+                                {
+                                    <td class="paddingTablaEjecucion IndicadorHistoricoCabecera text-center">@ejecucion.Periodo.nombre</td>
+                                }
+
+                            }
+                        }
+                    </tr>
+                    <tr>
+                        <td class="IndicadorHistoricoCol1">Planeado</td>
+                        @{n = 0;
+                            grupo = 1;
+                        }
+                        @foreach (var ejecucion in registro[1])
+                        {
+                            var periodoDesplegado = "periodo";
+                            if (@ejecucion.Periodo.desplegado == true)
+                            {
+                                periodoDesplegado = "";
+                            }
+
+                            if (ejecucion.Periodo.Ocultar != true)
+                            {
+                                n = n + 1;
+                                if (ejecucion.Periodo.tipo == "periodo")
+                                {
+                                    var title = "Ver detalle";
+                                    var alert = "";
+                                    if (@ejecucion.PlaneadoError != null)
+                                    {
+                                        alert = "valorTexto";
+                                        title = "Valor Planeado interpretado como texto";
+                                    }
+
+
+                                    <td class="paddingTablaEjecucion  text-right @periodoDesplegado periodoaccion periodoDetalle fondoGrupo_@(grupo % 2) indicador_@ejecucion.idindicador grupo_@(ejecucion.idindicador)_@grupo" title="@title" data-grupo="@grupo" data-IdEjecucion="@ejecucion.id"><span class='@alert'>@ejecucion.planeado</span></td>
+                                }
+                                else if (ejecucion.Periodo.tipo == "subtotal")
+                                {
+                                    <td class="paddingTablaEjecucion text-right fondoGrupo_@(grupo % 2)">@ejecucion.planeado</td>
+                                    grupo = grupo + 1;
+                                }
+                                else if (ejecucion.Periodo.tipo == "lineabase")
+                                {
+                                    <td class="paddingTablaEjecucion text-right IndicadorHistoricoCol2">@ejecucion.planeado</td>
+                                }
+                                else
+                                {
+                                    <td class="paddingTablaEjecucion text-right ">@ejecucion.planeado</td>
+                                }
+                            }
+                        }
+                    </tr>
+
+                    <tr>
+                        <td class="IndicadorHistoricoCol1">Ejecutado</td>
+                        @{n = 0;
+                            grupo = 1;
+                        }
+                        @foreach (var ejecucion in registro[1])
+                        {
+                            var periodoDesplegado = "periodo";
+                            if (@ejecucion.Periodo.desplegado == true)
+                            { periodoDesplegado = ""; }
+
+                            if (ejecucion.Periodo.Ocultar != true)
+                            {
+                                n = n + 1;
+                                if (ejecucion.Periodo.tipo == "periodo")
+                                {
+                                    var title = "Ver detalle";
+                                    var alert = "";
+                                    if (@ejecucion.EjecutadoError != null)
+                                    {
+                                        alert = "valorTexto";
+                                        title = "Valor Ejecutado interpretado como texto";
+                                    }
+                                    string logosperiodo = "";
+                                    if (@ejecucion.Evaluacion != null)
+                                    {
+                                        if (@ejecucion.Evaluacion.Color != null)
+                                        {
+                                            logosperiodo = "<span class='float-left'style='color:" + @ejecucion.Evaluacion.Color + "'>";
+                                        }
+                                        else { logosperiodo = "<span class='float-left' color='grey'>"; }
+                                    }
+                                    else
+                                    {
+                                        logosperiodo = "<span class='float-left' color='grey'>";
+                                    }
+                                    if (ejecucion.Nota != null)
+                                    {
+                                        if (ejecucion.Nota.Length > 0) { logosperiodo = logosperiodo + "<span class='glyphicon glyphicon-file ' aria-hidden='true'></span>"; }
+                                    }
+                                    if (ejecucion.adjunto != null)
+                                    {
+                                        if (ejecucion.adjunto.Length > 0) { logosperiodo = logosperiodo + "<span class='glyphicon glyphicon-paperclip ' aria-hidden='true'></span>"; }
+                                    }
+                                    logosperiodo = logosperiodo + "</span>";
+
+
+                                    <td class="paddingTablaEjecucion text-right periodoDetalle fondoGrupo_@(grupo % 2) @periodoDesplegado periodoaccion indicador_@ejecucion.idindicador grupo_@(ejecucion.idindicador)_@grupo" title="@title" data-grupo="@grupo" data-IdEjecucion="@ejecucion.id">@Html.Raw(logosperiodo) <span class='@alert'>@ejecucion.ejecutado</span></td>
+                                }
+                                else if (ejecucion.Periodo.tipo == "subtotal")
+                                {
+                                    <td class="paddingTablaEjecucion text-right fondoGrupo_@(grupo % 2)">@ejecucion.ejecutado </td>
+                                    grupo = grupo + 1;
+                                }
+
+                                else if (ejecucion.Periodo.tipo == "lineabase")
+                                {
+                                    <td class="paddingTablaEjecucion text-right IndicadorHistoricoCol2">@ejecucion.ejecutado</td>
+
+                                }
+                                else
+                                {
+                                    <td class="paddingTablaEjecucion text-right">@ejecucion.ejecutado</td>
+                                }
+                            }
+                        }
+                    </tr>
+
+                    <tr>
+                        <td class="IndicadorHistoricoCol1">Cumplimiento</td>
+                        @{n = 0;
+                            grupo = 1;
+                        }
+                        @foreach (var ejecucion in registro[1])
+                        {
+                            var periodoDesplegado = "periodo";
+                            if (@ejecucion.Periodo.desplegado == true)
+                            { periodoDesplegado = ""; }
+
+                            if (ejecucion.Periodo.Ocultar != true)
+                            {
+
+
+                                n = n + 1;
+                                if (ejecucion.Periodo.tipo == "periodo")
+                                {
+                                    var title = "Ver detalle";
+
+                                    if (@ejecucion.Evaluacion.texto != null)
+                                    {
+
+                                        title = @ejecucion.Evaluacion.texto;
+                                    }
+
+                                    <td display="block" class="paddingTablaEjecucion text-right periodoDetalle fondoGrupo_@(grupo % 2) @periodoDesplegado periodoaccion indicador_@ejecucion.idindicador grupo_@(ejecucion.idindicador)_@grupo" title="@title" data-grupo="@grupo" data-IdEjecucion="@ejecucion.id">
+                                        @if (@ejecucion.Evaluacion.Color != null && @ejecucion.CalculadoDisplay != null && @ejecucion.CalculadoDisplay != "")
+                                        {<svg width='16' height='16' class='float-left'><circle cx='8' cy='8' r='8' fill='@ejecucion.Evaluacion.Color' />@ejecucion.Evaluacion.texto</svg>}@ejecucion.CalculadoDisplay
+                                    </td>
+                                }
+                                else if (ejecucion.Periodo.tipo == "subtotal")
+                                {
+                                    <td display="block" class="paddingTablaEjecucion text-right fondoGrupo_@(grupo % 2)">
+                                        @if (@ejecucion.Evaluacion.Color != null && @ejecucion.CalculadoDisplay != null && @ejecucion.CalculadoDisplay != "")
+                                        {<svg width='16' height='16' class='float-left'><circle cx='8' cy='8' r='8' fill='@ejecucion.Evaluacion.Color' />@ejecucion.Evaluacion.texto</svg>}@ejecucion.CalculadoDisplay
+                                    </td>
+                                    grupo = grupo + 1;
+                                }
+                                else if (ejecucion.Periodo.tipo == "linebase")
+                                {
+                                    <td display="block" class="paddingTablaEjecucion text-right IndicadorHistoricoCol2">
+                                        @if (@ejecucion.Evaluacion.Color != null && @ejecucion.CalculadoDisplay != null && @ejecucion.CalculadoDisplay != "")
+                                        {<svg width='16' height='16' class='float-left'><circle cx='8' cy='8' r='8' fill='@ejecucion.Evaluacion.Color' />@ejecucion.Evaluacion.texto</svg>}@ejecucion.CalculadoDisplay
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td display="block" class="paddingTablaEjecucion text-right">@ejecucion.CalculadoDisplay</td>
+                                }
+                            }
+                        }
+                    </tr>
+
+                </tbody>
+            </table>
+
+
+        </div>
+
+
+
+    </div>
+
+
+}
+
+<!--  --------------------------- MODAL  EJECUCION ------------------------------------------------------------- -->
+<div class="modal fade" id="myModalEjecucion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title tituloCategoria" id="myModalLabelEjecucion">
+                </h4>
+            </div>
+            <div class="modal-body padding-bottom-0">
+                <div id="EjecucionContenido"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--  --------------------------- MODAL  EJECUCION ------------------------------------------------------------- -->
+
+
+
+<script src="~/js/ajaxDetalleIndicador.js" async></script>
+<script src="~/js/IndicadorPopGestion.js" async></script>
+
+
+
+@*@Scripts.Render("~/bundles/ajaxDetalleIndicador")
+
+    @Scripts.Render("~/bundles/IndicadorPopGestion")*@
+
+<script type="text/javascript">
+
+    $('#EjecucionContenido').on('submit', '#uploadFileFormEjecucion', function (d) {
+
+        d.preventDefault();
+    });
+
+
+
+
+
+</script>

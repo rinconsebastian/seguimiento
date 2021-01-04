@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-3 listado">
+        @*   @Html.Action("Total", "Listado")*@
+        @await Component.InvokeAsync("ListadoTotal")
+    </div>
+    <div class="col-md-9 div-contenido">
+        <div class="row containerResumen">
+            <div class="col-md-12" id="resumen">
+                <div class="row">
+                    <div class="col-md-12" style="text-align:center">
+                     
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row containerdetalle">
+            <div class="col-md-12" id="detalle"></div>
+        </div>
+    </div>
+
+</div>
+@if (ViewBag.idInicial != null)
+{
+    @section scripts
+    {
+       
+        
+        <script src="~/js/MainScript.js"></script>
+        <script>
+        loadInicial(@ViewBag.idInicial);
+        </script>
+
+    }
+}

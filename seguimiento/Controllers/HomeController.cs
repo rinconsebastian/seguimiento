@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using seguimiento.Models;
 using System;
@@ -12,14 +13,20 @@ namespace seguimiento.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager;
+        private readonly Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> _roleManager;
+        public HomeController(ILogger<HomeController> logger, Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager, Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> roleManager)
         {
             _logger = logger;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
         {
+            //var user = await _userManager.FindByEmailAsync("rinconsebastian@gmail.com");
+           // var claime = await _userManager.GetClaimsAsync(user);
+            //var roles = await _userManager.GetRolesAsync(user);
             return View();
         }
 

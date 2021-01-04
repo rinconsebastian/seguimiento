@@ -33,9 +33,12 @@ namespace seguimiento
             /*services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));*/
-           
+            services.AddMvc().AddControllersAsServices();
+
+
+
             services.AddDbContext<ApplicationDbContext>(opt =>
-             opt.UseMySql(
+             opt.UseLazyLoadingProxies().UseMySql(
                         // Replace with your connection string.
                         "server=localhost;user=root;password=12345;database=jerico",
                         // Replace with your server version and type.
@@ -50,7 +53,20 @@ namespace seguimiento
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Configuracion.General", policy =>
+                                  policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.General", "1", "2", "3", "4", "5"));
+
+                options.AddPolicy("Configuracion.Responsable", policy =>
+                                  policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Responsable", "1"));
+            });
+
+
             services.AddControllersWithViews();
         }
 

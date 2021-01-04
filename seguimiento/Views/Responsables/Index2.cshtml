@@ -1,0 +1,60 @@
+﻿@model IEnumerable<seguimiento.Models.Responsable>
+
+@{
+    ViewBag.Title = "Index2";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Dependencias</h2>
+
+<p>
+    @Html.ActionLink("Crear nueva dependencia", "Create")
+</p>
+<div class="row">
+    <div class="col-md-6 NombreListadoResponsable">
+        <b>@Html.DisplayNameFor(model => model.Nombre)</b>
+    </div>
+    <div class="col-md-3 align-right margen-left  margen-right">
+        <b>Categorias asociadas</b>
+    </div>
+    <div class="col-md-1 align-right ">
+        <b>Usuarios</b>
+    </div>
+    <div class="col-md-2 align-right margen-left">
+        <b>Opciones</b>
+    </div>
+
+</div>
+
+
+
+@foreach (var item in Model)
+{
+    <div class="row bordesListadoResponsables">
+        <div class="col-md-6 NombreListadoResponsable">
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </div>
+        <div class="col-md-3 align-right margen-left ">
+           
+            @await Component.InvokeAsync("CategoriasFromResponsable", new { idResponsable = item.Id })
+        </div>
+        <div class="col-md-1 margen-left text-center">
+            @await Component.InvokeAsync("UsuariosFromResponsable", new { idResponsable = item.Id })
+
+            @*  @Html.Action("GetUsuariosFromResponsable", "Account", new { idResponsable = item.Id })*@
+        </div>
+            <div class="col-md-2 align-right margen-left ">
+                <a href='@Url.Action("Details", new { id=item.Id })' class="btn btn-default btn-sm" title="Detalles"> <i class="fas fa-file"></i></a>
+                <a href='@Url.Action("Edit", new { id=item.Id })' class="btn btn-default btn-sm" title="Editar"><i class="fas fa-edit"></i></a>
+                <a href='@Url.Action("Delete", new { id=item.Id })' class="btn btn-default btn-sm" title="Borrar"><i class="fas fa-trash"></i></a>
+
+            </div>
+        </div>
+        <div class="row hijos">
+            <div class="col-md-12 ListadoResponsableAlignRight">
+                @*   @Html.Partial("Hijos", item.Hijos)*@
+        </div>
+            </div>
+
+        }
+

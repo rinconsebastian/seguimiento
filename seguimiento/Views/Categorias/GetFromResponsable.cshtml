@@ -1,0 +1,12 @@
+﻿@model IEnumerable<seguimiento.Models.Categoria>
+
+
+
+@foreach (var item in Model)
+{
+
+    <a class="pill-categoria" title="@item.nombre" href="../Categorias/Details/@item.id">  @Html.DisplayFor(modelItem => item.numero)</a>
+
+
+}
+
