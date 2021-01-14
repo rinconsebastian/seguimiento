@@ -38,7 +38,7 @@ $('#EjecucionContenido').on('click', '.IndicadorSaveEdit', function () {
 function loadEjecucion(id, tipo, mensaje) {
     $('#EjecucionContenido').empty();
     $('#myModalEjecucion').modal('show');
-    $('#EjecucionContenido').append('<div class="loading"><img src="../iamge/loadingcircle.gif" ></div>');
+    $('#EjecucionContenido').append('<div class="loading"><img src="../images/loadingcircle.gif" ></div>');
     //alert("click");
     $.get("../ejecucions/DetailsPop", { 'id': id, 'tipo': tipo, 'mensaje': mensaje })
         .done(function (data) {
@@ -56,7 +56,7 @@ function loadEjecucion(id, tipo, mensaje) {
 function displayEditEjecucion(id, tipo, mensaje) {
     $('#EjecucionContenido').empty();
     $('#myModalEjecucion').modal('show');
-    $('#EjecucionContenido').append('<div class="loading"><img src="../iamge/loadingcircle.gif" ></div>');
+    $('#EjecucionContenido').append('<div class="loading"><img src="../images/loadingcircle.gif" ></div>');
     $.get("../ejecucions/EditPop", { 'id': id })
         .done(function (data) {
             //alert(tipo);
@@ -80,11 +80,13 @@ function EjecucionAlmacenarEdicion() {
         .done(function (data) {
             //alert(data);
             $('#notas').empty();
-            if (data === "True") {
+            
+            if (data === true) {
+               
                 loadEjecucion(idEjecucion, "exito", "Ejecución editada exitosamente");
             }
             else {
-
+               
                 loadEjecucion(idEjecucion, "error", "No se pudo actualizar la Ejecución");
             }
 
@@ -149,7 +151,7 @@ $('#EjecucionContenido').on('submit', '#uploadFileFormEjecucion', function (d) {
 function displayIndicadorDetails(id, tipo, mensaje) {
     $('#EjecucionContenido').empty();
     $('#myModalEjecucion').modal('show');
-    $('#EjecucionContenido').append('<div class="loading"><img src="../iamge/loadingcircle.gif" ></div>');
+    $('#EjecucionContenido').append('<div class="loading"><img src="../images/loadingcircle.gif" ></div>');
     $.get("../Indicadors/DetailsPop", { 'id': id, 'tipo': tipo, 'mensaje': mensaje })
         .done(function (data) {
 
@@ -167,7 +169,7 @@ function displayIndicadorDetails(id, tipo, mensaje) {
 function displayIndicadorEdit(id) {
     $('#EjecucionContenido').empty();
     $('#myModalEjecucion').modal('show');
-    $('#EjecucionContenido').append('<div class="loading"><img src="../iamge/loadingcircle.gif" ></div>');
+    $('#EjecucionContenido').append('<div class="loading"><img src="../images/loadingcircle.gif" ></div>');
     $.get("../Indicadors/EditPop", { 'id': id })
         .done(function (data) {
 
@@ -189,7 +191,7 @@ function IndicadorAlmacenarEdicion() {
         .done(function (data) {
             //alert(data);
             $('#notas').empty();
-            if (data === "True") {
+            if (data === true) {
 
                 displayIndicadorDetails(idIndicador, "exito", "Indicador editado exitosamente");
 

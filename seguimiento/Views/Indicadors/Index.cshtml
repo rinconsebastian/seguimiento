@@ -1,0 +1,70 @@
+﻿@model IEnumerable<seguimiento.Models.Indicador>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Indicadores</h2>
+@if (ViewBag.error != null)
+{
+    <div class="alert alert-warning" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        @ViewBag.error
+    </div>
+}
+<p>
+    @Html.ActionLink("Crear nuevo", "Create")
+</p>
+<table class="table font-smaller">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Categoria)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ponderador)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.unidad)
+        </th>
+
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td title="@item.Categoria.numero @item.Categoria.nombre">
+                @Html.DisplayFor(modelItem => item.Categoria.numero)
+            </td>
+            <td>
+                @if (@item.codigo != null)
+                {@Html.DisplayFor(modelItem => item.codigo)}
+            else
+            {@Html.DisplayFor(modelItem => item.id)}   @Html.DisplayFor(modelItem => item.nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ponderador)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.unidad)
+        </td>
+
+
+        <td>
+            <span class="button-inline small-button">
+                <a href='@Url.Action("Details", new { id=item.id })' class="btn btn-default btn-sm" title="Detalles"><i class="fas fa-file-alt"></i></a>
+                <a href='@Url.Action("Edit", new { id=item.id })' class="btn btn-default btn-sm" title="Editar"><i class="fas fa-edit"></i></a>
+                <a href='@Url.Action("Delete", new { id=item.id })' class="btn btn-default btn-sm" title="Borrar"><i class="fas fa-trash"></i></a>
+            </span>
+
+        </td>
+    </tr>
+}
+
+</table>

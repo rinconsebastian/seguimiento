@@ -1,0 +1,157 @@
+﻿@model seguimiento.Models.Indicador
+
+
+@{
+
+    Layout = "";
+    var listacategoria = (SelectList)ViewBag.IdCategoria;
+    var listatipo = (SelectList)ViewBag.tipo;
+}
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "IndicadorEditForm", @class = "form-notas-width" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Editar indicador</h4>
+        <h6>@Model.id @Model.nombre</h6>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.idCategoria, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("idCategoria", listacategoria, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.idCategoria, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ponderador, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ponderador, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ponderador, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tipo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("tipo", listatipo, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.tipo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.unidad, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.unidad, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.unidad, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.codigo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.codigo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.codigo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nota, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Nota, htmlAttributes: new { @class = "form-control", rows = "3" })
+                @Html.ValidationMessageFor(model => model.Nota, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+
+        @foreach (var campo in ViewBag.campos)
+        {
+            if (campo.Campo.Activado == true)
+            {
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="adjunto">@Html.Raw(campo.Campo.Nombre.Remove(campo.Campo.Nombre.Length - 3))</label>
+                    <div class="col-md-10">
+                        @if (campo.Valor != null)
+                        {
+                            @* @Html.TextBox((string)campo.Campo.Nombre, (string)campo.Valor.Texto, (string)campo.Valor.Texto, new { @class = "form-control" })*@
+                            @Html.TextArea((string)campo.Campo.Nombre, (string)campo.Valor.Texto, new { @class = "form-control", rows = "2" })
+
+                        }
+                        else
+                        {
+                            @Html.TextBox((string)campo.Campo.Nombre, "", "", new { @class = "form-control" })
+
+                        }
+                    </div>
+                </div>
+            }
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.adjunto, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <p class="align-right margin-bottom-0">
+                    @Html.EditorFor(model => model.adjunto, new { htmlAttributes = new { @class = "form-control hide", @readonly = "true" } })
+                    @if (@Model.adjunto != null && @Model.adjunto != "")
+                    {
+                        @Html.ActionLink(@Model.adjunto, "UploadedFiles/" + @Model.adjunto, "Upload", new { }, htmlAttributes: new { target = "_blank", id = "urlAdjuntoEjecucion" })
+                    }
+                    else
+                    {
+                        <a href="" target="_blank" id="urlAdjuntoEjecucion"></a>
+                    }
+
+                    @Html.ValidationMessageFor(model => model.adjunto, "", new { @class = "text-danger  uploading" })
+                </p>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+}
+
+@using (Html.BeginForm("UploadFile", "Upload", FormMethod.Post, new { enctype = "multipart/form-data", id = "uploadFileFormEjecucion", @class = "form-notas-width" }))
+{
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            @Html.TextBox("file", "", new { type = "file", id = "fileuploadtextEjecucion" })
+        </div>
+        @ViewBag.Message
+
+    </div>
+}
+
+
+<div class="modal-footer">
+
+    <button type="button" class="btn btn-default IndicadorVolver" aria-label="Left Align" data-id="@Model.id">
+        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true">Volver</span>
+    </button>
+
+    <button type="button" class="btn btn-default IndicadorSaveEdit" aria-label="Left Align" data-id="@Model.id">
+        <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">Guardar</span>
+    </button>
+</div>
+

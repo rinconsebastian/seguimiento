@@ -8,7 +8,7 @@ using System.Web;
 //LIBRERIA QUE CALCULA LAS EJECUCIONES DE INDICADORES TIPO MANTENIMIENTO TANTO POR PERIODO COMO POR SUBTOTAL Y TOTAL
 
 
-namespace Seguimiento0._1.Formulas
+namespace seguimiento.Formulas
 {
     public class AIncnoacumTmtto
     {

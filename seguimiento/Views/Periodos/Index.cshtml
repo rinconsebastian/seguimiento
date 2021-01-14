@@ -1,0 +1,95 @@
+﻿@model IEnumerable<seguimiento.Models.Periodo>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Periodos</title>
+</head>
+<body>
+    <h2>Periodos</h2>
+    @if (ViewBag.error != null)
+    {
+        <div class="alert alert-warning" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            @ViewBag.error
+        </div>
+    }
+    <p>
+        @Html.ActionLink("Crear", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.orden)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.calculo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cargado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ocultar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EditarProgramacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EditarEjecucion)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.orden)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.calculo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cargado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ocultar)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EditarProgramacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EditarEjecucion)
+                </td>
+                <td>
+                    <a href='@Url.Action("Details", new { id=item.id })' class="btn btn-default btn-sm" title="Detalles"><i class="fas fa-file-alt"></i></a>
+                    <a href='@Url.Action("Edit", new { id=item.id })' class="btn btn-default btn-sm" title="Editar"><i class="fas fa-edit"></i></a>
+                    <a href='@Url.Action("Delete", new { id=item.id })' class="btn btn-default btn-sm" title="Borrar"><i class="fas fa-trash"></i></a>
+
+                </td>
+            </tr>
+        }
+
+    </table>
+    <a class="btn  btn-warning" href="@Url.Action("Evaluar","EjecucionCategorias")" target="_blank">Evaluar Totales</a>
+</body>
+</html>

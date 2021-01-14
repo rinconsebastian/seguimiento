@@ -38,7 +38,7 @@
 
         //carga resumen de la categoria
         //alert("hey");
-        $.get("../Categorias/resumen", { 'categoria.id': idPadre })
+        $.get("../Categorias/resumen", { 'ID': idPadre })
             .done(function (datos) {
                 $('#resumen').slideUp(0);
                 $('#resumen').empty();

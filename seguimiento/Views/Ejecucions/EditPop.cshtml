@@ -1,0 +1,142 @@
+﻿@model seguimiento.Models.Ejecucion
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EditPop</title>
+</head>
+<body>
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "EjecucionEditForm", @class = "form-notas-width" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Editar ejecución @Model.Periodo.nombre</h4>
+            <h6>@Model.Indicador.nombre</h6>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.id)
+
+            <div class="form-group  hide">
+                @Html.LabelFor(model => model.idindicador, "idindicador", htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.idindicador, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.idindicador, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group hide">
+                @Html.LabelFor(model => model.idperiodo, "idperiodo", htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.idperiodo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.idperiodo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+
+
+                @Html.LabelFor(model => model.planeado, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @if (ViewBag.PuedeEditarPlaneado == true)
+                    {
+                        @Html.EditorFor(model => model.planeado, new { htmlAttributes = new { @class = "form-control" } })
+                    }
+                    else
+                    {
+                        @Html.EditorFor(model => model.planeado, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    }
+                    @Html.ValidationMessageFor(model => model.planeado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ejecutado, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @if (ViewBag.PuedeEditarEjecucion == true)
+                    {
+                        @Html.EditorFor(model => model.ejecutado, new { htmlAttributes = new { @class = "form-control" } })
+                    }
+                    else
+                    {
+                        @Html.EditorFor(model => model.ejecutado, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    }
+                    @Html.ValidationMessageFor(model => model.ejecutado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.cargado, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.cargado)
+                        @Html.ValidationMessageFor(model => model.cargado, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nota, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.TextAreaFor(model => model.Nota, htmlAttributes: new { @class = "form-control", rows = "6" })
+                    @Html.ValidationMessageFor(model => model.Nota, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.adjunto, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    <p class="align-right margin-bottom-0">
+                        @Html.EditorFor(model => model.adjunto, new { htmlAttributes = new { @class = "form-control hide", @readonly = "true" } })
+                        @if (@Model.adjunto != null && @Model.adjunto != "")
+                        {
+                            @Html.ActionLink(@Model.adjunto, "UploadedFiles/" + @Model.adjunto, "Upload", new { }, htmlAttributes: new { target = "_blank", id = "urlAdjuntoEjecucion" })
+                        }
+                        else
+                        {
+                            <a href="" target="_blank" id="urlAdjuntoEjecucion"></a>
+                        }
+
+                        @Html.ValidationMessageFor(model => model.adjunto, "", new { @class = "text-danger  uploading" })
+                    </p>
+                </div>
+            </div>
+
+
+        </div>
+    }
+    @using (Html.BeginForm("UploadFile", "Upload", FormMethod.Post, new { enctype = "multipart/form-data", id = "uploadFileFormEjecucion", @class = "form-notas-width" }))
+    {
+
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
+                @Html.TextBox("file", "", new { type = "file", id = "fileuploadtextEjecucion" })
+            </div>
+            @ViewBag.Message
+
+        </div>
+    }
+
+
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-default EjecucionVolver" aria-label="Left Align" data-id="@Model.id">
+            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true">Volver</span>
+        </button>
+
+        <button type="button" class="btn btn-default EjecucionSaveEdit" aria-label="Left Align" data-id="@Model.id">
+            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">Guardar</span>
+        </button>
+    </div>
+</body>
+</html>

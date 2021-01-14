@@ -87,5 +87,32 @@ namespace seguimiento.Controllers
             ejecucion.Evaluacion = eval;
             return ejecucion;
         }
+
+        public List<EvaluacionDisplay> SetEvaluacionCategoria(List<EjecucionCategoria> ejecuciones, List<Evaluacion> semaforos)
+        {
+            List<EvaluacionDisplay> respuesta = new List<EvaluacionDisplay>();
+
+            foreach (EjecucionCategoria ejecucionx in ejecuciones)
+            {
+
+                EvaluacionDisplay eval = new EvaluacionDisplay();
+                eval.Color = "";
+                eval.texto = "";
+                if (ejecucionx.Calculado >= 0)
+                {
+
+                    foreach (var semaforox in semaforos)
+                    {
+                        if (ejecucionx.Calculado >= semaforox.Minimo && ejecucionx.Calculado <= semaforox.Maximo)
+                        {
+                            eval.Color = semaforox.Color;
+                            eval.texto = semaforox.Nombre;
+                        }
+                    }
+                }
+                respuesta.Add(eval);
+            }
+            return respuesta;
+        }
     }
 }

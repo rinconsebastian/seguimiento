@@ -1,0 +1,130 @@
+﻿@model seguimiento.Models.Indicador
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    var listacategoria = (SelectList)ViewBag.IdCategoria;
+    var listatipo = (SelectList)ViewBag.tipo;
+}
+
+<h2>Crear</h2>
+
+@using (Html.BeginForm("Create", "Indicadors", FormMethod.Post, new { id = "formIndicador", @class = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Indicador</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.codigo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.codigo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.codigo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Categoria, "idCategoria", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("idCategoria", listacategoria, htmlAttributes: new { @class = "form-control" })
+               
+                @Html.ValidationMessageFor(model => model.idCategoria, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ponderador, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ponderador, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ponderador, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tipo, "tipo", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("tipo", listatipo, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.tipo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.unidad, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.unidad, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.unidad, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nota, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nota, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nota, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.adjunto, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <p class="align-right margin-bottom-0 maxWidthConfig">
+                    @Html.EditorFor(model => model.adjunto, new { htmlAttributes = new { @class = "form-control hide", @readonly = "true" } })
+                    <a href="" target="_blank" id="urlAdjuntoEjecucion"></a>
+                    @Html.ValidationMessageFor(model => model.adjunto, "", new { @class = "uploading text-danger " })
+                </p>
+            </div>
+        </div>
+
+    </div>
+}
+@using (Html.BeginForm("UploadFile", "Upload", FormMethod.Post, new { enctype = "multipart/form-data", id = "uploadFileFormEjecucion", @class = "form" }))
+{
+
+    <div class="row" id="EjecucionContenidoConfig">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            @Html.TextBox("file", "", new { type = "file", id = "fileuploadtextEjecucion" })
+        </div>
+        @ViewBag.Message
+
+    </div>
+}
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <p class=" float-right">
+            @Html.ActionLink("Atras", "Index", "", htmlAttributes: new { @class = "btn btn-default" })
+            <input type="button" value="Crear" class="btn btn-default" id="submitEditIndicador" />
+
+        </p>
+    </div>
+
+</div>
+
+@section scripts
+{
+    <script async src="~/js/ConfiguracionScript.js"></script>
+
+
+   <script type="text/javascript">
+
+    $('#EjecucionContenido').on('submit', '#uploadFileFormEjecucion', function (d) {
+
+        d.preventDefault();
+    });
+    </script>
+}

@@ -1,0 +1,93 @@
+﻿@model seguimiento.Models.Periodo
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detalles</title>
+</head>
+<body>
+    <div>
+        <h4>Periodo @Model.nombre</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.orden)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.orden)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.tipo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.tipo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.calculo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.calculo)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.cargado)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.cargado)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Ocultar)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Ocultar)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.desplegado)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.desplegado)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.EditarProgramacion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EditarProgramacion)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.EditarEjecucion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EditarEjecucion)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Atras", "Index", "", htmlAttributes: new { @class = "btn btn-default" })
+        @Html.ActionLink("Editar", "Edit", new { id = Model.id }, htmlAttributes: new { @class = "btn btn-default" })
+    </p>
+</body>
+</html>

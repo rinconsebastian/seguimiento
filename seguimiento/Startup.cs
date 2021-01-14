@@ -30,6 +30,12 @@ namespace seguimiento
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add MVC services to the services container.
+            services.AddMvc();
+            services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+            services.AddSession();
+
+
             /*services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));*/
@@ -40,10 +46,10 @@ namespace seguimiento
             services.AddDbContext<ApplicationDbContext>(opt =>
              opt.UseLazyLoadingProxies().UseMySql(
                         // Replace with your connection string.
-                        "server=localhost;user=root;password=12345;database=jerico",
+                        "server=192.168.0.250;user=desarrollo;password=Feserito87@;database=jerico",
                         // Replace with your server version and type.
                         // For common usages, see pull request #1233.
-                        new MySqlServerVersion(new Version(8, 0, 22)), // use MariaDbServerVersion for MariaDB
+                        new MariaDbServerVersion(new Version(10, 3, 21)), // use MariaDbServerVersion for MariaDB MySqlServerVersion
                         mySqlOptions => mySqlOptions
                             .CharSetBehavior(CharSetBehavior.NeverAppend))
                     // Everything from this point on is optional but helps with debugging.
@@ -64,6 +70,19 @@ namespace seguimiento
 
                 options.AddPolicy("Configuracion.Responsable", policy =>
                                   policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Responsable", "1"));
+
+                options.AddPolicy("Ejecucion.Editar", policy =>
+                                 policy.RequireAssertion(context => context.User.HasClaim(claim =>
+                                   (claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Ejecucion.Editar" && claim.Value == "1") ||
+                                   (claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Planeacion.Editar" && claim.Value == "1")
+                                    )));
+                //|| context.User.IsInRole("CEO")));
+
+                options.AddPolicy("Indicador.Editar", policy =>
+                                 policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Indicador.Editar", "1"));
+
+                options.AddPolicy("Periodo.Editar", policy =>
+                                 policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Periodo.Editar", "1"));
             });
 
 
@@ -73,6 +92,9 @@ namespace seguimiento
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSession();
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

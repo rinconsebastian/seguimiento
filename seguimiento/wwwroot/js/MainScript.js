@@ -1,7 +1,7 @@
 ﻿function loadInicial(idPadre) {
     $('#resumen').append("<div class='centrar'><img  class='logoAjax' src='../images/ajax-loader.gif'/></div>");
     $('#detalle').append("<div class='centrar'><img  class='logoAjax' src='../images/ajax-loader.gif'/></div>");
-    $.get("../Categorias/resumen", { 'categoria.id': idPadre })
+    $.get("../Categorias/resumen", { 'ID': idPadre })
         .done(function (datos) {
             $('#resumen').slideUp(0);
             $('#resumen').empty();

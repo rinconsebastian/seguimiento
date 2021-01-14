@@ -1,0 +1,119 @@
+﻿@model seguimiento.Models.Indicador
+
+
+@{
+
+    Layout = "";
+}
+
+
+
+<div class="form-notas-width">
+
+    <h4>Hoja de vida de indicador</h4>
+    <h6>@if (@Model.codigo != null)
+    {@Model.codigo}
+else
+{@Model.id} @Model.nombre</h6>
+<hr />
+@if (ViewBag.tipo == "exito")
+{
+    <div class="alert alert-success" role="alert">@ViewBag.mensaje</div>
+}
+@if (ViewBag.tipo == "error")
+{
+    <div class="alert alert-danger" role="alert">@ViewBag.mensaje</div>
+}
+<dl class="dl-horizontal">
+
+    <dt class="IndicadorDisplayText">
+        @Html.DisplayNameFor(model => model.Categoria)
+    </dt>
+
+    <dd class="IndicadorDisplayText">
+        @Html.DisplayFor(model => model.Categoria.numero)  @Html.DisplayFor(model => model.Categoria.nombre)
+    </dd>
+
+
+    <dt class="IndicadorDisplayText">
+        @Html.DisplayNameFor(model => model.TipoIndicador)
+    </dt>
+
+    <dd class="IndicadorDisplayText">
+        @Html.DisplayFor(model => model.TipoIndicador.Tipo)
+    </dd>
+
+    <dt class="IndicadorDisplayText">
+        @Html.DisplayNameFor(model => model.ponderador)
+    </dt>
+
+    <dd class="IndicadorDisplayText">
+        @Html.DisplayFor(model => model.ponderador)
+    </dd>
+
+    <dt class="IndicadorDisplayText">
+        @Html.DisplayNameFor(model => model.unidad)
+    </dt>
+
+    <dd class="IndicadorDisplayText">
+        @Html.DisplayFor(model => model.unidad)
+    </dd>
+
+
+
+    <dt class="IndicadorDisplayText">
+        @Html.DisplayNameFor(model => model.Nota)
+    </dt>
+
+    <dd class="IndicadorDisplayText">
+        @Html.DisplayFor(model => model.Nota)
+    </dd>
+
+    <dt class="IndicadorDisplayText">
+        @Html.DisplayNameFor(model => model.adjunto)
+    </dt>
+    <dd class="IndicadorDisplayText">
+        @if (@Model.adjunto != null && @Model.adjunto != "")
+        {
+            @Html.ActionLink(@Model.adjunto, "UploadedFiles/" + @Model.adjunto, "Upload", new { }, htmlAttributes: new { target = "_blank", id = "urlAdjunto" })
+        }
+    </dd>
+
+
+    @foreach (var campo in ViewBag.campos)
+    {
+
+        if (campo.Campo.Activado == true)
+        {
+            <dt class="IndicadorDisplayText">
+                @campo.Campo.Nombre
+            </dt>
+
+            <dd class="IndicadorDisplayText">
+                @if (campo.Valor != null)
+                {
+                    @campo.Valor.Texto
+                }
+            </dd>
+        }
+    }
+
+</dl>
+</div>
+@*
+    <p class=" float-right">
+        @Html.ActionLink("Atras", "Index", "", htmlAttributes: new { @class = "btn btn-default" })
+        @Html.ActionLink("Editar", "Edit", new { id = Model.id }, htmlAttributes: new { @class = "btn btn-default" })
+        </p>
+
+*@
+@if (ViewBag.MostrarBotonEditarIndicador == true)
+{
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-default button-edit-indicador" aria-label="Left Align" data-id="@Model.id">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true">Editar</span>
+        </button>
+
+    </div>
+}
