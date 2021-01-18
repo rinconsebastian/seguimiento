@@ -1,4 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@{
+
+    var permisoIndicador = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Indicador.Editar" && c.Value == "1"));
+    var permisoResponsable = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Responsable" && c.Value == "1"));
+    var permisoPerido = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Periodo.Editar" && c.Value == "1"));
+    var permisoConfGeneral = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.General" && c.Value == "1"));
+    var permisoCategoria = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Categoria.Editar" && c.Value == "1"));
+
+}
+
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -34,9 +46,91 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <div class="row">
+            <div class="col-md-3">
+                <ul class="nav nav-pills flex-column">
+                    @if (permisoIndicador == true)
+                    {
+                    <li class="nav-item"><a url="@Url.Action("Index2", "Configuracions")" class="nav-link">General</a></li>
+                    }
+
+                </ul>
+                <nav class="navbar navbar-default cf-menu">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#"><b>Configuración</b></a>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li role="presentation" class="active">@Html.ActionLink("Inicio", "Index", "Configuracions")</li>
+
+                                @if (permisoConfGeneral == true)
+                                {
+                                    <li role="presentation" class="">@Html.ActionLink("General", "Index2", "Configuracions")</li>
+                                }
+                                @if (permisoResponsable == true)
+                                {
+                                    <li role="presentation" class="">@Html.ActionLink("Dependencias", "Index2", "Responsables")</li>
+                                }
+                                @if (false == true)
+                                {
+                                    <li role="presentation" class="">@Html.ActionLink("Niveles", "Index", "Nivels")</li>
+                                }
+                                @if (permisoCategoria == true)
+                                {
+                                    <li role="presentation" class="">@Html.ActionLink("Categorias", "Index", "Categorias")</li>
+                                }
+                                @if (permisoIndicador == true)
+                                {
+                                    <li role="presentation" class="">@Html.ActionLink("Indicadores", "Index", "Indicadors")</li>
+                                }
+                                @if (permisoPerido == true)
+                                {
+                                    <li role="presentation" class="">@Html.ActionLink("Periodos", "Index", "Periodos")</li>
+                                    @*<li role="presentation" class="" hidden><a href="#">Ejecuciones</a></li>
+            <li role="presentation" class="" hidden><a href="#">Notas</a></li>*@
+                                }
+                                @if (false == true)
+                                {
+                                    <li role="presentation" class="">@Html.ActionLink("Campos", "Index", "Campos")</li>
+                                }
+                                @if (false == true)
+                                {
+                                    <li role="presentation" class="">@Html.ActionLink("Evaluaciones", "Index", "Evaluacions")</li>
+                                }
+
+                                @if (false == true)
+                                {
+                                    <li role="presentation" class="" hidden>@Html.ActionLink("Roles", "Index", "Rol")</li>
+                                }
+                                @if (false == true)
+                                {
+                                    <li role="presentation" class="">@Html.ActionLink("Usuarios", "Index", "Account")</li>
+                                }
+
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+                    </div><!-- /.container-fluid -->
+                </nav>
+            </div>
+            <div class="col-md-9">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+
+
+        </div>
+
     </div>
 
     <footer class="border-top footer text-muted">
@@ -49,7 +143,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
-  
+
 </body>
 </html>
 

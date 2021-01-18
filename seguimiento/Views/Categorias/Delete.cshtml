@@ -1,0 +1,108 @@
+﻿@model seguimiento.Models.Categoria
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Está seguro que desea eliminar esta categoria?</h3>
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.numero)  @Html.DisplayFor(model => model.nombre)
+        </dd>
+
+        <dt>
+            Categoria padre
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CategoriaPadre.numero) @Html.DisplayFor(model => model.CategoriaPadre.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nivel.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nivel.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Responsable.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Responsable.Nombre)
+        </dd>
+
+
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.unificacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.unificacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ponderador)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ponderador)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.texto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.texto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.objetivo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.objetivo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nota)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nota)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <p class=" float-right">
+                    @Html.ActionLink("Atras", "Index", "", htmlAttributes: new { @class = "btn btn-default" })
+                    <input type="submit" value="Borrar" class="btn btn-default" />
+
+                </p>
+            </div>
+        </div>
+
+    }
+</div>

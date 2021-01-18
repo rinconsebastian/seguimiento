@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using seguimiento.Data;
 using seguimiento.Formulas;
@@ -198,6 +199,233 @@ namespace seguimiento.Controllers
         }
 
 
-       
+
+        // GET: Categorias
+        [Authorize(Policy = "Categoria.Editar")]
+        public async Task<ActionResult> Index()
+        {
+
+
+
+            string error = (string)HttpContext.Session.GetComplex<string>("error");
+            if (error != "")
+            {
+                ViewBag.error = error;
+                HttpContext.Session.Remove("error");
+            }
+
+            // var categorias = db.Categorias.Include(c => c.CategoriaPadre).Include(c => c.Nivel);
+            //var categorias = db.Categorias;
+            var categorias =await db.Categoria.Include(c => c.Nivel).OrderBy(n => n.numero).ToListAsync();
+            return View(categorias);
+        }
+
+        // GET: Categorias/Details/5
+        [Authorize(Policy = "Categoria.Editar")]
+        public async Task<ActionResult> Details(int id)
+        {
+           
+          
+            Categoria categoria = await db.Categoria.FindAsync(id);
+           
+            //-----------------------------Campos adicionales Inicio
+            List<CampoValor> campos = new List<CampoValor>();
+            var Campos =await db.Campo.Where(m => m.NivelPadre.id == categoria.Nivel.id || m.TodaCategoria == true).ToListAsync();
+            foreach (Campo campon in Campos)
+            {
+                CampoValor cp = new CampoValor();
+                cp.Campo = campon;
+                cp.Valor = await db.ValorCampo.Where(m => m.CampoPadre.Id == campon.Id && m.CategoriaPadre.id == categoria.id).FirstOrDefaultAsync();
+                campos.Add(cp);
+            }
+            ViewBag.campos = campos;
+            //-----------------------------Campos adicionales Fin
+
+            return View(categoria);
+        }
+
+        // GET: Categorias/Create
+        [Authorize(Policy = "Categoria.Editar")]
+        public async Task<ActionResult> Create()
+        {
+            
+            List<SelectListItem> CategoriaLista = new List<SelectListItem>();
+            var CategoriaListadb = await db.Categoria.ToListAsync();
+            foreach (var itemn in CategoriaListadb)
+            { CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() }); }
+            ViewBag.IdCategoria = new SelectList(CategoriaLista, "Value", "Text", "");
+
+            ViewBag.idResponsable = new SelectList(await db.Responsable.ToListAsync(), "Id", "Nombre", "");
+            ViewBag.idNivel = new SelectList(await db.Nivel.ToListAsync(), "id", "nombre", "");
+            return View();
+        }
+
+        // POST: Categorias/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Categoria.Editar")]
+        public async Task<ActionResult> Create( Categoria categoria)
+        {
+            if (ModelState.IsValid)
+            {
+                await db.Categoria.AddAsync(categoria);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            List<SelectListItem> CategoriaLista = new List<SelectListItem>();
+            var CategoriaListadb =await db.Categoria.ToListAsync();
+            foreach (var itemn in CategoriaListadb)
+            {
+                CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() });
+            }
+            ViewBag.IdCategoria = new SelectList(CategoriaLista, "Value", "Text", categoria.idCategoria);
+
+            ViewBag.idResponsable = new SelectList(await db.Responsable.ToListAsync(), "Id", "Nombre", categoria.IdResponsable);
+            ViewBag.idNivel = new SelectList(await db.Nivel.ToListAsync(), "id", "nombre", categoria.idNivel);
+            return View(categoria);
+        }
+
+        // GET: Categorias/Edit/5
+        [Authorize(Policy = "Categoria.Editar")]
+        public async Task<ActionResult> Edit(int id)
+        {
+                      
+            Categoria categoria = await db.Categoria.FindAsync(id);
+            
+            List<SelectListItem> CategoriaLista = new List<SelectListItem>();
+            var CategoriaListadb = await db.Categoria.ToListAsync();
+            foreach (var itemn in CategoriaListadb)
+            {
+                CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() });
+            }
+            ViewBag.IdCategoria = new SelectList(CategoriaLista, "Value", "Text", categoria.idCategoria);
+
+            ViewBag.idResponsable = new SelectList(await db.Responsable.ToListAsync(), "Id", "Nombre", categoria.IdResponsable);
+            ViewBag.idNivel = new SelectList(await db.Nivel.ToListAsync(), "id", "nombre", categoria.idNivel);
+
+            //-----------------------------Campos adicionales Inicio
+            List<CampoValor> campos = new List<CampoValor>();
+
+            var Campos = await db.Campo.Where(m => m.NivelPadre.id == categoria.Nivel.id || m.TodaCategoria == true).ToListAsync();
+            foreach (Campo campon in Campos)
+            {
+                CampoValor cp = new CampoValor();
+                cp.Campo = campon;
+                cp.Campo.Nombre = cp.Campo.Nombre + "Add";
+                cp.Valor = await db.ValorCampo.Where(m => m.CampoPadre.Id == campon.Id && m.CategoriaPadre.id == categoria.id).FirstOrDefaultAsync();
+                if (cp.Valor != null)
+                {
+                    cp.Valor.CategoriaPadre = null;
+                }
+                campos.Add(cp);
+            }
+            
+            HttpContext.Session.SetComplex("Campos", campos);
+            ViewBag.campos = campos;
+            //-----------------------------Campos adicionales Fin
+
+            return View(categoria);
+        }
+
+        // POST: Categorias/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Categoria.Editar")]
+        public async Task<ActionResult> Edit( Categoria categoria)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(categoria).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+
+                //------------------------------------------------- inicio almacenar campos adicionales
+
+                List<CampoValor> campos = HttpContext.Session.GetComplex<List<CampoValor>>("Campos");
+                foreach (CampoValor campon in campos)
+                {
+                    var valor = HttpContext.Request.Form[campon.Campo.Nombre].ToString();
+                    if (campon.Valor != null)
+                    {
+                        ValorCampo valoredit = await db.ValorCampo.FindAsync(campon.Valor.Id);
+                        valoredit.Texto = valor;
+                        // db.Entry(original).State = EntityState.Detached;
+                        db.Entry(valoredit).State = EntityState.Modified;
+                        await db.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        ValorCampo valoradd = new ValorCampo();
+                        valoradd.IdCampo = campon.Campo.Id;
+                        valoradd.CategoriaPadre = categoria;
+                        valoradd.Texto = valor;
+                        await db.ValorCampo.AddAsync(valoradd);
+                        await db.SaveChangesAsync();
+                    }
+                }
+                HttpContext.Session.Remove("Campos");
+                //------------------------------------------------- fin almacenar campos adicionales
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.idNivel = new SelectList(await db.Nivel.ToListAsync(), "Id", "nombre", categoria.idNivel);
+
+            List<SelectListItem> CategoriaLista = new List<SelectListItem>();
+            var CategoriaListadb = await db.Categoria.ToListAsync();
+            foreach (var itemn in CategoriaListadb)
+            {
+                CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() });
+            }
+            ViewBag.IdCategoria = new SelectList(CategoriaLista, "Value", "Text", categoria.idCategoria);
+
+            ViewBag.idResponsable = new SelectList(await db.Responsable.ToListAsync(), "Id", "Nombre", categoria.IdResponsable);
+            ViewBag.idNivel = new SelectList(await db.Nivel.ToListAsync(), "id", "nombre", categoria.idNivel);
+
+            //regenerar campos adicionales en viewbag
+            ViewBag.campos = HttpContext.Session.GetComplex<List<CampoValor>>("Campos");
+
+            return View(categoria);
+        }
+
+        // GET: Categorias/Delete/5
+       [Authorize(Policy = "Categoria.Editar")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            
+            Categoria categoria = await db.Categoria.FindAsync(id);
+            
+            return View(categoria);
+        }
+
+        // POST: Categorias/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Categoria.Editar")]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+            
+            string error = "";
+            ConfiguracionsController controlConfiguracion = new ConfiguracionsController(db,userManager);
+
+            Categoria categoria = await db.Categoria.FindAsync(id);
+            try
+            {
+                db.Categoria.Remove(categoria);
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                error = controlConfiguracion.SqlErrorHandler(ex);
+                HttpContext.Session.SetComplex("error", error);
+            }
+
+
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

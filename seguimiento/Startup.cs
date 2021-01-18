@@ -83,6 +83,9 @@ namespace seguimiento
 
                 options.AddPolicy("Periodo.Editar", policy =>
                                  policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Periodo.Editar", "1"));
+
+                options.AddPolicy("Categoria.Editar", policy =>
+                                 policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Categoria.Editar", "1"));
             });
 
 

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<seguimiento.Models.Categoria>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Categorias</h2>
+@if (ViewBag.error != null)
+{
+    <div class="alert alert-warning" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        @ViewBag.error
+    </div>
+}
+<p>
+    @Html.ActionLink("Crear nueva categoria", "Create")
+</p>
+<div class="row">
+    <div class="col-md-10">@Html.DisplayNameFor(model => model.nombre)</div><div class="col-md-2"></div>
+</div>
+
+
+@foreach (var item in Model)
+{
+    <div class="row @item.Nivel.color fila-categoria  ">
+
+        <div class=" col-xs-9 col-categ-@(item.Nivel.numero-1)">@Html.DisplayFor(modelItem => item.numero) @Html.DisplayFor(modelItem => item.nombre)</div>
+
+
+
+
+        <div class="col-xs-3 align-right">
+            <span class="button-inline">
+                <a href='@Url.Action("Details", new { id=item.id })' class="btn btn-default btn-sm" title="Detalles"><i class="fas fa-file-alt"></i></a>
+                <a href='@Url.Action("Edit", new { id=item.id })' class="btn btn-default btn-sm" title="Editar"><i class="fas fa-edit"></i></a>
+                <a href='@Url.Action("Delete", new { id=item.id })' class="btn btn-default btn-sm" title="Borrar"><i class="fas fa-trash"></i></a>
+            </span>
+        </div>
+    </div>
+
+
+
+}
+

@@ -1,0 +1,140 @@
+﻿@model seguimiento.Models.Categoria
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Editar</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Categoria @Model.numero @Model.nombre</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.numero, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.numero, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.numero, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.nombre, htmlAttributes: new { @class = "form-control", rows = "3" })
+
+
+                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.idCategoria, "Categoria Padre", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("idCategoria", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.idCategoria, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.idNivel, "Nivel", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("idNivel", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.idNivel, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdResponsable, "Responsable", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("IdResponsable", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdResponsable, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.unificacion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.unificacion)
+                    @Html.ValidationMessageFor(model => model.unificacion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Ponderador, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Ponderador, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Ponderador, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.texto, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.texto, htmlAttributes: new { @class = "form-control", rows = "6" })
+
+                @Html.ValidationMessageFor(model => model.texto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.objetivo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.objetivo, htmlAttributes: new { @class = "form-control", rows = "6" })
+                @Html.ValidationMessageFor(model => model.objetivo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.nota, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.nota, htmlAttributes: new { @class = "form-control", rows = "6" })
+
+                @Html.ValidationMessageFor(model => model.nota, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @foreach (var campo in ViewBag.campos)
+        {
+            if (campo.Campo.Activado == true)
+            {
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="adjunto">@Html.Encode(campo.Campo.Nombre.Remove(campo.Campo.Nombre.Length - 3))</label>
+                    <div class="col-md-10">
+                        @if (campo.Valor != null)
+                        {
+                            @Html.TextBox((string)campo.Campo.Nombre, (string)campo.Valor.Texto, (string)campo.Valor.Texto, new { @class = "form-control" })
+                        }
+                        else
+                        {
+                            @Html.TextBox((string)campo.Campo.Nombre, "", "", new { @class = "form-control" })
+
+                        }
+                    </div>
+                </div>
+            }
+        }
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <p class=" float-right">
+                    @Html.ActionLink("Atras", "Index", "", htmlAttributes: new { @class = "btn btn-default" })
+                    <input type="submit" value="Guardar" class="btn btn-default" />
+
+                </p>
+            </div>
+        </div>
+    </div>
+}
