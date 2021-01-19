@@ -150,5 +150,107 @@ namespace seguimiento.Controllers
             return View(periodo);
         }
 
+        public async  Task<Periodo> GetLastEnabled()
+        {
+            Periodo respuesta =await db.Periodo.Where(m => m.cargado == true && (m.tipo == "subtotal" || m.tipo == "total")).OrderByDescending(m => m.orden).FirstOrDefaultAsync();
+            if (respuesta == null)
+            {
+                respuesta = await db.Periodo.Where(m => m.tipo == "subtotal").OrderBy(m => m.orden).FirstOrDefaultAsync();
+            }
+
+
+            return respuesta;
+        }
+
+        public async Task<Periodo> GetFromId(int id)
+        {
+            Periodo respuesta =await db.Periodo.FindAsync(id);
+            return respuesta;
+        }
+
+        public async Task<List<Periodo>> PeriodosFromSubtotal(Periodo subtotal)
+        {
+            List<Periodo> respuesta = new List<Periodo>();
+
+            int ajusteSubtotal = 0;
+
+            if (subtotal.tipo == "subtotal") { ajusteSubtotal += 1; }
+
+            if (subtotal.orden > 1)
+            {
+                var periodon =await db.Periodo.Where(m => m.orden == subtotal.orden - ajusteSubtotal && m.tipo == "periodo").FirstOrDefaultAsync();
+                if (periodon != null)
+                {
+
+
+                    while (periodon.orden >= 1 && periodon.tipo == "periodo")
+                    {
+                        respuesta.Add(periodon);
+
+                        periodon = await db.Periodo.Where(m => m.orden == periodon.orden - 1 && periodon.tipo == "periodo").FirstOrDefaultAsync();
+                        if (periodon == null)
+                        {
+                            break;
+                        }
+
+                    }
+                }
+            }
+
+            return respuesta;
+
+        }
+
+        public async Task<List<Periodo>> PeriodosFromTotal(Periodo total)
+        {
+            List<Periodo> respuesta = new List<Periodo>();
+
+            int ajusteSubtotal = 0;
+
+            if (total.tipo == "total") { ajusteSubtotal += 1; }
+
+            if (total.orden > 1)
+            {
+                var periodon = await db.Periodo.Where(m => m.orden == total.orden - ajusteSubtotal && m.tipo == "subtotal").FirstOrDefaultAsync();
+                if (periodon != null)
+                {
+
+
+                    while (periodon.orden >= 1 && periodon.tipo == "subtotal")
+                    {
+                        respuesta.Add(periodon);
+
+                        periodon = await db.Periodo.Where(m => (m.orden <= periodon.orden - 1) && m.tipo == "subtotal").OrderByDescending(m => m.orden).FirstOrDefaultAsync();
+                        if (periodon == null)
+                        {
+                            break;
+                        }
+
+                    }
+                }
+            }
+
+            return respuesta;
+
+        }
+
+        public async Task<int> GetSubtotalFromPeriodo(int idPeriodo)
+        {
+            var r = idPeriodo;
+
+            var periodo = await db.Periodo.Where(n => n.id == idPeriodo).FirstOrDefaultAsync();
+            if (periodo != null)
+            {
+                var subtotal = await db.Periodo.Where(n => n.tipo == "subtotal" && n.orden >= periodo.orden).OrderBy(n => n.orden).FirstOrDefaultAsync();
+
+                if (subtotal != null)
+                {
+                    r = subtotal.id;
+                }
+
+            }
+            return r;
+        }
+
     }
 }

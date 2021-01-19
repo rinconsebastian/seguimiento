@@ -1,0 +1,65 @@
+﻿
+@{
+    switch ((string)ViewBag.tipo)
+    {
+
+        case "Simple":
+            Layout = "~/Views/Shared/_LayoutWidgetSimple.cshtml";
+            break;
+        case "Double":
+            Layout = "~/Views/Shared/_LayoutWidgetDouble.cshtml";
+            break;
+        case "Grouped":
+            Layout = "~/Views/Shared/_LayoutWidgetGrouped.cshtml";
+            break;
+        default:
+            Layout = "~/Views/Shared/_LayoutWidget.cshtml";
+            break;
+
+    }
+
+}
+
+@*
+    <div id="barrasHijos-@ViewBag.Numero" style="height:@ViewBag.alto ; margin: 0 auto"></div>
+*@
+<div id="BarrasPeriodos-@ViewBag.Numero" class="chart-widget"></div>
+
+
+<script src="~/js/devexpress/barrasPeriodos.js"></script>
+
+
+
+<script type="text/javascript">
+    @if (ViewBag.Ejecuciones != null) {
+
+        @:    var dataSource_@ViewBag.Numero = [];
+    foreach(var ejecucionn in ViewBag.Ejecuciones)
+        {
+            string str = ejecucionn[0].Categoria.nombre;
+            string nombren = str.Substring(0, Math.Min(str.Length, 20));
+
+
+            byte[] tempBytes;
+            tempBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(@ejecucionn[0].Categoria.Nivel.nombre);
+            string asciiStr = System.Text.Encoding.UTF8.GetString(tempBytes);
+
+         @: (dataSource_@ViewBag.Numero).push({ @asciiStr.Replace(" ", "_"): "@ejecucionn[0].Periodo.nombre", Cumplimiento: @ejecucionn[0].Calculado, tag: "Basic?id=@ejecucionn[0].Categoria.id&Periodo=@ViewBag.periodo", color: '@ejecucionn[1].Color', ColorNombre: '@ejecucionn[1].texto' });
+        }
+
+        if ((ViewBag.Ejecuciones)!= null) {
+    @:$(document).ready(function () {
+
+            if(@ViewBag.Ejecuciones.Count > 0) {
+            byte[] tempBytes;
+            tempBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(@ViewBag.Ejecuciones[0][0].Categoria.Nivel.nombre);
+            string asciiStr = System.Text.Encoding.UTF8.GetString(tempBytes);
+
+    @:        BarrasPeriodos(@ViewBag.Numero, dataSource_@ViewBag.Numero, "@asciiStr.Replace(" ", "_")");
+    }
+    @:    });
+    }
+    }
+</script>
+
+

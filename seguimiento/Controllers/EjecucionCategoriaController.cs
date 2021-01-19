@@ -57,6 +57,67 @@ namespace seguimiento.Controllers
             return ejecuciones;
         }
 
+        public async Task<List<EjecucionCategoria>> GetFromCategoriaYSubtotal(int id, int idPeriodo)
+        {
+            PeriodosController controlPeriodo = new PeriodosController(db, userManager);
+
+            Periodo subtotal = await controlPeriodo.GetFromId(idPeriodo);
+
+            List<Periodo> periodos = await controlPeriodo.PeriodosFromSubtotal(subtotal);
+
+            List<int> ids = new List<int>();
+
+            int n = 0;
+
+            foreach (Periodo perx in periodos)
+            {
+                ids.Add(perx.id);
+                n++;
+            }
+            // obtiene las categorias 
+            string texto = String.Join(", ", ids.ToArray()); ;
+            List<EjecucionCategoria> ejecuciones = new List<EjecucionCategoria>();
+
+            if (texto != null && texto != "")
+            {
+                ejecuciones = await db.EjecucionCategoria.Where(n => n.IdCategoria == id && ids.Contains(n.idperiodo)).ToListAsync();
+             }
+
+
+            return ejecuciones;
+        }
+
+        public async Task<List<EjecucionCategoria>> GetFromCategoriaYTotal(int id, int idPeriodo)
+        {
+            PeriodosController controlPeriodo = new PeriodosController(db, userManager);
+            Periodo total = await controlPeriodo.GetFromId(idPeriodo);
+
+            List<Periodo> periodos = await controlPeriodo.PeriodosFromTotal(total);
+
+            List<int> ids = new List<int>();
+
+            int n = 0;
+
+            foreach (Periodo perx in periodos)
+            {
+                ids.Add(perx.id);
+                n++;
+            }
+            // obtiene las categorias 
+            string texto = String.Join(", ", ids.ToArray()); ;
+            List<EjecucionCategoria> ejecuciones = new List<EjecucionCategoria>();
+
+            if (texto != null && texto != "")
+            {
+                ejecuciones = await db.EjecucionCategoria.Where(n => n.IdCategoria == id && ids.Contains(n.idperiodo)).ToListAsync();
+                    
+                  
+            }
+
+
+            return ejecuciones;
+        }
+
         public async Task<bool> Evaluar()
         {
             ConfiguracionsController controlConfiguracion = new ConfiguracionsController(db, userManager);
@@ -74,6 +135,43 @@ namespace seguimiento.Controllers
             }
 
             return true;
+        }
+
+        public async Task<List<EjecucionCategoria>> GetHijosFromCatIDPerID(int idCat, int idPeriodo)
+        {
+            CategoriasController controlCategoria = new CategoriasController(db, userManager);
+
+            var categorias = await controlCategoria.getFromCategoria(idCat);
+
+            List<EjecucionCategoria> respuesta = await GetFromCategorias(categorias, idPeriodo);
+
+            return respuesta;
+        }
+
+
+        public async Task<List<EjecucionCategoria>> GetFromCategorias(List<Categoria> categorias, int idPeriodo)
+        {
+            List<int> ids = new List<int>();
+
+            ids.Clear();
+            foreach (Categoria categoria in categorias)
+            {
+                ids.Add(categoria.id);
+            }
+            // obtiene las categorias 
+            string texto = String.Join(", ", ids.ToArray()); ;
+
+            if (texto == "")
+            {
+                texto = "0";
+            }
+
+            List<EjecucionCategoria> ejecuciones =await  db.EjecucionCategoria.Where(n => ids.Contains(n.IdCategoria) && n.idperiodo == idPeriodo).ToListAsync();
+                
+                
+                
+
+            return ejecuciones;
         }
 
     }

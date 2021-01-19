@@ -1,0 +1,21 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutWidgetSinTitulo.cshtml";
+}
+
+
+<div id="barrasHijos-@ViewBag.Numero" class="chart-widget">
+
+   
+
+    @await Component.InvokeAsync("ListadoResumen", new { itemId = (string)@ViewBag.id })
+
+
+
+</div>
+
+
+
+
+
+

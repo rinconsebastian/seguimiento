@@ -1,0 +1,77 @@
+﻿@{
+    Layout = "";
+
+   
+
+    
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento al Plan Estratégico 2017-2021</title>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/devexpress/dx.all.js"></script>
+
+    
+  
+
+</head>
+
+<body>
+    <div class="navbar navbarccs  navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+            </div>
+            <div class="navbar-collapse collapse">
+
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container bodyccs body-content" id="bodycsss">
+        @RenderBody()
+    </div>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/js/CambioPeriodoDashboard.js" />
+    <link rel="stylesheet" href="~/js/html2canvas.js" />
+    <link rel="stylesheet" href="~/js/Print.js" />
+
+
+
+
+
+
+</body>
+</html>
+
+
+<script type="text/javascript">
+
+
+    $(function () {
+        $('a').each(function () {
+            var urlp = $(this).prop('href');
+            var urlFul = (window.location.href);
+            if (urlp === urlFul) {
+                $(this).addClass('active');
+            }
+        });
+    });
+
+
+</script>

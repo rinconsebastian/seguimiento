@@ -1,0 +1,216 @@
+﻿
+@model seguimiento.Models.Categoria
+
+@{
+    Layout = "~/Views/Shared/_LayoutWidget.cshtml";
+
+
+}
+
+<div id="Info-@ViewBag.Numero" style="height:100% ; margin: 0 auto">
+
+    <div class="row">
+        <div class="col-md-12 widgetInfoHead">@Html.DisplayFor(model => model.Nivel.nombre)</div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 widgetInfoContent">@Html.DisplayFor(model => model.numero) @Html.DisplayFor(model => model.nombre)</div>
+    </div>
+    <div class="row">
+        @if (@Model.Ponderador > 0)
+        {
+            <div class="col-md-4">
+                <div class="row widgetInfoHead">
+                    <div class="col-md-12">
+                        Ponderador
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 widgetInfoContent">
+                        @Html.DisplayFor(model => model.Ponderador)
+                    </div>
+                </div>
+            </div>
+        }
+        @if (ViewBag.numeroHijos > 0)
+        {
+            var tituloHijos = ViewBag.nombreHijos + "s ";
+
+            <div class="col-md-4">
+                <div class="row widgetInfoHead">
+                    <div class="col-md-12 lowercase nowrap">
+                        @tituloHijos
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 widgetInfoContent">
+                        @ViewBag.numeroHijos
+
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.numeroIndicadores > 0)
+        {
+            <div class="col-md-4">
+                <div class="row widgetInfoHead">
+                    <div class="col-md-12">
+                        Indicadores
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 widgetInfoContent">
+                        @ViewBag.numeroIndicadores
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12 widgetInfoHead">
+                    Año
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 widgetInfoContent">
+                    @ViewBag.periodoSubtotal.nombre
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12 widgetInfoHead">
+                    Periodo analizado
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 widgetInfoContent">
+                    @ViewBag.periodo.nombre
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+
+    </div>
+
+    <div class="row ">
+        <div class="col-md-12 btn-reporte-widget-info">
+            <a class="btn btn-primary btn-unicentro" href="../Main/index?categoria.id=@Model.id">Ver estructura &raquo;</a>
+        </div>
+
+    </div>
+
+
+
+
+
+
+</div>
+
+
+<!--  --------------------------- MODAL INDICADORES------------------------------------------------------------- -->
+
+<div class="modal fade" id="myModalIndicadrores" tabindex="-1" role="dialog" aria-labelledby="myModalIndicadrores">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="modal-print">
+            <div class="modal-header">
+
+
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close print print-modal" title="Imprimir" data-id="#modal-print"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></button>
+
+                <h4 class="modal-title tituloCategoria" id="myModalLabelIndicadrores"></h4>
+                <h6 class="modal-title tituloCategoria" id="myModalLabelIndicadrores2"></h6>
+            </div>
+            <div class="modal-body padding-bottom-0">
+                <div id="IndicadroresL"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--  --------------------------- MODAL INDICADORES------------------------------------------------------------- -->
+<!--  --------------------------- MODAL  EJECUCION ------------------------------------------------------------- -->
+<div class="modal fade" id="myModalEjecucion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title tituloCategoria" id="myModalLabelEjecucion"></h4>
+            </div>
+            <div class="modal-body padding-bottom-0">
+                <div id="EjecucionContenido"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--  --------------------------- MODAL  EJECUCION ------------------------------------------------------------- -->
+<!--  --------------------------- MODAL  NOTAS INDICADOR ------------------------------------------------------------- -->
+
+<div class="modal fade" id="myModalNotasI" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title tituloCategoria" id="myModalLabelNotasI"></h4>
+            </div>
+            <div class="modal-body padding-bottom-0">
+                <div id="notasI"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--  --------------------------- MODAL  NOTAS INDICADOR ------------------------------------------------------------- -->
+<!--  --------------------------- MODAL  EVALUACIONES ------------------------------------------------------------- -->
+
+<div class="modal fade" id="myModaEvaluaciones" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title tituloCategoria" id="myModalLabelEvaluaciones"></h6>
+            </div>
+            <div class="modal-body padding-bottom-0">
+                <div id="Evaluacionesbody"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--  --------------------------- MODAL  EVALUACIONES ------------------------------------------------------------- -->
+<!--  --------------------------- MODAL  TOTALIZACION INDICADOR ------------------------------------------------------------- -->
+
+<div class="modal fade" id="myModalTotalizacionI" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header Totalizar-Color">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title tituloCategoria" id="myModalLabelTotalizacionI"></h4>
+            </div>
+            <div class="modal-body padding-bottom-0">
+                <div id="TotalizacionI"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--  --------------------------- MODAL  TOTALIZACION INDICADOR ------------------------------------------------------------- -->
+
+
+<div id="editor"></div>
+
+
+
+<!-- Scripts.Render("~/bundles/ModalLIstIndicadoresScript") -->

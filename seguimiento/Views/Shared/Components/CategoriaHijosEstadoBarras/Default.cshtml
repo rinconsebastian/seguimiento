@@ -1,0 +1,47 @@
+﻿@model List<seguimiento.Models.EjecucionCategoria>
+
+
+@{
+    if (ViewBag.indicadores == false)
+    {
+        Layout = "~/Views/Shared/_LayoutWidget.cshtml";
+    }
+}
+
+@if (ViewBag.indicadores == false)
+{
+
+
+    <div id="barrasHijos-@ViewBag.Numero" class="chart-widget"></div>
+
+
+
+    <script src="~/js/devexpress/barrasHijos.js"></script>
+
+    <script type="text/javascript">
+    @if (@Model != null) {
+
+        @:    var dataSource_@ViewBag.Numero = [];
+    foreach(var ejecucionn in Model)
+        {
+            var nombre = ejecucionn.Categoria.Nivel.nombre;
+
+            string nombren = new string(ejecucionn.Categoria.nombre.Take(20).ToArray());
+         @: (dataSource_@ViewBag.Numero).push({ "@Html.Raw(nombre)": "@ejecucionn.Categoria.numero @nombren", Cumplimiento: @ejecucionn.Calculado, tag: "?id=@ejecucionn.Categoria.id&Periodo=@ViewBag.periodo" });
+        }
+
+        if (Model.Count() > 0) {
+    @:$(document).ready(function () {
+    @:        BarrasHijos(@ViewBag.Numero, dataSource_@ViewBag.Numero, "@Html.Raw(Model.FirstOrDefault().Categoria.Nivel.nombre)");
+    @:    });
+    }
+    }
+    </script>
+}
+else
+{
+    @await Component.InvokeAsync("ListadoResumen", new { itemId = ViewBag.itemId })
+
+}
+
+

@@ -136,6 +136,16 @@ namespace seguimiento.Controllers
             return categorias;
         }
 
+        public async Task<List<Categoria>> getFromCategoria(int idcategoria)
+        {
+            List<Categoria> categorias = await db.Categoria.Where(n => n.idCategoria == idcategoria).ToListAsync();
+                
+               
+
+
+            return categorias;
+        }
+
         public async Task<Dictionary<int,int>> CategoriasMenores(int id)
         {
             //apuntadores genéricdos 
@@ -426,6 +436,76 @@ namespace seguimiento.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<Categoria> getMain()
+        {
+            var nivelmin = await db.Nivel.OrderBy(n => n.numero).FirstOrDefaultAsync();
+            Categoria categoria = await db.Categoria.Where(n => n.idNivel == nivelmin.id).FirstOrDefaultAsync();
+               
 
+
+            return categoria;
+        }
+
+        public async Task<int> NumeroIndicadores(int idcategoria)
+        {
+            int respuesta = 0;
+
+
+            IndicadorsController controlIndicador = new IndicadorsController(db, userManager);
+
+            List<Categoria> categorias = await CategoriasMenoresList(idcategoria);
+
+
+            List<Indicador> indicadores = await controlIndicador.getFromCategorias(categorias);
+
+            respuesta = indicadores.Where(n => n.ponderador > 0).Count();
+
+
+            return respuesta;
+
+
+        }
+
+        public async Task<List<Categoria>> CategoriasMenoresList(int id)
+        {
+            //apuntadores genéricdos 
+            int n;
+            //lista que guarda ids a consultar
+            List<int> ids = new List<int>();
+            //determina el id del nivel máximo el padre de todo
+            var numeroNivleMax = await db.Nivel.OrderByDescending(n => n.numero).FirstOrDefaultAsync();
+            var nivelMaximo = numeroNivleMax.id;
+
+            //selecciona categorias hija de la principal
+            List<Categoria> categorias = await db.Categoria.Where(n => n.idCategoria == id).ToListAsync();
+               
+               //ciclo qu eva buscando categorias hasta lleagr alas categorias mas pequeñas
+            if (categorias.Count > 0)
+            {
+                while (categorias[0].idNivel != nivelMaximo)
+                {
+                    //cra una lista con las categorias de las cuales se van a buscar los hijos
+                    n = 0;
+                    ids.Clear();
+                    foreach (Categoria categoria in categorias)
+                    {
+                        ids.Add(categorias[n].id);
+                        n++;
+                    }
+                    // obtiene las categorias 
+                    string texto = String.Join(", ", ids.ToArray()); ;
+                    categorias = await db.Categoria.Where(n => ids.Contains(n.idCategoria)).ToListAsync();
+                     
+                }
+            }
+            //si la cagtegoria no tiene hijas, la devuelve a ella
+            else
+            {
+                categorias = await db.Categoria.Where(n => n.id == id).ToListAsync();
+               
+            }
+            //retorna las categorias
+            return categorias;
+        }
     }
 }

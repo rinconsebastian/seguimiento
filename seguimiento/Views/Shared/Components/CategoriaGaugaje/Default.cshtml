@@ -1,0 +1,39 @@
+﻿@model seguimiento.Models.EjecucionCategoria
+
+
+@{
+    Layout = "~/Views/Shared/_LayoutWidget.cshtml";
+}
+
+@*
+    <div id="gauge-@ViewBag.Numero" style="height:@ViewBag.alto; margin: 0 auto">  </div> <!--gauge-->
+*@
+<div class="chart-widget" id="gauge-@ViewBag.Numero">  </div> <!--gauge-->
+
+
+
+<script src="~/js/devexpress/gaugaje.js"></script>
+
+
+<script type="text/javascript">
+    @if (@Model != null) {
+    @:    var dataSource_@ViewBag.Numero = [{
+    @:    name: '@Model.Categoria.nombre',
+    @:    mean: @Model.Calculado,
+    @:    min: @Model.Calculado,
+    @:    max: @Model.Calculado
+    @:    }];
+    }
+    else
+    {
+     @:   var dataSource_@ViewBag.Numero = [{
+     @:       name: '',
+     @:   mean: 0,
+     @:   min: 0,
+     @:   max: 0
+     @:           }];
+    }
+    $(document).ready(function () {
+        gaugaje(25, 50, 75,@ViewBag.Numero,dataSource_@ViewBag.Numero);
+    });
+</script>

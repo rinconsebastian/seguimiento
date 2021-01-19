@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<div class="row background-widget" style='height: @ViewBag.Widgets[0].Alto '>
+    @if (ViewBag.Widgets.Count > 0)
+    {
+        var n = 0;
+        int ancho = 0;
+        foreach (var widget in ViewBag.Widgets)
+        {
+            n = n + 1;
+
+
+            ancho = ancho + Int32.Parse(widget.Ancho);
+            if (ancho > 12)
+            {
+                ancho = Int32.Parse(widget.Ancho);
+                @Html.Raw("</div><div class='row background-widget widget-" + @n + "'>");
+            }
+           
+            @await Component.InvokeAsync((string)widget.Name, new { numero = (string)n.ToString(), id = (string)ViewBag.IdCategoria.ToString(), Periodo = (string)ViewBag.Periodo.ToString(), alto = @widget.Alto, ancho = @widget.Ancho, titulo = @widget.Titulo, tipo = @widget.Tipo })
+        }
+    }
+</div>
+<style scoped>
+@{ var xn = 1; }
+ @foreach (var widget in ViewBag.Widgets)
+ {
+     @: @@media(min-width:992px){.widget-@xn{height:@widget.Alto;}}
+
+  xn = xn + 1;
+  }
+
+</style>

@@ -1,0 +1,46 @@
+﻿
+@model List<seguimiento.Models.Categoria>
+
+@{
+    Layout = "~/Views/Shared/_LayoutWidgetSimple.cshtml";
+}
+
+<div id="ruta-@ViewBag.Numero" class="heigt-fit color-ruta" style="margin: 0 auto">
+
+    <div class="row ">
+        <div class="col-md-9">
+            <ol class="breadcrumb olrutas">
+                @foreach (var categ in Model)
+                {
+                    var texto = categ.nombre;
+                    if (categ.nombre.Length > 50)
+                    {
+                        texto = categ.nombre.Substring(0, 47) + "...";
+                    }
+
+
+                    <li> <a class="rutaCategoria" href="?id=@categ.id&Periodo=@ViewBag.periodo" data-toggle="tooltip" title="@categ.numero @categ.nombre"> @categ.numero @texto</a></li>
+                }
+
+
+
+            </ol>
+        </div>
+        <div class="col-md-3 botones-opciones">
+           
+          <label class="control-label white" ></label>
+            @{
+                var periodos = (SelectList)ViewBag.Periodos;
+
+            }
+            @Html.DropDownList("Periodo", periodos, "", new { @class = "form-control classCambioPeriodo" })
+            <button class="btn btn-default btn-md  print " title="Imprimir" data-id=".bodyccs"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></button>
+
+        </div>
+
+    </div>
+
+
+
+
+</div>

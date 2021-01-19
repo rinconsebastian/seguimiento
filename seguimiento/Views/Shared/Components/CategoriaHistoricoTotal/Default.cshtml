@@ -1,0 +1,36 @@
+﻿@model List<seguimiento.Models.EjecucionCategoria>
+
+<style src="~/css/devexpress/dx.common.css"></style>
+<style src="~/css/devexpress/dx.light.css"></style>
+
+
+<div class="Widget Widget-@ViewBag.Numero">
+    <!--demo-container-->
+    <div id="historico-conten-@ViewBag.Numero">
+        <!--gauge-demo-->
+        <div id="historico-@ViewBag.Numero"></div> <!--gauge-->
+        @*<div id="seasons"></div> *@
+    </div>
+</div>
+
+@*@Scripts.Render("~/bundles/jquery")*@
+
+
+
+<script src="~/js/devexpress/historico.js"></script>
+
+
+<script type="text/javascript">
+    @if (@Model != null) {
+    @:    var dataSource_@ViewBag.Numero = [];
+    foreach(var periodo in Model)
+        {
+         @: (dataSource_@ViewBag.Numero).push({ Periodo: "@periodo.Periodo.nombre", Ejecucion: @periodo.Calculado });
+        }
+
+
+    }
+    $(document).ready(function () {
+        historico(@ViewBag.Numero, dataSource_@ViewBag.Numero);
+    });
+</script>
