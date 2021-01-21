@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seguimiento.Data;
 using seguimiento.Models;
@@ -113,6 +114,13 @@ namespace seguimiento.Controllers
                 respuesta.Add(eval);
             }
             return respuesta;
+        }
+
+        [Authorize(Policy = "Evaluacion.Editar")]
+        public async Task<ActionResult> Index()
+        {
+            var evaluacions = await db.Evaluacion.ToListAsync();
+            return View(evaluacions);
         }
     }
 }

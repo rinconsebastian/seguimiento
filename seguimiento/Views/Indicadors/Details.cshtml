@@ -1,104 +1,92 @@
 ﻿@model seguimiento.Models.Indicador
 
 @{
-    ViewBag.Title = "Details";
+    ViewData["Title"] = "Panel de control";
+    ViewData["Subtitle"] = "Indicadores";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
-<h2>Detalles</h2>
-
-<div>
-    <h4>Indicador</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.codigo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.codigo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.nombre)
-        </dd>
-
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Categoria)
-        </dt>
-
-        <dd>
+<h4>Detalles indicador</h4>
+<div class="form-group row">
+    <label asp-for="codigo" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.codigo)</p>
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="nombre" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.nombre)</p>
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="Categoria" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">
             @Html.DisplayFor(model => model.Categoria.numero)  @Html.DisplayFor(model => model.Categoria.nombre)
-        </dd>
-
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TipoIndicador.Tipo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TipoIndicador.Tipo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ponderador)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ponderador)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.unidad)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.unidad)
-        </dd>
-
-
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Nota)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Nota)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.adjunto)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.adjunto)
-        </dd>
-        @foreach (var campo in ViewBag.campos)
-        {
-            if (campo.Campo.Activado == true)
-            {
-                <dt>
-                    @Html.Encode(campo.Campo.Nombre)
-                </dt>
-
-                <dd>
-                    @if (campo.Valor != null)
-                    {
-                        @Html.Encode(campo.Valor.Texto)
-                    }
-                </dd>
-            }
-        }
-
-    </dl>
+        </p>
+    </div>
 </div>
 
-<p class=" float-right">
-    @Html.ActionLink("Atras", "Index", "", htmlAttributes: new { @class = "btn btn-default" })
-    @Html.ActionLink("Editar", "Edit", new { id = Model.id }, htmlAttributes: new { @class = "btn btn-default" })
-</p>
+<div class="form-group row">
+    <label asp-for="TipoIndicador" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.TipoIndicador.Tipo)</p>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label asp-for="ponderador" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.ponderador)</p>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label asp-for="unidad" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.unidad)</p>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label asp-for="Nota" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.Nota)</p>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label asp-for="adjunto" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">
+            <a href="/UploadedFiles/@Html.DisplayFor(model => model.adjunto)" target="_blank">@Html.DisplayFor(model => model.adjunto)</a>
+        </p>
+    </div>
+</div>
+
+@foreach (var campo in ViewBag.Campos)
+{
+    if (campo.Campo.Activado == true)
+    {
+
+        <div class="form-group row">
+            <label for="@Html.Encode(campo.Campo.Nombre)" class="col-sm-3 col-form-label text-capitalize">@Html.Encode(campo.Campo.Nombre)</label>
+            <div class="col-sm-9">
+                @if (campo.Valor != null)
+                {
+                <p class="form-control-plaintext font-weight-light">@Html.Encode(campo.Valor.Texto)</p>
+                    }
+            </div>
+        </div>
+    }
+}
+
+
+<div class="form-group row">
+    <div class="col-sm-3 offset-3">
+        <a asp-action="Edit" asp-route-id="@Model.id" class="btn btn-outline-primary btn-block">Editar</a>
+    </div>
+    <div class="col-sm-3">
+        <a asp-action="Index" class="btn btn btn-outline-dark btn-block">Volver</a>
+    </div>
+</div>

@@ -1,97 +1,121 @@
 ﻿@model seguimiento.Models.Configuracion
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Configuración general";
+    ViewData["Subtitle"] = "Editar";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Editar</h1>
-
-<h4>Configuracion</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="id" />
-            <div class="form-group">
-                <label asp-for="anoInicial" class="control-label"></label>
-                <input asp-for="anoInicial" class="form-control" />
-                <span asp-validation-for="anoInicial" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="anoFinal" class="control-label"></label>
-                <input asp-for="anoFinal" class="form-control" />
-                <span asp-validation-for="anoFinal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="periodosAnuales" class="control-label"></label>
-                <input asp-for="periodosAnuales" class="form-control" />
-                <span asp-validation-for="periodosAnuales" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="nombrePeriodoAnual" class="control-label"></label>
-                <input asp-for="nombrePeriodoAnual" class="form-control" />
-                <span asp-validation-for="nombrePeriodoAnual" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Logo" class="control-label"></label>
-                <input asp-for="Logo" class="form-control" />
-                <span asp-validation-for="Logo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImgHeader" class="control-label"></label>
-                <input asp-for="ImgHeader" class="form-control" />
-                <span asp-validation-for="ImgHeader" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImgBackgroud" class="control-label"></label>
-                <input asp-for="ImgBackgroud" class="form-control" />
-                <span asp-validation-for="ImgBackgroud" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="contacto" class="control-label"></label>
-                <input asp-for="contacto" class="form-control" />
-                <span asp-validation-for="contacto" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="activo" /> @Html.DisplayNameFor(model => model.activo)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Entidad" class="control-label"></label>
-                <input asp-for="Entidad" class="form-control" />
-                <span asp-validation-for="Entidad" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NombrePlan" class="control-label"></label>
-                <input asp-for="NombrePlan" class="form-control" />
-                <span asp-validation-for="NombrePlan" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PonderacionTipo" class="control-label"></label>
-                <input asp-for="PonderacionTipo" class="form-control" />
-                <span asp-validation-for="PonderacionTipo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CalculoNivel" class="control-label"></label>
-                <input asp-for="CalculoNivel" class="form-control" />
-                <span asp-validation-for="CalculoNivel" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="libre" /> @Html.DisplayNameFor(model => model.libre)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="id" />
+    <div class="form-group row">
+        <label asp-for="anoInicial" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <input asp-for="anoInicial" class="form-control" />
+            <span asp-validation-for="anoInicial" class="text-danger"></span>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Volver</a>
-</div>
+    <div class="form-group row">
+        <label asp-for="anoFinal" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <input asp-for="anoFinal" class="form-control" />
+            <span asp-validation-for="anoFinal" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="periodosAnuales" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <input asp-for="periodosAnuales" class="form-control" />
+            <span asp-validation-for="periodosAnuales" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="nombrePeriodoAnual" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <input asp-for="nombrePeriodoAnual" class="form-control" />
+            <span asp-validation-for="nombrePeriodoAnual" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Logo" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <input asp-for="Logo" class="form-control" />
+            <span asp-validation-for="Logo" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ImgHeader" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <input asp-for="ImgHeader" class="form-control" />
+            <span asp-validation-for="ImgHeader" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ImgBackgroud" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <input asp-for="ImgBackgroud" class="form-control" />
+            <span asp-validation-for="ImgBackgroud" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="contacto" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <input asp-for="contacto" class="form-control" />
+            <span asp-validation-for="contacto" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Entidad" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <input asp-for="Entidad" class="form-control" />
+            <span asp-validation-for="Entidad" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="NombrePlan" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <input asp-for="NombrePlan" class="form-control" />
+            <span asp-validation-for="NombrePlan" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="PonderacionTipo" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <input asp-for="PonderacionTipo" class="form-control" />
+            <span asp-validation-for="PonderacionTipo" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="CalculoNivel" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <input asp-for="CalculoNivel" class="form-control" />
+            <span asp-validation-for="CalculoNivel" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row row">
+        <div class="col-sm-9 offset-3">
+            <div class="custom-control custom-switch">
+                <input class="custom-control-input" asp-for="activo" />
+                <label asp-for="activo" class="custom-control-label"></label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row row">
+        <div class="col-sm-9 offset-3">
+            <div class="custom-control custom-switch">
+                <input class="custom-control-input" asp-for="libre" />
+                <label asp-for="libre" class="custom-control-label"></label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-3 offset-3">
+            <input type="submit" value="Guardar" class="btn btn-outline-primary btn-block" />
+        </div>
+        <div class="col-sm-3">
+            <a asp-action="Index2" class="btn btn btn-outline-dark btn-block">Volver</a>
+        </div>
+    </div>
+</form>
 

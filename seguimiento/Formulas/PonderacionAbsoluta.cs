@@ -26,7 +26,7 @@ namespace seguimiento.Formulas
         {
             //controladores
             EjecucionCategoriaController controlEjecucionCategoria = new EjecucionCategoriaController(db, userManager);                              //Instancia controlador de EjecucionesCategorias
-            NIvelsController controlnivel = new NIvelsController(db,userManager);                                                                     //Instancia controlador de Niveles
+            NivelsController controlnivel = new NivelsController(db,userManager);                                                                     //Instancia controlador de Niveles
             CategoriasController controlCategorias = new CategoriasController(db, userManager);                                                        //Instancia controlador de Categorias
             PeriodosController controlPeriodos = new PeriodosController(db, userManager);                                                              //Instancia controlador de Periodos
 

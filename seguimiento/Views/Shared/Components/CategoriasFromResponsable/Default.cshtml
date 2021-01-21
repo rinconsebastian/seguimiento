@@ -4,10 +4,7 @@
 
 @foreach (var item in Model)
 {
-
-    <a class="pill-categoria" title="@item.nombre" href="../Categorias/Details/@item.id">  @Html.DisplayFor(modelItem => item.numero)</a>
-
-
+    <a asp-controller="Categorias" asp-action="Details" asp-route-id="@item.id" title="@item.nombre" class="badge badge-pill badge-secondary">  @Html.DisplayFor(modelItem => item.numero)</a>
 }
 
 

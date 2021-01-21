@@ -14,8 +14,8 @@ namespace seguimiento.Models
         [Key]
         public int Id { get; set; }
 
-
-        public int IdJefe { get; set; }
+        [Display(Name = "Dependencia padre")]
+        public int? IdJefe { get; set; }
         [ForeignKey("IdJefe")]
         public virtual Responsable ResponsableJefe { get; set; }
 

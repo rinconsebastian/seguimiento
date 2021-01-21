@@ -1,0 +1,35 @@
+﻿@model seguimiento.Models.Nivel
+
+@{
+    ViewData["Title"] = "Panel de control";
+    ViewData["Subtitle"] = "Niveles";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<h4>Detalles nivel</h4>
+<div class="form-group row">
+    <label asp-for="numero" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.numero)</p>
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="color" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.color)</p>
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="nombre" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.nombre)</p>
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-sm-3 offset-3">
+        <a asp-action="Edit" asp-route-id="@Model.id" class="btn btn-outline-primary btn-block">Editar</a>
+    </div>
+    <div class="col-sm-3">
+        <a asp-action="Index" class="btn btn btn-outline-dark btn-block">Volver</a>
+    </div>
+</div>
