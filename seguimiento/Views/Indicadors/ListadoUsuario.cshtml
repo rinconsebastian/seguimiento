@@ -1,21 +1,44 @@
-﻿@{
-    Layout = "";
+﻿@using seguimiento.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var n = 0;
     var grupo = 1;
+    string categoria = "";
+
 
 }
 @if (ViewBag.listado.Count > 0)
 {
     <div class="row titulo IndicadoresTituloGeneral">
-        <h3 class="text-center width100 IndicadoresTitulo-margen">INDICADORES</h3>
+        <h3 class="text-center IndicadoresTitulo-margen mayuscula">INDICADORES - @User.Identity.Name</h3>
     </div>
 }
 
+
 @foreach (var registro in ViewBag.listado)
 {
+    string categoriaActual = registro[0].Categoria.numero + " " + registro[0].Categoria.nombre;
+    if (categoriaActual != categoria)
+    {
+        categoria = categoriaActual;
+        <div class="row tituloCategoriaUsuario">
+
+            <div class="col-md-11">
+                <span class="IndicadorTitulo">@categoria</span>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class=" AbrirNotas btn btn-default btn-xs" data-categoria="@registro[0].Categoria.id" aria-label="Left Align">
+                    <i class='fas fa-sticky-note'></i> Notas
+                </button>
+
+            </div>
+
+        </div>
+
+    }
 
     grupo = 1;
-    <div class="row titulo">
+    <div class="row tituloUsuario">
         <div class="col-md-11">
             <span class="IndicadorNumero">
                 @if (@registro[0].codigo != null)
@@ -28,10 +51,10 @@
             <button class="btn btn-default btn-sm boton-bajo button-open-indicador" data-id="@registro[0].id"><i class="fas fa-external-link-alt"></i></button>
         </div>
     </div>
-    <div class="row IndicadorHistoricoCabecera IndicadorCabecera">
+    <div class="row IndicadorHistoricoCabecera IndicadorCabecera marginRowIndicadorUsusario">
         Histórico
     </div>
-    <div class="row rowIndicador">
+    <div class="row rowIndicador marginRowIndicadorUsusario">
         <div class="col-md-12 tablaEjecucion">
             <table class="table table-bordered table-condensed tablaIndicador">
 
@@ -45,6 +68,7 @@
                             var periodoDesplegado = "periodo";
                             if (@ejecucion.Periodo.desplegado == true)
                             { periodoDesplegado = ""; }
+
                             if (ejecucion.Periodo.Ocultar != true)
                             {
                                 n = n + 1;
@@ -78,9 +102,7 @@
                         {
                             var periodoDesplegado = "periodo";
                             if (@ejecucion.Periodo.desplegado == true)
-                            {
-                                periodoDesplegado = "";
-                            }
+                            { periodoDesplegado = ""; }
 
                             if (ejecucion.Periodo.Ocultar != true)
                             {
@@ -94,8 +116,6 @@
                                         alert = "valorTexto";
                                         title = "Valor Planeado interpretado como texto";
                                     }
-
-
                                     <td class="paddingTablaEjecucion  text-right @periodoDesplegado periodoaccion periodoDetalle fondoGrupo_@(grupo % 2) indicador_@ejecucion.idindicador grupo_@(ejecucion.idindicador)_@grupo" title="@title" data-grupo="@grupo" data-IdEjecucion="@ejecucion.id"><span class='@alert'>@ejecucion.planeado</span></td>
                                 }
                                 else if (ejecucion.Periodo.tipo == "subtotal")
@@ -125,7 +145,6 @@
                             var periodoDesplegado = "periodo";
                             if (@ejecucion.Periodo.desplegado == true)
                             { periodoDesplegado = ""; }
-
                             if (ejecucion.Periodo.Ocultar != true)
                             {
                                 n = n + 1;
@@ -153,7 +172,7 @@
                                     }
                                     if (ejecucion.Nota != null)
                                     {
-                                        if (ejecucion.Nota.Length > 0) { logosperiodo = logosperiodo + "<i class='fas fa-sticky-note'></i>"; }
+                                        if (ejecucion.Nota.Length > 0) { logosperiodo = logosperiodo + "<i class='fas fa-file - alt'></i>"; }
                                     }
                                     if (ejecucion.adjunto != null)
                                     {
@@ -162,7 +181,7 @@
                                     logosperiodo = logosperiodo + "</span>";
 
 
-                                    <td class="paddingTablaEjecucion text-right periodoDetalle fondoGrupo_@(grupo % 2) @periodoDesplegado periodoaccion indicador_@ejecucion.idindicador grupo_@(ejecucion.idindicador)_@grupo" title="@title" data-grupo="@grupo" data-IdEjecucion="@ejecucion.id">@Html.Raw(logosperiodo) <span class='@alert'>@ejecucion.ejecutado</span></td>
+                                    <td class="paddingTablaEjecucion text-right periodoDetalle fondoGrupo_@(grupo % 2) @periodoDesplegado periodoaccion indicador_@ejecucion.idindicador grupo_@(ejecucion.idindicador)_@grupo" title="@title" data-grupo="@grupo" data-IdEjecucion="@ejecucion.id">@Html.Raw(logosperiodo)<span class='@alert'> @ejecucion.ejecutado</span></td>
                                 }
                                 else if (ejecucion.Periodo.tipo == "subtotal")
                                 {
@@ -252,7 +271,7 @@
 
 <!--  --------------------------- MODAL  EJECUCION ------------------------------------------------------------- -->
 <div class="modal fade" id="myModalEjecucion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -268,27 +287,35 @@
 </div>
 
 <!--  --------------------------- MODAL  EJECUCION ------------------------------------------------------------- -->
+<!--  --------------------------- MODAL  NOTAS ------------------------------------------------------------- -->
+
+<div class="modal fade" id="myModalNotas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title tituloCategoria" id="myModalLabelNotas">
+                </h4>
+            </div>
+            <div class="modal-body padding-bottom-0">
+                <div id="notas"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--  --------------------------- MODAL  NOTAS ------------------------------------------------------------- -->
 
 
 
-<script src="~/js/ajaxDetalleIndicador.js" async></script>
-<script src="~/js/IndicadorPopGestion.js" async></script>
+<script src="/js/ajaxDetalleIndicador.js"></script>
+<script src="/js/IndicadorListadoUsuarioPopGestion.js"></script>
 
 
 
-@*@Scripts.Render("~/bundles/ajaxDetalleIndicador")
-
-    @Scripts.Render("~/bundles/IndicadorPopGestion")*@
 
 <script type="text/javascript">
-
-    $('#EjecucionContenido').on('submit', '#uploadFileFormEjecucion', function (d) {
-
-        d.preventDefault();
-    });
-
-
-
 
 
 </script>

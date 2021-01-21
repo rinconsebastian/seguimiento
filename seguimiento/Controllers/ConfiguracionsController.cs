@@ -109,7 +109,7 @@ namespace seguimiento.Controllers
 
             if (((ids.Contains(ejecucion.Indicador.Categoria.IdResponsable)) &&
                  user.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Ejecucion.Editar" && c.Value == "1") ||
-                                        (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Planeado.Editar" && c.Value == "1"))
+                                        (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Planeacion.Editar" && c.Value == "1"))
                                         && (ejecucion.Periodo.EditarEjecucion == true || ejecucion.Periodo.EditarProgramacion == true))) 
             {
                 return true;

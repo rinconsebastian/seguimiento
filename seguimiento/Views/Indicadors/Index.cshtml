@@ -8,11 +8,11 @@
 <h2>Indicadores</h2>
 @if (ViewBag.error != null)
 {
-    <div class="alert alert-warning" role="alert">
-        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-        <span class="sr-only">Error:</span>
-        @ViewBag.error
-    </div>
+<div class="alert alert-warning" role="alert">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span class="sr-only">Error:</span>
+    @ViewBag.error
+</div>
 }
 <p>
     @Html.ActionLink("Crear nuevo", "Create")

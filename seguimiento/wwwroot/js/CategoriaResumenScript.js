@@ -54,7 +54,7 @@
 
     $('#myModalNotas').on('click', '.NotaEdit', function () {
         $('#notas').empty();
-        $('#notas').append('<div class="loading"><img src="Content/loadingcircle.gif" ></div>');
+        $('#notas').append('<div class="loading"><img src="images/loadingcircle.gif" ></div>');
         $('#myModalNotas').modal('show');
         $.get("Notas/Editpop/", {
             id: $(this).attr("data-id"), idcategoria: $(this).attr("data-categoria")
@@ -93,7 +93,7 @@
     // ------------------------ AJAX GET FORMULARIO NOTA NUEVA
     $('#myModalNotas').on('click', '.NotaCreate', function () {
         $('#notas').empty();
-        $('#notas').append('<div class="loading"><img src="Content/loadingcircle.gif" ></div>');
+        $('#notas').append('<div class="loading"><img src="images/loadingcircle.gif" ></div>');
         $('#myModalNotas').modal('show');
 
         $.get("Notas/Createpop/" + $(this).attr("data-Categoria"))
@@ -130,7 +130,7 @@
     // ------------------------ AJAX GET DETALLE NOTA 
     $('#myModalNotas').on('click', '.NotaDetalle', function () {
         $('#notas').empty();
-        $('#notas').append('<div class="loading"><img src="Content/loadingcircle.gif" ></div>');
+        $('#notas').append('<div class="loading"><img src="images/loadingcircle.gif" ></div>');
         $('#myModalNotas').modal('show');
 
         $.get("Notas/Detailspop/" + $(this).attr("data-id"))
@@ -145,7 +145,7 @@
     // ------------------------ AJAX GET DELETE NOTA 
     $('#myModalNotas').on('click', '.NotaBorrar', function () {
         $('#notas').empty();
-        $('#notas').append('<div class="loading"><img src="Content/loadingcircle.gif" ></div>');
+        $('#notas').append('<div class="loading"><img src="images/loadingcircle.gif" ></div>');
         $('#myModalNotas').modal('show');
 
         $.get("Notas/Deletepop/" + $(this).attr("data-id"))
@@ -183,7 +183,7 @@
 function loadNotas(id, tipo, mensaje) {
     //alert("click");
     $('#notas').empty();
-    $('#notas').append('<div class="loading"><img src="Content/loadingcircle.gif" ></div>');
+    $('#notas').append('<div class="loading"><img src="images/loadingcircle.gif" ></div>');
     $('#myModalNotas').modal('show');
     $.get("Notas/Categoriapop", {
         'Categoria.id': id, 'tipo': tipo, 'mensaje': mensaje
