@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,6 @@ namespace seguimiento.Controllers
         {
             db = context;
             userManager = _userManager;
-           
         }
 
         
@@ -149,8 +149,6 @@ namespace seguimiento.Controllers
             {
                     indicador= indicadorn;
 
-
-
                 //-------------------------------------------------------identificar si un usuario tiene acceso a editar una ejecucion
 
                 if (User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Indicador.Editar" && c.Value == "1")))
@@ -177,21 +175,13 @@ namespace seguimiento.Controllers
                 ViewBag.tipo = tipo;
                 ViewBag.mensaje = mensaje;
                 //-----------------------------Campos adicionales Fin
-
-                
-
             }
-
-
             return View(indicador);
         }
 
         [Authorize(Policy = "Indicador.Editar")]
         public async Task<ActionResult> Editpop(int id)
         {
-           
-
-
             Indicador indicador = await db.Indicador.FindAsync(id);
 
             List<SelectListItem> CategoriaLista = new List<SelectListItem>();
@@ -199,11 +189,7 @@ namespace seguimiento.Controllers
             foreach (var itemn in CategoriaListadb)
             { CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() }); }
             ViewBag.IdCategoria = new SelectList(CategoriaLista, "Value", "Text", indicador.Categoria.id);
-
-
             ViewBag.tipo = new SelectList(db.TipoIndicador, "Id", "Tipo", indicador.TipoIndicador.Id);
-
-
             if (indicador == null)
             {
             //    return HttpNotFound();
@@ -292,7 +278,6 @@ namespace seguimiento.Controllers
             return false;
         }
 
-
         public async Task<List<Indicador>> getFromCategoria(int idcategorias)
         {
             List<Indicador> indicadores = await db.Indicador.Where(n=>n.idCategoria== idcategorias).ToListAsync();
@@ -300,7 +285,6 @@ namespace seguimiento.Controllers
 
             return indicadores;
         }
-
 
         public async Task<List<Ejecucion>> getFromIndicador(int idIndicador)
         {
@@ -346,11 +330,11 @@ namespace seguimiento.Controllers
             List<SelectListItem> CategoriaLista = new List<SelectListItem>();
             var CategoriaListadb = await db.Categoria.ToListAsync();
             foreach (var itemn in CategoriaListadb)
-            { CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() }); }
-            ViewBag.IdCategoria = new SelectList(CategoriaLista, "Value", "Text", "");
-
-
-            ViewBag.tipo = new SelectList(await db.TipoIndicador.ToListAsync(), "Id", "Tipo", "");
+            {
+                CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() });
+            }
+            ViewBag.Categorias = new SelectList(CategoriaLista, "Value", "Text", "");
+            ViewBag.Tipos = new SelectList(await db.TipoIndicador.ToListAsync(), "Id", "Tipo", "");
 
             return View();
         }
@@ -364,7 +348,7 @@ namespace seguimiento.Controllers
         public async Task<ActionResult> Create(Indicador indicador)
         {
           
-            if (indicador.codigo == "")
+            if ((indicador.codigo == null || indicador.codigo == "") && indicador.Categoria != null)
             {
                 indicador.codigo = indicador.Categoria.numero;
             }
@@ -383,11 +367,11 @@ namespace seguimiento.Controllers
             List<SelectListItem> CategoriaLista = new List<SelectListItem>();
             var CategoriaListadb = await db.Categoria.ToListAsync();
             foreach (var itemn in CategoriaListadb)
-            { CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() }); }
-            ViewBag.IdCategoria = new SelectList(CategoriaLista, "Value", "Text", "");
-
-
-            ViewBag.tipo = new SelectList(await db.TipoIndicador.ToListAsync(), "id", "Tipo", "");
+            { 
+                CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() });
+            }
+            ViewBag.Categorias = new SelectList(CategoriaLista, "Value", "Text", "");
+            ViewBag.Tipos = new SelectList(await db.TipoIndicador.ToListAsync(), "Id", "Tipo", "");
 
             return View(indicador);
         }
@@ -397,18 +381,14 @@ namespace seguimiento.Controllers
         public async Task<ActionResult> Edit(int id)
         {
         
-
-
             Indicador indicador =await db.Indicador.FindAsync(id);
 
             List<SelectListItem> CategoriaLista = new List<SelectListItem>();
             var CategoriaListadb = await db.Categoria.ToListAsync();
             foreach (var itemn in CategoriaListadb)
             { CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() }); }
-            ViewBag.IdCategoria = new SelectList(CategoriaLista, "Value", "Text", indicador.Categoria.id);
-
-
-            ViewBag.tipo = new SelectList(await db.TipoIndicador.ToListAsync(), "Id", "Tipo", indicador.TipoIndicador.Id);
+            ViewBag.Categorias = new SelectList(CategoriaLista, "Value", "Text", indicador.Categoria.id);
+            ViewBag.Tipos = new SelectList(await db.TipoIndicador.ToListAsync(), "Id", "Tipo", indicador.TipoIndicador.Id);
 
 
             //-----------------------------Campos adicionales Inicio
@@ -428,7 +408,7 @@ namespace seguimiento.Controllers
                     campos.Add(cp);
             }
             HttpContext.Session.SetComplex("Campos", campos);
-            ViewBag.campos = campos;
+            ViewBag.Campos = campos;
             //-----------------------------Campos adicionales Fin
 
             return View(indicador);
@@ -440,8 +420,8 @@ namespace seguimiento.Controllers
         [Authorize(Policy = "Indicador.Editar")]
         public async Task<ActionResult> Edit(Indicador indicador)
         {
-            
-            if (indicador.codigo == "")
+
+            if ((indicador.codigo == null || indicador.codigo == "") && indicador.Categoria != null)
             {
                 indicador.codigo = indicador.Categoria.numero;
             }
@@ -450,7 +430,6 @@ namespace seguimiento.Controllers
             {
                 db.Entry(indicador).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-
 
                 //------------------------------------------------- inicio almacenar campos adicionales
                 var campos = HttpContext.Session.GetComplex<List<CampoValor>>("Campos");
@@ -486,13 +465,11 @@ namespace seguimiento.Controllers
             var CategoriaListadb = await db.Categoria.ToListAsync();
             foreach (var itemn in CategoriaListadb)
             { CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() }); }
-            ViewBag.IdCategoria = new SelectList(CategoriaLista, "Value", "Text", indicador.idCategoria);
-
-
-            ViewBag.tipo = new SelectList(await db.TipoIndicador.ToListAsync(), "Id", "Tipo", indicador.tipo);
+            ViewBag.Categorias = new SelectList(CategoriaLista, "Value", "Text", indicador.idCategoria);
+            ViewBag.Tipos = new SelectList(await db.TipoIndicador.ToListAsync(), "Id", "Tipo", indicador.tipo);
 
             //regenerar campos adicionales en viewbag
-            ViewBag.campos = HttpContext.Session.GetComplex<List<CampoValor>>("Campos");
+            ViewBag.Campos = HttpContext.Session.GetComplex<List<CampoValor>>("Campos");
 
             return View(indicador);
         }
@@ -516,7 +493,7 @@ namespace seguimiento.Controllers
             string error = "";
             ConfiguracionsController controlConfiguracion = new ConfiguracionsController(db, userManager);
             EjecucionsController controlEjecucion = new EjecucionsController(db, userManager);
-            CamposController controlCampos = new CamposController(db);
+            CamposController controlCampos = new CamposController(db, userManager);
 
             Indicador indicador = await db.Indicador.FindAsync(id);
             var resultadoEjeccuines = await controlEjecucion.BorrarEjecucionesDeIndicador(id);
@@ -574,7 +551,7 @@ namespace seguimiento.Controllers
                 cp.Valor =await  db.ValorCampo.Where(m => m.CampoPadre.Id == campon.Id && m.IndicadorPadre.id == indicador.id).FirstOrDefaultAsync();
                 campos.Add(cp);
             }
-            ViewBag.campos = campos;
+            ViewBag.Campos = campos;
             //-----------------------------Campos adicionales Fin
 
             return View(indicador);

@@ -1,0 +1,77 @@
+﻿
+@{
+
+    var permisoIndicador = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Indicador.Editar" && c.Value == "1"));
+    var permisoResponsable = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Responsable.Editar" && c.Value == "1"));
+    var permisoPerido = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Periodo.Editar" && c.Value == "1"));
+    var permisoConfGeneral = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.General" && c.Value == "1"));
+    var permisoCategoria = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Categoria.Editar" && c.Value == "1"));
+    var permisoNivel = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Nivel.Editar" && c.Value == "1"));
+    var permisoCampo = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Campo.Editar" && c.Value == "1"));
+    var permisoEvaluacion = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Evaluacion.Editar" && c.Value == "1"));
+}
+<ul class="nav nav-pills flex-column">
+    <li class="nav-item">
+        <a id="Configuracions-Index" asp-controller="Configuracions" asp-action="Index" class="nav-link">Inicio</a>
+    </li>
+    @if (permisoIndicador == true)
+    {
+        <li class="nav-item">
+            <a id="Configuracions-Index2" asp-controller="Configuracions" asp-action="Index2" class="nav-link">General</a>
+        </li>
+    }
+    @if (permisoResponsable == true)
+    {
+        <li class="nav-item">
+            <a id="Responsables-Index2" asp-controller="Responsables" asp-action="Index2" class="nav-link">Dependencias</a>
+        </li>
+    }
+    @if (permisoNivel == true)
+    {
+        <li class="nav-item">
+            <a id="Nivels-Index" asp-controller="Nivels" asp-action="Index" class="nav-link">Niveles</a>
+        </li>
+    }
+    @if (permisoCategoria == true)
+    {
+        <li class="nav-item">
+            <a id="Categorias-Index" asp-controller="Categorias" asp-action="Index" class="nav-link">Categorias</a>
+        </li>
+    }
+    @if (permisoIndicador == true)
+    {
+        <li class="nav-item">
+            <a id="Indicadors-Index" asp-controller="Indicadors" asp-action="Index" class="nav-link">Indicadores</a>
+        </li>
+    }
+    @if (permisoPerido == true)
+    {
+        <li class="nav-item">
+            <a id="Periodos-Index" asp-controller="Periodos" asp-action="Index" class="nav-link">Periodos</a>
+        </li>
+    }
+    @if (permisoCampo == true)
+    {
+        <li class="nav-item">
+            <a id="Campos-Index" asp-controller="Campos" asp-action="Index" class="nav-link">Campos</a>
+        </li>
+    }
+    @if (permisoEvaluacion == true)
+    {
+        <li class="nav-item">
+            <a id="Evaluacions-Index" asp-controller="Evaluacions" asp-action="Index" class="nav-link">Evaluaciones</a>
+        </li>
+    }
+    @if (false == true)
+    {
+        <li class="nav-item">
+            <a id="Rol-Index" asp-controller="Rol" asp-action="Index" class="nav-link">Roles</a>
+        </li>
+    }
+    @if (false == true)
+    {
+        <li class="nav-item">
+            <a id="Account-Index" asp-controller="Account" asp-action="Index" class="nav-link">Usuarios</a>
+        </li>
+    }
+</ul>

@@ -1,25 +1,24 @@
 ﻿//-----------------------------AJAXA POST PARA CARGAR ARCHIVOS DESDEME MUENU CONFIGURACION
+var currenthost;
 $('#EjecucionContenidoConfig').on('change', '#fileuploadtextEjecucion', function () {
-    //alert("change");
+
     var formulario = $(this).closest('form');
 
     // Serialize your form
     var formData = new FormData(formulario[0]);
     var dt = new Date();
-    var time = dt.getFullYear() + "-" + dt.getMonth() + "-" + dt.getDay() + "-" + dt.getHours() + "-" + dt.getMinutes() + "-" + dt.getSeconds() + "ind-" + $('#id').val();
-
-    //alert(time);
+    var idInd = $('#id').val() !== undefined ? "ind-" + $('#id').val() : "ind-0";
+    var time = dt.getFullYear() + "-" + dt.getMonth() + "-" + dt.getDay() + "-" + dt.getHours() + "-" + dt.getMinutes() + "-" + dt.getSeconds() + idInd;
     formData.append("id", time);
+    
 
     $('#urlAdjuntoEjecucion').empty();
-    $('.uploading').empty();
-    $('.uploading').append('cargando <img src="../../Content/images/ajax-loader.gif">');
-
+    $('.uploading').html('Cargando <img src="/images/ajax-loader.gif">');
 
     //alert(formData.stringify());
     $.ajax({
         type: "POST",
-        url: '../../Upload/UploadFile',
+        url: formulario.attr('action'),
         data: formData,
         dataType: 'json',
         contentType: false,
@@ -27,27 +26,23 @@ $('#EjecucionContenidoConfig').on('change', '#fileuploadtextEjecucion', function
         success: function (response) {
 
             //var respuesta = JSON.parse(response);
-            $('#adjunto').val(response.Nombre);
-            $('#urlAdjuntoEjecucion').attr("href", "../../Upload/UploadedFiles/" + response.Nombre)
-            $('.uploading').empty();
-            $('#urlAdjuntoEjecucion').empty();
-            $('#urlAdjuntoEjecucion').append(response.Nombre);
-
+            if (response.loaded == true) {
+                $('#Adjunto').val(response.nombre);
+                $('.uploading').empty();
+                $('#urlAdjuntoEjecucion').attr("href", currenthost + "/UploadedFiles/" + response.nombre)
+                $('#urlAdjuntoEjecucion').html(response.nombre);
+            }
+            else {
+                $('.uploading').html("Imposible cargar el archivo.");
+            }
         },
         error: function (error) {
-            $('.uploading').empty();
-            $('.uploading').append("Imposible cargar el archivo");
-            //alert("errror al cargar el archivo");
-            //alert("errror al cargar el archivo");
+            $('.uploading').html("Error al cargar el archivo.");
         }
     });
 
 });
 
-$('#submitEditIndicador').click(function () {
-    $('#formIndicador').submit();
-
-})
 
 //BLOQUE DE LOS CAMPOS CATEGORIA E INDICADOR EN LA CREACION Y EDICION DE EVALUACIONES
 
@@ -59,6 +54,8 @@ $('#Contexto').change(function () {
 });
 
 $(document).ready(function () {
+
+    currenthost = location.protocol+ '//' + location.host + '/';
 
     if ($('#Contexto').length > 0) {
         var contexto = $('#Contexto').val();

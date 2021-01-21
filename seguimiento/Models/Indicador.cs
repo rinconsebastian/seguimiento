@@ -20,8 +20,6 @@ namespace seguimiento.Models
         [ForeignKey("idCategoria")]
         public virtual Categoria Categoria { get; set; }
 
-
-
         [Required]
         [Display(Name = "Ponderador")]
         public Decimal ponderador { get; set; }
@@ -29,14 +27,13 @@ namespace seguimiento.Models
         [Required]
         [Display(Name = "Dinámica")]
         public int tipo { get; set; }
+
         [Display(Name = "Dinámica")]
         [ForeignKey("tipo")]
         public virtual TipoIndicador TipoIndicador { get; set; }
 
-
         [Display(Name = "Número")]
         public string codigo { get; set; }
-
 
         [Required]
         [Display(Name = "Unidad")]
@@ -45,6 +42,7 @@ namespace seguimiento.Models
         [Display(Name = "Nombre")]
         public string nombre { get; set; }
 
+        [Display(Name = "Nota")]
         public string Nota { get; set; }
 
         [Display(Name = "Ficha")]

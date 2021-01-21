@@ -9,6 +9,7 @@ using seguimiento.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace seguimiento.Controllers
@@ -40,7 +41,9 @@ namespace seguimiento.Controllers
         [Authorize(Policy = "Configuracion.General")]
         public async Task<IActionResult> Index2()
         {
-           return View(await db.Configuracion.ToListAsync());
+            PropertyInfo[] propertyInfo = typeof(Configuracion).GetProperties();
+            ViewBag.Props = propertyInfo;
+            return View(await db.Configuracion.FirstAsync());
         }
        
 

@@ -12,10 +12,10 @@ namespace seguimiento.Models
         [Key]
         public int Id { get; set; }
 
-
-
+        [Display(Name = "Nivel")]
         public virtual Nivel NivelPadre { get; set; }
 
+        [Display(Name = "Tipo Indicador")]
         public virtual TipoIndicador TipoIndicadorPadre { get; set; }
 
         [Display(Name = "Nombre")]

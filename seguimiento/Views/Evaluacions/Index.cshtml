@@ -1,11 +1,11 @@
-﻿@model IEnumerable<seguimiento.Models.Responsable>
+﻿@model IEnumerable<seguimiento.Models.Evaluacion>
 
 @{
     ViewData["Title"] = "Panel de control";
     ViewData["Subtitle"] = "";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-<h4>Dependencias</h4>
+<h4>Evaluaciones</h4>
 @if (ViewBag.error != null)
 {
     <div class="alert alert-warning" role="alert">
@@ -15,7 +15,7 @@
     </div>
 }
 <p>
-    @Html.ActionLink("Nueva dependencia", "Create")
+    @Html.ActionLink("Nueva evaluación", "Create")
 </p>
 <table class="table font-smaller">
     <tr>
@@ -23,10 +23,16 @@
             @Html.DisplayNameFor(model => model.Nombre)
         </th>
         <th>
-            Categorias asociadas
+            @Html.DisplayNameFor(model => model.Contexto)
         </th>
         <th>
-            Usuarios
+            @Html.DisplayNameFor(model => model.Minimo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Maximo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Color)
         </th>
         <th></th>
     </tr>
@@ -38,11 +44,31 @@
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
             <td>
-                @await Component.InvokeAsync("CategoriasFromResponsable", new { idResponsable = item.Id })
+                @Html.DisplayFor(modelItem => item.Contexto)
+                @if (@item.Categoria != null)
+                {
+                    @Html.DisplayFor(modelItem => item.Categoria.numero)
+                }
+                @if (@item.Indicador != null)
+                {
+                    if (@item.Indicador.codigo != null && @item.Indicador.codigo != "")
+                    {
+                        @Html.DisplayFor(modelItem => item.Indicador.codigo)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Indicador.id)
+                    }
+                }
             </td>
             <td>
-                @await Component.InvokeAsync("UsuariosFromResponsable", new { idResponsable = item.Id })
-
+                @Html.DisplayFor(modelItem => item.Minimo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Maximo)
+            </td>
+            <td style="background-color:@item.Color">
+                @Html.DisplayFor(modelItem => item.Color)
             </td>
             <td>
                 <span class="button-inline small-button">
@@ -50,7 +76,6 @@
                     <a href='@Url.Action("Edit", new { id=item.Id })' class="btn btn-default btn-sm" title="Editar"><i class="fas fa-edit"></i></a>
                     <a href='@Url.Action("Delete", new { id=item.Id })' class="btn btn-default btn-sm" title="Borrar"><i class="fas fa-trash"></i></a>
                 </span>
-
             </td>
         </tr>
     }

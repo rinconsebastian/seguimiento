@@ -1,11 +1,11 @@
-﻿@model IEnumerable<seguimiento.Models.Responsable>
+﻿@model IEnumerable<seguimiento.Models.Campo>
 
 @{
     ViewData["Title"] = "Panel de control";
     ViewData["Subtitle"] = "";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-<h4>Dependencias</h4>
+<h4>Campos adicionales</h4>
 @if (ViewBag.error != null)
 {
     <div class="alert alert-warning" role="alert">
@@ -15,7 +15,7 @@
     </div>
 }
 <p>
-    @Html.ActionLink("Nueva dependencia", "Create")
+    @Html.ActionLink("Nuevo campo", "Create")
 </p>
 <table class="table font-smaller">
     <tr>
@@ -23,10 +23,16 @@
             @Html.DisplayNameFor(model => model.Nombre)
         </th>
         <th>
-            Categorias asociadas
+            @Html.DisplayNameFor(model => model.Descripcion)
         </th>
         <th>
-            Usuarios
+            @Html.DisplayNameFor(model => model.Activado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TodoIndicador)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TodaCategoria)
         </th>
         <th></th>
     </tr>
@@ -38,11 +44,16 @@
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
             <td>
-                @await Component.InvokeAsync("CategoriasFromResponsable", new { idResponsable = item.Id })
+                @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
             <td>
-                @await Component.InvokeAsync("UsuariosFromResponsable", new { idResponsable = item.Id })
-
+                @(item.Activado ? "Si" : "No")
+            </td>
+            <td>
+                @(item.TodoIndicador ? "Si" : "No")
+            </td>
+            <td>
+                @(item.TodaCategoria ? "Si" : "No")
             </td>
             <td>
                 <span class="button-inline small-button">

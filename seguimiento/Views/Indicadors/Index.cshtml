@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<seguimiento.Models.Indicador>
 
 @{
-    ViewBag.Title = "Index";
+    ViewData["Title"] = "Panel de control";
+    ViewData["Subtitle"] = "";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
-<h2>Indicadores</h2>
+<h4>Indicadores</h4>
 @if (ViewBag.error != null)
 {
     <div class="alert alert-warning" role="alert">
@@ -15,7 +15,7 @@
     </div>
 }
 <p>
-    @Html.ActionLink("Crear nuevo", "Create")
+    @Html.ActionLink("Nuevo indicador", "Create")
 </p>
 <table class="table font-smaller">
     <tr>
@@ -31,8 +31,6 @@
         <th>
             @Html.DisplayNameFor(model => model.unidad)
         </th>
-
-
         <th></th>
     </tr>
 
@@ -54,8 +52,6 @@
         <td>
             @Html.DisplayFor(modelItem => item.unidad)
         </td>
-
-
         <td>
             <span class="button-inline small-button">
                 <a href='@Url.Action("Details", new { id=item.id })' class="btn btn-default btn-sm" title="Detalles"><i class="fas fa-file-alt"></i></a>

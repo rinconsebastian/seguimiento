@@ -96,7 +96,7 @@ namespace seguimiento.Controllers
 
         public async Task<List<Categoria>> getFromNivel(int nivelNumero)
         {
-            NIvelsController controlnivel = new NIvelsController(db,userManager);
+            NivelsController controlnivel = new NivelsController(db,userManager);
             Nivel nivel = await controlnivel.getFromNumero(nivelNumero);
             List<Categoria> categorias = await db.Categoria.Where(n=>n.idNivel == nivel.id).ToListAsync();
             return categorias;
@@ -263,10 +263,9 @@ namespace seguimiento.Controllers
             var CategoriaListadb = await db.Categoria.ToListAsync();
             foreach (var itemn in CategoriaListadb)
             { CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() }); }
-            ViewBag.IdCategoria = new SelectList(CategoriaLista, "Value", "Text", "");
-
-            ViewBag.idResponsable = new SelectList(await db.Responsable.ToListAsync(), "Id", "Nombre", "");
-            ViewBag.idNivel = new SelectList(await db.Nivel.ToListAsync(), "id", "nombre", "");
+            ViewBag.Categorias = new SelectList(CategoriaLista, "Value", "Text", "");
+            ViewBag.Responsables = new SelectList(await db.Responsable.ToListAsync(), "Id", "Nombre", "");
+            ViewBag.Niveles = new SelectList(await db.Nivel.ToListAsync(), "id", "nombre", "");
             return View();
         }
 
@@ -290,10 +289,9 @@ namespace seguimiento.Controllers
             {
                 CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() });
             }
-            ViewBag.IdCategoria = new SelectList(CategoriaLista, "Value", "Text", categoria.idCategoria);
-
-            ViewBag.idResponsable = new SelectList(await db.Responsable.ToListAsync(), "Id", "Nombre", categoria.IdResponsable);
-            ViewBag.idNivel = new SelectList(await db.Nivel.ToListAsync(), "id", "nombre", categoria.idNivel);
+            ViewBag.Categorias = new SelectList(CategoriaLista, "Value", "Text", categoria.idCategoria);
+            ViewBag.Responsables = new SelectList(await db.Responsable.ToListAsync(), "Id", "Nombre", categoria.IdResponsable);
+            ViewBag.Niveles = new SelectList(await db.Nivel.ToListAsync(), "id", "nombre", categoria.idNivel);
             return View(categoria);
         }
 
@@ -305,15 +303,14 @@ namespace seguimiento.Controllers
             Categoria categoria = await db.Categoria.FindAsync(id);
             
             List<SelectListItem> CategoriaLista = new List<SelectListItem>();
-            var CategoriaListadb = await db.Categoria.ToListAsync();
+            var CategoriaListadb = await db.Categoria.Where(n => n.id != id).ToListAsync();
             foreach (var itemn in CategoriaListadb)
             {
                 CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() });
             }
-            ViewBag.IdCategoria = new SelectList(CategoriaLista, "Value", "Text", categoria.idCategoria);
-
-            ViewBag.idResponsable = new SelectList(await db.Responsable.ToListAsync(), "Id", "Nombre", categoria.IdResponsable);
-            ViewBag.idNivel = new SelectList(await db.Nivel.ToListAsync(), "id", "nombre", categoria.idNivel);
+            ViewBag.Categorias = new SelectList(CategoriaLista, "Value", "Text", categoria.idCategoria);
+            ViewBag.Responsables = new SelectList(await db.Responsable.ToListAsync(), "Id", "Nombre", categoria.IdResponsable);
+            ViewBag.Niveles = new SelectList(await db.Nivel.ToListAsync(), "id", "nombre", categoria.idNivel);
 
             //-----------------------------Campos adicionales Inicio
             List<CampoValor> campos = new List<CampoValor>();
@@ -333,7 +330,7 @@ namespace seguimiento.Controllers
             }
             
             HttpContext.Session.SetComplex("Campos", campos);
-            ViewBag.campos = campos;
+            ViewBag.Campos = campos;
             //-----------------------------Campos adicionales Fin
 
             return View(categoria);
@@ -352,8 +349,7 @@ namespace seguimiento.Controllers
                 db.Entry(categoria).State = EntityState.Modified;
                 await db.SaveChangesAsync();
 
-                //------------------------------------------------- inicio almacenar campos adicionales
-
+                // INICIO - Guarda los campos adicionales
                 List<CampoValor> campos = HttpContext.Session.GetComplex<List<CampoValor>>("Campos");
                 foreach (CampoValor campon in campos)
                 {
@@ -377,25 +373,22 @@ namespace seguimiento.Controllers
                     }
                 }
                 HttpContext.Session.Remove("Campos");
-                //------------------------------------------------- fin almacenar campos adicionales
+                // FIN - almacenar campos adicionales
                 return RedirectToAction("Index");
             }
 
-            ViewBag.idNivel = new SelectList(await db.Nivel.ToListAsync(), "Id", "nombre", categoria.idNivel);
-
             List<SelectListItem> CategoriaLista = new List<SelectListItem>();
-            var CategoriaListadb = await db.Categoria.ToListAsync();
+            var CategoriaListadb = await db.Categoria.Where(n => n.id != categoria.id).ToListAsync();
             foreach (var itemn in CategoriaListadb)
             {
                 CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() });
             }
-            ViewBag.IdCategoria = new SelectList(CategoriaLista, "Value", "Text", categoria.idCategoria);
-
-            ViewBag.idResponsable = new SelectList(await db.Responsable.ToListAsync(), "Id", "Nombre", categoria.IdResponsable);
-            ViewBag.idNivel = new SelectList(await db.Nivel.ToListAsync(), "id", "nombre", categoria.idNivel);
+            ViewBag.Categorias = new SelectList(CategoriaLista, "Value", "Text", categoria.idCategoria);
+            ViewBag.Responsables = new SelectList(await db.Responsable.ToListAsync(), "Id", "Nombre", categoria.IdResponsable);
+            ViewBag.Niveles = new SelectList(await db.Nivel.ToListAsync(), "id", "nombre", categoria.idNivel);
 
             //regenerar campos adicionales en viewbag
-            ViewBag.campos = HttpContext.Session.GetComplex<List<CampoValor>>("Campos");
+            ViewBag.Campos = HttpContext.Session.GetComplex<List<CampoValor>>("Campos");
 
             return View(categoria);
         }

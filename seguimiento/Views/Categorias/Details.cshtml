@@ -1,115 +1,106 @@
 ﻿@model seguimiento.Models.Categoria
 
 @{
-    ViewBag.Title = "Details";
+    ViewData["Title"] = "Panel de control";
+    ViewData["Subtitle"] = "Categorías";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
-<h2>Detalles de la categoria</h2>
-
-<div>
-    <h4>@Html.DisplayFor(model => model.numero) @Html.DisplayFor(model => model.nombre)</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.nombre)
-        </dt>
-
-        <dd>
+<h4>Detalles categoría</h4>
+<div class="form-group row">
+    <label asp-for="nombre" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">
             @Html.DisplayFor(model => model.numero) @Html.DisplayFor(model => model.nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Nivel.nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Nivel.nombre)
-        </dd>
-        <dt>
-            Categoria Padre
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CategoriaPadre.numero) @Html.DisplayFor(model => model.CategoriaPadre.nombre)
-        </dd>
-
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Responsable.Nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Responsable.Nombre)
-        </dd>
-
-
-
-        <dt>
-            @Html.DisplayNameFor(model => model.unificacion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.unificacion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Ponderador)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Ponderador)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.texto)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.texto)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.objetivo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.objetivo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.nota)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.nota)
-        </dd>
-
-        @foreach (var campo in ViewBag.campos)
-        {
-            if (campo.Campo.Activado == true)
-            {
-                <dt>
-                    @Html.Encode(campo.Campo.Nombre)
-                </dt>
-
-                <dd>
-                    @if (campo.Valor != null)
-                    {
-                        @Html.Encode(campo.Valor.Texto)
-                    }
-                </dd>
-            }
-        }
-
-    </dl>
-</div>
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        <p class=" float-right">
-            @Html.ActionLink("Atras", "Index", "", htmlAttributes: new { @class = "btn btn-default" })
-            @Html.ActionLink("Editar", "Edit", new { id = Model.id }, htmlAttributes: new { @class = "btn btn-default" })
         </p>
     </div>
 </div>
+<div class="form-group row">
+    <label asp-for="idNivel" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.Nivel.nombre)</p>
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="idCategoria" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">
+        @Html.DisplayFor(model => model.CategoriaPadre.numero) @Html.DisplayFor(model => model.CategoriaPadre.nombre)
+        </p>
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="IdResponsable" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">
+            @Html.DisplayFor(model => model.Responsable.Nombre)
+        </p>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label asp-for="unificacion" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">
+            @(Model.unificacion ? "Si" : "No")
+        </p>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label asp-for="Ponderador" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.Ponderador)</p>
+    </div>
+</div>
+
+
+<div class="form-group row">
+    <label asp-for="texto" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.texto)</p>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label asp-for="objetivo" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.objetivo)</p>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label asp-for="nota" class="col-sm-3 col-form-label"></label>
+    <div class="col-sm-9">
+        <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.nota)</p>
+    </div>
+</div>
+
+
+@foreach (var campo in ViewBag.Campos)
+{
+    if (campo.Campo.Activado == true)
+    {
+
+        <div class="form-group row">
+            <label for="@Html.Encode(campo.Campo.Nombre)" class="col-sm-3 col-form-label text-capitalize">@Html.Encode(campo.Campo.Nombre)</label>
+            <div class="col-sm-9">
+                @if (campo.Valor != null)
+                {
+                    <p class="form-control-plaintext font-weight-light">@Html.Encode(campo.Valor.Texto)</p>
+                }
+            </div>
+        </div>
+    }
+}
+
+
+<div class="form-group row">
+    <div class="col-sm-3 offset-3">
+        <a asp-action="Edit" asp-route-id="@Model.id" class="btn btn-outline-primary btn-block">Editar</a>
+    </div>
+    <div class="col-sm-3">
+        <a asp-action="Index" class="btn btn btn-outline-dark btn-block">Volver</a>
+    </div>
+</div>
+
 

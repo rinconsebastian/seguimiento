@@ -1,113 +1,104 @@
 ﻿@model seguimiento.Models.Categoria
 
 @{
-    ViewBag.Title = "Create";
+    ViewData["Title"] = "Panel de control";
+    ViewData["Subtitle"] = "Categorías";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    var listaDependencias = (SelectList)ViewBag.Responsables;
+    var listaNiveles = (SelectList)ViewBag.Niveles;
+    var listaCategorias = (SelectList)ViewBag.Categorias;
 }
 
-<h2>Crear</h2>
-
-@using (Html.BeginForm())
-{
+<h4>Nueva categoría</h4>
+<form asp-action="Create" method="post">
     @Html.AntiForgeryToken()
+    <div asp-validation-summary="All" class="small text-danger"></div>
 
-    <div class="form-horizontal">
-        <h4>Categoria</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.numero, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.numero, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.numero, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group row">
+        <label asp-for="numero" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="numero" class="form-control" />
+            <span asp-validation-for="numero" class="form-text small text-danger"></span>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="nombre" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="nombre" class="form-control" />
+            <span asp-validation-for="nombre" class="form-text small text-danger"></span>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.idCategoria, "idCategoria", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("idCategoria", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.idCategoria, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="idCategoria" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <select asp-for="idCategoria" asp-items="@listaCategorias" class="form-control">
+                <option value="0">Seleccione una opción</option>
+            </select>
+            <span asp-validation-for="idNivel" class="form-text small text-danger"></span>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.idNivel, "idNivel", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("idNivel", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.idNivel, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="idNivel" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <select asp-for="idNivel" asp-items="@listaNiveles" class="form-control"></select>
+            <span asp-validation-for="idNivel" class="form-text small text-danger"></span>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdResponsable, "IdResponsable", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("IdResponsable", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IdResponsable, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="IdResponsable" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <select asp-for="IdResponsable" asp-items="@listaDependencias" class="form-control"></select>
+            <span asp-validation-for="IdResponsable" class="form-text small text-danger"></span>
         </div>
+    </div>
 
 
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.unificacion, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.unificacion)
-                    @Html.ValidationMessageFor(model => model.unificacion, "", new { @class = "text-danger" })
-                </div>
-            </div>
+    <div class="form-group row">
+        <label asp-for="Ponderador" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="Ponderador" class="form-control" />
+            <span asp-validation-for="Ponderador" class="form-text small text-danger"></span>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Ponderador, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Ponderador, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Ponderador, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="texto" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="texto" class="form-control" />
+            <span asp-validation-for="texto" class="form-text small text-danger"></span>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.texto, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.texto, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.texto, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="objetivo" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="objetivo" class="form-control" />
+            <span asp-validation-for="objetivo" class="form-text small text-danger"></span>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.objetivo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.objetivo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.objetivo, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="nota" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="nota" class="form-control" />
+            <span asp-validation-for="nota" class="form-text small text-danger"></span>
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.nota, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.nota, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.nota, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                @Html.ActionLink("Atras", "Index", "", htmlAttributes: new { @class = "btn btn-default" })
-                <input type="submit" value="Crear" class="btn btn-default" />
+    <div class="form-group row row">
+        <div class="col-sm-9 offset-3">
+            <div class="custom-control custom-switch">
+                <input class="custom-control-input" asp-for="unificacion" />
+                <label asp-for="unificacion" class="custom-control-label"></label>
             </div>
         </div>
     </div>
-}
 
-<div>
+    <div class="form-group row">
+        <div class="col-sm-3 offset-3">
+            <input type="submit" value="Guardar" class="btn btn-outline-primary btn-block" />
+        </div>
+        <div class="col-sm-3">
+            <a asp-action="Index" class="btn btn btn-outline-dark btn-block">Volver</a>
+        </div>
+    </div>
+</form>
 
-</div>

@@ -46,10 +46,12 @@ namespace seguimiento
             services.AddDbContext<ApplicationDbContext>(opt =>
              opt.UseLazyLoadingProxies().UseMySql(
                         // Replace with your connection string.
-                        "server=192.168.0.250;user=desarrollo;password=Feserito87@;database=jerico",
-                        // Replace with your server version and type.
-                        // For common usages, see pull request #1233.
-                        new MariaDbServerVersion(new Version(10, 3, 21)), // use MariaDbServerVersion for MariaDB MySqlServerVersion
+                        //"server=192.168.0.250;user=desarrollo;password=Feserito87@;database=jerico",
+                        "server=127.0.0.1;user=jerico;password=NmkkAJWmFo9zmjtj;database=jerico",
+                         // Replace with your server version and type.
+                         // For common usages, see pull request #1233.
+                         //new MariaDbServerVersion(new Version(10, 4, 10)), // use MariaDbServerVersion for MariaDB MySqlServerVersion
+                         new MySqlServerVersion(new Version(10, 4, 10)),
                         mySqlOptions => mySqlOptions
                             .CharSetBehavior(CharSetBehavior.NeverAppend))
                     // Everything from this point on is optional but helps with debugging.
@@ -69,7 +71,7 @@ namespace seguimiento
                                   policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.General", "1", "2", "3", "4", "5"));
 
                 options.AddPolicy("Configuracion.Responsable", policy =>
-                                  policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Responsable", "1"));
+                              policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Responsable", "1"));
 
                 options.AddPolicy("Ejecucion.Editar", policy =>
                                  policy.RequireAssertion(context => context.User.HasClaim(claim =>
@@ -80,12 +82,18 @@ namespace seguimiento
 
                 options.AddPolicy("Indicador.Editar", policy =>
                                  policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Indicador.Editar", "1"));
-
                 options.AddPolicy("Periodo.Editar", policy =>
                                  policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Periodo.Editar", "1"));
-
+                options.AddPolicy("Responsable.Editar", policy =>
+                                  policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Responsable.Editar", "1"));
                 options.AddPolicy("Categoria.Editar", policy =>
                                  policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Categoria.Editar", "1"));
+                options.AddPolicy("Nivel.Editar", policy =>
+                                 policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Nivel.Editar", "1"));
+                options.AddPolicy("Campo.Editar", policy =>
+                                 policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Campo.Editar", "1"));
+                options.AddPolicy("Evaluacion.Editar", policy =>
+                                policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Evaluacion.Editar", "1"));
             });
 
 

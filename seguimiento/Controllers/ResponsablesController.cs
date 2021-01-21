@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using seguimiento.Data;
 using seguimiento.Models;
@@ -26,8 +27,98 @@ namespace seguimiento.Controllers
         public async Task<IActionResult> Index2()
         {
             
-            var responsables = await db.Responsable.Where(n => n.IdJefe == 0).ToListAsync();
+            var responsables = await db.Responsable.ToListAsync();
             return View(responsables);
+        }
+
+        [Authorize(Policy = "Responsable.Editar")]
+        public async Task<ActionResult> Details(int id)
+        {
+            Responsable responsable = await db.Responsable.FindAsync(id);
+            return View(responsable);
+        }
+
+
+        [Authorize(Policy = "Responsable.Editar")]
+        public async Task<ActionResult> Create()
+        {
+            ViewBag.Responsables = new SelectList(await db.Responsable.ToListAsync(), "Id", "Nombre");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Responsable.Editar")]
+        public async Task<ActionResult> Create( Responsable responsable)
+        {
+
+            if (ModelState.IsValid)
+            {
+                db.Responsable.Add(responsable);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index2");
+            }
+
+            ViewBag.Responsables = new SelectList(await db.Responsable.ToListAsync(), "Id", "Nombre");
+            return View(responsable);
+        }
+
+        [Authorize(Policy = "Responsable.Editar")]
+        public async Task<ActionResult> Edit(int id)
+        {
+            Responsable responsable = await db.Responsable.FindAsync(id);
+
+            ViewBag.Responsables = new SelectList(await db.Responsable.Where(n => n.Id != id).ToListAsync(), "Id", "Nombre");
+            return View(responsable);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Responsable.Editar")]
+        public async Task<ActionResult> Edit( Responsable responsable)
+        {
+            
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(responsable).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index2");
+            }
+            ViewBag.Responsables = new SelectList(await db.Responsable.Where(n => n.Id != responsable.Id).ToListAsync(), "Id", "Nombre");
+            return View(responsable);
+        }
+
+
+        [Authorize(Policy = "Responsable.Editar")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            Responsable responsable = await db.Responsable.FindAsync(id);
+            return View(responsable);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Responsable.Editar")]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+
+            string error = "";
+            ConfiguracionsController controlConfiguracion = new ConfiguracionsController(db, userManager);
+
+            Responsable responsable = await db.Responsable.FindAsync(id);
+            try
+            {
+                db.Responsable.Remove(responsable);
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                error = controlConfiguracion.SqlErrorHandler(ex);
+                HttpContext.Session.SetComplex("error", error);
+            }
+
+            return RedirectToAction("Index2");
         }
 
 
