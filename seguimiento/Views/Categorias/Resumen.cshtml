@@ -40,7 +40,7 @@
                 <div class="col-md-3 categoriaDescripcionTitulo">Seguimiento</div>
                 <div class="col-md-9 right categoriaDescripcion">
                     <button type="button" id="AbrirNotas" class="btn btn-default btn-xs" aria-label="Left Align" data-categoria="@categoria[0].id">
-                        <span class="glyphicon glyphicon glyphicon-list-alt" aria-hidden="true"> Notas</span>
+                        <i class="fas fa-sticky-note"></i>Notas
                     </button>
                     <span class="float-right">
                         Abiertas
@@ -110,7 +110,7 @@ if (@categoria[0].unificacion != null)
                                 }
                                 else if (@ejecucion.Periodo.tipo == "subtotal")
                                 {
-                                    <th class="paddingTablaEjecucion  text-center  fondoGrupo_@(grupo % 2) control_grupo_unido control_grupo_unido_@grupo" data-grupo="@grupo" data-displayed="hide"><strong>@ejecucion.Periodo.nombre</strong><span class="glyphicon  glyphicon glyphicon-plus-sign boton_grupo_unido boton_grupo_@grupo" aria-hidden="true" style="color:red; float:right"></span></th>
+                                    <th class="paddingTablaEjecucion  text-center  fondoGrupo_@(grupo % 2) control_grupo_unido control_grupo_unido_@grupo" data-grupo="@grupo" data-displayed="hide"><strong>@ejecucion.Periodo.nombre</strong><i class="fas fa-plus-circle boton_grupo_unido boton_grupo_@grupo"  style="color:red; float:right"></i></th>
                                     grupo = grupo + 1;
                                 }
                                 else
