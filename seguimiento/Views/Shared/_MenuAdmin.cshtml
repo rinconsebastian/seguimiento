@@ -9,6 +9,9 @@
     var permisoNivel = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Nivel.Editar" && c.Value == "1"));
     var permisoCampo = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Campo.Editar" && c.Value == "1"));
     var permisoEvaluacion = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Evaluacion.Editar" && c.Value == "1"));
+    var permisoRol = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Rol.Editar" && c.Value == "1"));
+    var permisoUsuario = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Usuario.Editar" && c.Value == "1"));
+    var permisoLogs = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Logs" && c.Value == "1"));
 }
 <ul class="nav nav-pills flex-column">
     <li class="nav-item">
@@ -62,16 +65,22 @@
             <a id="Evaluacions-Index" asp-controller="Evaluacions" asp-action="Index" class="nav-link">Evaluaciones</a>
         </li>
     }
-    @if (false == true)
+    @if (permisoLogs == true)
+    {
+        <li class="nav-item">
+            <a id="Logs-Index" asp-controller="Logs" asp-action="Index" class="nav-link">Registro de actividad</a>
+        </li>
+    }
+    @if (permisoRol == true)
     {
         <li class="nav-item">
             <a id="Rol-Index" asp-controller="Rol" asp-action="Index" class="nav-link">Roles</a>
         </li>
     }
-    @if (false == true)
+    @if (permisoUsuario == true)
     {
         <li class="nav-item">
-            <a id="Account-Index" asp-controller="Account" asp-action="Index" class="nav-link">Usuarios</a>
+            <a id="Users-Index" asp-controller="Users" asp-action="Index" class="nav-link">Usuarios</a>
         </li>
     }
 </ul>

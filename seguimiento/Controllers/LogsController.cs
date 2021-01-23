@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Nancy.Json;
+using Newtonsoft.Json;
 using seguimiento.Data;
 using seguimiento.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 
@@ -86,6 +89,30 @@ namespace seguimiento.Controllers
                  db.SaveChanges();
             }
 
+        }
+
+
+        [Authorize(Policy = "Configuracion.Logs")]
+        public async Task<ActionResult> Index(string resultado)
+        {
+            string error = (string)HttpContext.Session.GetComplex<string>("error");
+            if (error != "")
+            {
+                ViewBag.error = error;
+                HttpContext.Session.Remove("error");
+            }
+            var logs = await db.Log.OrderByDescending(n => n.TimeStamp).Take(100).ToListAsync();
+            return View(logs);
+        }
+
+        [Authorize(Policy = "Configuracion.Logs")]
+        public async Task<ActionResult> Details(int Id)
+        {
+            Log log = await db.Log.FindAsync(Id);
+            if (log == null) { return NotFound(); }
+            ViewBag.Old = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(log.ContenidoOld), Formatting.Indented);
+            ViewBag.New = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(log.ContenidoNew), Formatting.Indented);
+            return View(log);
         }
     }
 }

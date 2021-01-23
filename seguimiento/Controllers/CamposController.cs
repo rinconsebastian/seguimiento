@@ -50,6 +50,12 @@ namespace seguimiento.Controllers
         [Authorize(Policy = "Campo.Editar")]
         public async Task<ActionResult> Index()
         {
+            string error = (string)HttpContext.Session.GetComplex<string>("error");
+            if (error != "")
+            {
+                ViewBag.error = error;
+                HttpContext.Session.Remove("error");
+            }
             return View(await db.Campo.ToListAsync());
         }
 
@@ -57,6 +63,7 @@ namespace seguimiento.Controllers
         public async Task<ActionResult> Details(int id)
         {
             Campo campo = await db.Campo.FindAsync(id);
+            if (campo == null) { return NotFound(); }
             return View(campo);
         }
 
@@ -90,6 +97,7 @@ namespace seguimiento.Controllers
         {
 
             Campo campo = await db.Campo.FindAsync(id);
+            if (campo == null) { return NotFound(); }
 
             if (campo.NivelPadre != null)
             {
@@ -148,6 +156,7 @@ namespace seguimiento.Controllers
         public async Task<ActionResult> Delete(int? id)
         {
             Campo campo = await db.Campo.FindAsync(id);
+            if (campo == null) { return NotFound(); }
             return View(campo);
         }
 

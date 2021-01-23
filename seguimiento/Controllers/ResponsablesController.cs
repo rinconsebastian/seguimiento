@@ -26,7 +26,13 @@ namespace seguimiento.Controllers
         [Authorize(Policy = "Configuracion.Responsable")]
         public async Task<IActionResult> Index2()
         {
-            
+            string error = (string)HttpContext.Session.GetComplex<string>("error");
+            if (error != "")
+            {
+                ViewBag.error = error;
+                HttpContext.Session.Remove("error");
+            }
+
             var responsables = await db.Responsable.ToListAsync();
             return View(responsables);
         }
@@ -35,6 +41,7 @@ namespace seguimiento.Controllers
         public async Task<ActionResult> Details(int id)
         {
             Responsable responsable = await db.Responsable.FindAsync(id);
+            if (responsable == null) { return NotFound(); }
             return View(responsable);
         }
 
@@ -67,7 +74,7 @@ namespace seguimiento.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             Responsable responsable = await db.Responsable.FindAsync(id);
-
+            if (responsable == null) { return NotFound(); }
             ViewBag.Responsables = new SelectList(await db.Responsable.Where(n => n.Id != id).ToListAsync(), "Id", "Nombre");
             return View(responsable);
         }
@@ -94,6 +101,7 @@ namespace seguimiento.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             Responsable responsable = await db.Responsable.FindAsync(id);
+            if (responsable == null) { return NotFound(); }
             return View(responsable);
         }
 

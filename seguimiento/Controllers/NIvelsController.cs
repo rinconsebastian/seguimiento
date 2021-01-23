@@ -51,6 +51,7 @@ namespace seguimiento.Controllers
         public async Task<ActionResult> Details(int id)
         {
             Nivel nivel = await db.Nivel.FindAsync(id);
+            if (nivel == null) { return NotFound(); }
             return View(nivel);
         }
 
@@ -79,6 +80,7 @@ namespace seguimiento.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             Nivel nivel = await db.Nivel.FindAsync(id);
+            if (nivel == null) { return NotFound(); }
             return View(nivel);
         }
 
@@ -100,6 +102,7 @@ namespace seguimiento.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             Nivel nivel = await db.Nivel.FindAsync(id);
+            if (nivel == null) { return NotFound(); }
             return View(nivel);
         }
 

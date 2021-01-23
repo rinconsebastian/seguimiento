@@ -51,10 +51,9 @@ namespace seguimiento.Controllers
         [Authorize(Policy = "Periodo.Editar")]
         public async Task<ActionResult> Edit(int id)
         {
-           
           
             Periodo periodo = await db.Periodo.FindAsync(id);
-            
+            if (periodo == null) { return NotFound(); }
 
             List<SelectListItem> TipoPeriodoLista = new List<SelectListItem>();
             TipoPeriodoLista.Add(new SelectListItem() { Text = "Linea base", Value = "lineabase" });
@@ -62,7 +61,7 @@ namespace seguimiento.Controllers
             TipoPeriodoLista.Add(new SelectListItem() { Text = "Subtotal", Value = "subtotal" });
             TipoPeriodoLista.Add(new SelectListItem() { Text = "total", Value = "Total" });
 
-            ViewBag.tipo = new SelectList(TipoPeriodoLista, "Value", "Text", periodo.tipo);
+            ViewBag.Tipos = new SelectList(TipoPeriodoLista, "Value", "Text", periodo.tipo);
 
 
             return View(periodo);
@@ -104,16 +103,13 @@ namespace seguimiento.Controllers
             TipoPeriodoLista.Add(new SelectListItem() { Text = "Subtotal", Value = "subtotal" });
             TipoPeriodoLista.Add(new SelectListItem() { Text = "total", Value = "Total" });
 
-            ViewBag.tipo = new SelectList(TipoPeriodoLista, "Value", "Text", "");
+            ViewBag.Tipos = new SelectList(TipoPeriodoLista, "Value", "Text", "");
 
 
             return View();
         }
 
-        // POST: Periodos/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "Periodo.Editar")]
         public async Task<ActionResult> Create(Periodo periodo)
@@ -146,9 +142,40 @@ namespace seguimiento.Controllers
         {
            
             Periodo periodo = await db.Periodo.FindAsync(id);
-           
+            if (periodo == null) { return NotFound(); }
             return View(periodo);
         }
+
+
+        [Authorize(Policy = "Periodo.Editar")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            Periodo periodo = db.Periodo.Find(id);
+            if (periodo == null){return NotFound();}
+            return View(periodo);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Periodo.Editar")]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+            string error = "";
+            ConfiguracionsController controlConfiguracion = new ConfiguracionsController(db, userManager);
+            Periodo periodo =await db.Periodo.FindAsync(id);
+            try
+            {
+                db.Periodo.Remove(periodo);
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                error = controlConfiguracion.SqlErrorHandler(ex);
+                HttpContext.Session.SetComplex("error", error);
+            }
+            return RedirectToAction("Index");
+        }
+
 
         public async  Task<Periodo> GetLastEnabled()
         {

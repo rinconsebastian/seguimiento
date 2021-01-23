@@ -61,7 +61,7 @@ namespace seguimiento
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddRoles<IdentityRole>()
+                .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
@@ -69,6 +69,8 @@ namespace seguimiento
             {
                 options.AddPolicy("Configuracion.General", policy =>
                                   policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.General", "1", "2", "3", "4", "5"));
+                options.AddPolicy("Configuracion.Logs", policy =>
+                             policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Logs", "1"));
 
                 options.AddPolicy("Configuracion.Responsable", policy =>
                               policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Responsable", "1"));
@@ -94,8 +96,13 @@ namespace seguimiento
                                  policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Campo.Editar", "1"));
                 options.AddPolicy("Evaluacion.Editar", policy =>
                                 policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Evaluacion.Editar", "1"));
+                options.AddPolicy("Rol.Editar", policy =>
+                                policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Rol.Editar", "1"));
+                options.AddPolicy("Usuario.Editar", policy =>
+                                policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Usuario.Editar", "1"));
                 options.AddPolicy("Nota.Editar", policy =>
                                policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Nota.Editar", "1"));
+
 
             });
 

@@ -67,8 +67,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Maximo)
             </td>
-            <td style="background-color:@item.Color">
+            <td>
                 @Html.DisplayFor(modelItem => item.Color)
+                <i class="fas fa-square" style="color:@item.Color"></i>
             </td>
             <td>
                 <span class="button-inline small-button">

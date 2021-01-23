@@ -1,11 +1,11 @@
-﻿@model IEnumerable<seguimiento.Models.Campo>
+﻿@model IEnumerable<seguimiento.Models.ApplicationRole>
 
 @{
     ViewData["Title"] = "Panel de control";
     ViewData["Subtitle"] = "";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-<h4>Campos adicionales</h4>
+<h4>Roles</h4>
 @if (ViewBag.error != null)
 {
     <div class="alert alert-warning" role="alert">
@@ -15,24 +15,15 @@
     </div>
 }
 <p>
-    @Html.ActionLink("Nuevo campo", "Create")
+    @Html.ActionLink("Nuevo rol", "Create")
 </p>
 <table class="table font-smaller">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Nombre)
+            @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Activado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TodoIndicador)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TodaCategoria)
+            Usuarios
         </th>
         <th></th>
     </tr>
@@ -41,19 +32,11 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td class="text-center">
-                @(item.Activado ? "Si" : "No")
-            </td>
-            <td class="text-center">
-                @(item.TodoIndicador ? "Si" : "No")
-            </td>
-            <td class="text-center">
-                @(item.TodaCategoria ? "Si" : "No")
+                @await Component.InvokeAsync("UsersByRole", new { idRole = item.Id })
+
             </td>
             <td>
                 <span class="button-inline small-button">
@@ -67,5 +50,4 @@
     }
 
 </table>
-
 
