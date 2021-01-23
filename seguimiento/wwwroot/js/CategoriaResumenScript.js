@@ -56,7 +56,7 @@
         $('#notas').empty();
         $('#notas').append('<div class="loading"><img src="images/loadingcircle.gif" ></div>');
         $('#myModalNotas').modal('show');
-        $.get("Notas/Editpop/", {
+        $.get("../Notas/Editpop/", {
             id: $(this).attr("data-id"), idcategoria: $(this).attr("data-categoria")
         })
             .done(function (data) {
@@ -75,11 +75,11 @@
     $('#myModalNotas').on('click', '.NotaSaveEdit', function () {
         //alert("click");
         categ = $(this).attr("data-categoria");
-        $.post("Notas/Editpop", $('#NotaEditForm').serialize())
+        $.post("../Notas/Editpop", $('#NotaEditForm').serialize())
             .done(function (data) {
                 //alert(data);
                 $('#notas').empty();
-                if (data == "True") {
+                if (data == true) {
                     loadNotas(categ, "exito", "Nota editada exitosamente");
                 }
                 else {
@@ -96,7 +96,7 @@
         $('#notas').append('<div class="loading"><img src="images/loadingcircle.gif" ></div>');
         $('#myModalNotas').modal('show');
 
-        $.get("Notas/Createpop/" + $(this).attr("data-Categoria"))
+        $.get("../Notas/Createpop/" + $(this).attr("data-Categoria"))
             .done(function (data) {
                 //   alert(data);
                 $('#notas').empty();
@@ -110,11 +110,11 @@
     $('#myModalNotas').on('click', '.NotaCreateButton', function () {
         categ = $(this).attr("data-categoria");
         //alert("click");
-        $.post("Notas/Createpop", $('#NotaCreateForm').serialize())
+        $.post("../Notas/Createpop", $('#NotaCreateForm').serialize())
             .done(function (data) {
                 //alert(data);
                 $('#notas').empty();
-                if (data == "True") {
+                if (data == true) {
 
                     loadNotas(categ, "exito", "Nota creada con exito");
                 }
@@ -133,7 +133,7 @@
         $('#notas').append('<div class="loading"><img src="images/loadingcircle.gif" ></div>');
         $('#myModalNotas').modal('show');
 
-        $.get("Notas/Detailspop/" + $(this).attr("data-id"))
+        $.get("../Notas/Detailspop/" + $(this).attr("data-id"))
             .done(function (data) {
                 //   alert(data);
                 $('#notas').empty();
@@ -148,7 +148,7 @@
         $('#notas').append('<div class="loading"><img src="images/loadingcircle.gif" ></div>');
         $('#myModalNotas').modal('show');
 
-        $.get("Notas/Deletepop/" + $(this).attr("data-id"))
+        $.get("../Notas/Deletepop/" + $(this).attr("data-id"))
             .done(function (data) {
                 //   alert(data);
                 $('#notas').empty();
@@ -161,11 +161,11 @@
     $('#myModalNotas').on('click', '.NotaDelete', function () {
         //alert("click");
         categ = $(this).attr("data-categoria");
-        $.post("Notas/Deletepop/" + $(this).attr("data-id"), $('#NotaDeleteForm').serialize())
+        $.post("../Notas/Deletepop/" + $(this).attr("data-id"), $('#NotaDeleteForm').serialize())
             .done(function (data) {
                 //alert(data);
                 $('#notas').empty();
-                if (data == "True") {
+                if (data == true) {
 
                     loadNotas(categ, "exito", "Nota eliminada");
                 }
@@ -183,10 +183,10 @@
 function loadNotas(id, tipo, mensaje) {
     //alert("click");
     $('#notas').empty();
-    $('#notas').append('<div class="loading"><img src="images/loadingcircle.gif" ></div>');
+    $('#notas').append('<div class="loading"><img src="../images/loadingcircle.gif" ></div>');
     $('#myModalNotas').modal('show');
-    $.get("Notas/Categoriapop", {
-        'Categoria.id': id, 'tipo': tipo, 'mensaje': mensaje
+    $.get("../Notas/Categoriapop", {
+        'Categoriaid': id, 'tipo': tipo, 'mensaje': mensaje
     })
         .done(function (data) {
             //alert(tipo);

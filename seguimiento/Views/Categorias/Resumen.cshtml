@@ -39,7 +39,7 @@
             <div class="row categoriaDescripcionFila">
                 <div class="col-md-3 categoriaDescripcionTitulo">Seguimiento</div>
                 <div class="col-md-9 right categoriaDescripcion">
-                    <button type="button" id="AbrirNotas" class="btn btn-default btn-xs" aria-label="Left Align" data-categoria="@categoria[0].id">
+                    <button type="button" id="AbrirNotas" class="btn btn-outline-dark btn-xs" aria-label="Left Align" data-categoria="@categoria[0].id">
                         <i class="fas fa-sticky-note"></i>Notas
                     </button>
                     <span class="float-right">
@@ -232,13 +232,15 @@ if (@categoria[0].unificacion != null)
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title tituloCategoria" id="myModalLabelNotas">
+                <h5 class="modal-title tituloCategoria" id="myModalLabelNotas">
                     @categoria[0].numero@if (@categoria[0].numero != "")
                     {@Html.Encode(".");
                 }  @categoria[0].Nivel.nombre @categoria[0].nombre
-            </h4>
-        </div>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
         <div class="modal-body padding-bottom-0">
             <div id="notas"></div>
         </div>

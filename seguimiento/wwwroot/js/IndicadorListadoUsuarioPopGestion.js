@@ -349,7 +349,7 @@ function loadNotas(id, tipo, mensaje) {
     $('#notas').empty();
     $('#notas').append('<div class="loading"><img src="../images/loadingcircle.gif" ></div>');
     $('#myModalNotas').modal('show');
-    $.get("../Notas/Categoriapop", { 'Categoria.id': id, 'tipo': tipo, 'mensaje': mensaje })
+    $.get("../Notas/Categoriapop", { 'Categoriaid': id, 'tipo': tipo, 'mensaje': mensaje })
         .done(function (data) {
             //alert(tipo);
             //alert(mensaje);

@@ -24,55 +24,55 @@ else
 {
     <div class="alert alert-danger" role="alert">@ViewBag.mensaje</div>
 }
-<dl class="dl-horizontal">
+<dl class="row">
 
-    <dt class="IndicadorDisplayText">
+    <dt class="IndicadorDisplayText  col-md-6">
         @Html.DisplayNameFor(model => model.Categoria)
     </dt>
 
-    <dd class="IndicadorDisplayText">
+    <dd class="IndicadorDisplayText  col-md-6">
         @Html.DisplayFor(model => model.Categoria.numero)  @Html.DisplayFor(model => model.Categoria.nombre)
     </dd>
 
 
-    <dt class="IndicadorDisplayText">
+    <dt class="IndicadorDisplayText  col-md-6">
         @Html.DisplayNameFor(model => model.TipoIndicador)
     </dt>
 
-    <dd class="IndicadorDisplayText">
+    <dd class="IndicadorDisplayText  col-md-6">
         @Html.DisplayFor(model => model.TipoIndicador.Tipo)
     </dd>
 
-    <dt class="IndicadorDisplayText">
+    <dt class="IndicadorDisplayText  col-md-6">
         @Html.DisplayNameFor(model => model.ponderador)
     </dt>
 
-    <dd class="IndicadorDisplayText">
+    <dd class="IndicadorDisplayText  col-md-6">
         @Html.DisplayFor(model => model.ponderador)
     </dd>
 
-    <dt class="IndicadorDisplayText">
+    <dt class="IndicadorDisplayText  col-md-6">
         @Html.DisplayNameFor(model => model.unidad)
     </dt>
 
-    <dd class="IndicadorDisplayText">
+    <dd class="IndicadorDisplayText  col-md-6">
         @Html.DisplayFor(model => model.unidad)
     </dd>
 
 
 
-    <dt class="IndicadorDisplayText">
+    <dt class="IndicadorDisplayText  col-md-6">
         @Html.DisplayNameFor(model => model.Nota)
     </dt>
 
-    <dd class="IndicadorDisplayText">
+    <dd class="IndicadorDisplayText  col-md-6">
         @Html.DisplayFor(model => model.Nota)
     </dd>
 
-    <dt class="IndicadorDisplayText">
+    <dt class="IndicadorDisplayText  col-md-6">
         @Html.DisplayNameFor(model => model.adjunto)
     </dt>
-    <dd class="IndicadorDisplayText">
+    <dd class="IndicadorDisplayText  col-md-6">
         @if (@Model.adjunto != null && @Model.adjunto != "")
         {
             @Html.ActionLink(@Model.adjunto, "UploadedFiles/" + @Model.adjunto, "Upload", new { }, htmlAttributes: new { target = "_blank", id = "urlAdjunto" })
@@ -85,11 +85,11 @@ else
 
         if (campo.Campo.Activado == true)
         {
-            <dt class="IndicadorDisplayText">
+            <dt class="IndicadorDisplayText  col-md-6">
                 @campo.Campo.Nombre
             </dt>
 
-            <dd class="IndicadorDisplayText">
+            <dd class="IndicadorDisplayText  col-md-6">
                 @if (campo.Valor != null)
                 {
                     @campo.Valor.Texto
@@ -111,7 +111,7 @@ else
 {
     <div class="modal-footer">
 
-        <button type="button" class="btn btn-default button-edit-indicador" aria-label="Left Align" data-id="@Model.id">
+        <button type="button" class="btn btn-outline-primary button-edit-indicador" aria-label="Left Align" data-id="@Model.id">
             <i class="fas fa-edit"></i>Editar
         </button>
 

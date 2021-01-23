@@ -1,0 +1,122 @@
+﻿@model IEnumerable<seguimiento.Models.ReporteViewModel>
+
+
+@{
+    Layout = "~/Views/Shared/_LayoutReporte.cshtml";
+    int n = 1;
+    int numero = 0;
+}
+
+<div class="row fila-categoria">
+
+
+    @foreach (var item in Model)
+    {
+        n = 0;
+        numero = item.Ejecuciones.Count();
+        <div class="col-sm-@(12-2*numero)">
+            <h3 class="reporte-titulo">Indicador</h3>
+        </div>
+        foreach (var ejecucion in item.Ejecuciones)
+        {
+            <div class="col-sm-2 col-xs-@(12/numero) periodoReporte reporte-col-@(n % 2) ">
+                <div class="col-xs-12 text-center">
+                    <b> @ejecucion.Periodo.nombre</b>
+                </div>
+
+                <div class="col-sm-6 periodoReporte">
+                    <b> @Html.LabelFor(model => ejecucion.planeado)</b>
+                </div>
+                <div class="col-sm-6 periodoReporte">
+                    <b>  @Html.LabelFor(model => ejecucion.ejecutado)</b>
+                </div>
+
+            </div>
+
+            n = n + 1;
+
+        }
+        break;
+    }
+</div>
+
+@foreach (var item in Model)
+{
+    n = 0;
+    <div class="row fila-categoria">
+        <div class="col-sm-@(12 - 2 * numero)">
+            <span title="@item.Indicador.Categoria.numero @item.Indicador.Categoria.nombre">@item.Indicador.Categoria.numero</span>
+            <span>&rarr;</span>
+            @if (@item.Indicador.codigo != null)
+            {@item.Indicador.codigo }
+        else
+        { @item.Indicador.id}
+            @item.Indicador.nombre
+        </div>
+        @foreach (var ejecucion in item.Ejecuciones)
+        {
+
+            <div class="col-sm-2 col-xs-@(12 / numero) periodoReporte reporte-col-@(n % 2)">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form" + @ejecucion.id, @class = "form-inline form-reporte" }))
+                {
+                    @Html.AntiForgeryToken()
+
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(m => ejecucion.id)
+
+
+
+
+                    <div class="col-sm-6 reporte-col-input">
+
+                        @if (numero > 5)
+                        {
+                            @Html.LabelFor(model => ejecucion.planeado, @ejecucion.Periodo.nombre + " Planeado", htmlAttributes: new { @class = "control-label font-smaller " })
+                        }
+                        else
+                        {
+                            @Html.LabelFor(model => ejecucion.planeado, @ejecucion.Periodo.nombre + " Planeado", htmlAttributes: new { @class = "control-label reporte-min-width-disp" })
+                        }
+                        @if (ejecucion.Periodo.EditarProgramacion == true)
+                        {
+
+                            @Html.EditorFor(model => ejecucion.planeado, new { htmlAttributes = new { @class = "form-control Reportar-form-input", @id = "id_planeado_" + @ejecucion.id, data_tipo = "planeado-" + @ejecucion.Periodo.nombre } })
+                        }
+                        else
+                        {
+                            @Html.EditorFor(model => ejecucion.planeado, new { htmlAttributes = new { @class = "form-control Reportar-form-input", @readonly = "readonly", @id = "id_planeado_" + @ejecucion.id, data_tipo = "planeado-" + @ejecucion.Periodo.nombre } })
+                        }
+                    </div>
+                    <div class="col-sm-6 reporte-col-input">
+                        @if (numero > 5)
+                        {
+                            @Html.LabelFor(model => ejecucion.planeado, @ejecucion.Periodo.nombre + " Ejecutado", htmlAttributes: new { @class = "control-label font-smaller " })
+                        }
+                        else
+                        {
+                            @Html.LabelFor(model => ejecucion.planeado, @ejecucion.Periodo.nombre + " Ejecutado", htmlAttributes: new { @class = "control-label reporte-min-width-disp " })
+                        }
+
+
+                        @if (ejecucion.Periodo.EditarEjecucion == true)
+                        {
+                            @Html.EditorFor(model => ejecucion.ejecutado, new { htmlAttributes = new { @class = "form-control Reportar-form-input", @id = "id_ejecutado_" + @ejecucion.id, data_tipo = "ejecutado-" + @ejecucion.Periodo.nombre } })
+                        }
+                        else
+                        {
+                            @Html.EditorFor(model => ejecucion.ejecutado, new { htmlAttributes = new { @class = "form-control Reportar-form-input", @readonly = "readonly", @id = "id_ejecutado_" + @ejecucion.id, data_tipo = "ejecutado-" + @ejecucion.Periodo.nombre } })
+                        }
+                    </div>
+
+
+                }
+            </div>
+            n = n + 1;
+        }
+    </div>
+}
+<a class="btn btn-default" href="ReportExportExcel" target="_blank">Exportar Excel</a>
+
+<script src="~/js/ReporteForm.js"></script>
+<script src="~/js/resumen.js"></script>

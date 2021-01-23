@@ -17,7 +17,7 @@
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
+      
             <h4>Editar ejecución @Model.Periodo.nombre</h4>
             <h6>@Model.Indicador.nombre</h6>
             <hr />
@@ -25,7 +25,7 @@
             @Html.HiddenFor(model => model.id)
 
             <div class="form-group  hide">
-                @Html.LabelFor(model => model.idindicador, "idindicador", htmlAttributes: new { @class = "control-label col-md-3" })
+                @Html.LabelFor(model => model.idindicador, "idindicador", htmlAttributes: new { @class = "col-md-3 col-form-label" })
                 <div class="col-md-9">
                     @Html.EditorFor(model => model.idindicador, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.idindicador, "", new { @class = "text-danger" })
@@ -33,17 +33,17 @@
             </div>
 
             <div class="form-group hide">
-                @Html.LabelFor(model => model.idperiodo, "idperiodo", htmlAttributes: new { @class = "control-label col-md-3" })
+                @Html.LabelFor(model => model.idperiodo, "idperiodo", htmlAttributes: new { @class = "col-md-3 col-form-label" })
                 <div class="col-md-9">
                     @Html.EditorFor(model => model.idperiodo, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.idperiodo, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group row">
 
 
-                @Html.LabelFor(model => model.planeado, htmlAttributes: new { @class = "control-label col-md-3" })
+                @Html.LabelFor(model => model.planeado, htmlAttributes: new { @class = "col-md-3 col-form-label" })
                 <div class="col-md-9">
                     @if (ViewBag.PuedeEditarPlaneado == true)
                     {
@@ -56,9 +56,9 @@
                     @Html.ValidationMessageFor(model => model.planeado, "", new { @class = "text-danger" })
                 </div>
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ejecutado, htmlAttributes: new { @class = "control-label col-md-3" })
+             
+            <div class="form-group row">
+                @Html.LabelFor(model => model.ejecutado, htmlAttributes: new { @class = "col-md-3 col-form-label" })
                 <div class="col-md-9">
                     @if (ViewBag.PuedeEditarEjecucion == true)
                     {
@@ -72,8 +72,8 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.cargado, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="form-group row">
+                @Html.LabelFor(model => model.cargado, htmlAttributes: new { @class = "col-md-3 col-form-label" })
                 <div class="col-md-9">
                     <div class="checkbox">
                         @Html.EditorFor(model => model.cargado)
@@ -82,8 +82,8 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Nota, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Nota, htmlAttributes: new { @class = "col-md-3 col-form-label" })
                 <div class="col-md-9">
                     @Html.TextAreaFor(model => model.Nota, htmlAttributes: new { @class = "form-control", rows = "6" })
                     @Html.ValidationMessageFor(model => model.Nota, "", new { @class = "text-danger" })
@@ -92,8 +92,8 @@
 
 
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.adjunto, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="form-group row">
+                @Html.LabelFor(model => model.adjunto, htmlAttributes: new { @class = "col-md-3 col-form-label" })
                 <div class="col-md-9">
                     <p class="align-right margin-bottom-0">
                         @Html.EditorFor(model => model.adjunto, new { htmlAttributes = new { @class = "form-control hide", @readonly = "true" } })
@@ -112,7 +112,7 @@
             </div>
 
 
-        </div>
+        
     }
     @using (Html.BeginForm("UploadFile", "Upload", FormMethod.Post, new { enctype = "multipart/form-data", id = "uploadFileFormEjecucion", @class = "form-notas-width" }))
     {
@@ -130,11 +130,11 @@
 
     <div class="modal-footer">
 
-        <button type="button" class="btn btn-default EjecucionVolver" aria-label="Left Align" data-id="@Model.id">
+        <button type="button" class="btn btn-outline-dark EjecucionVolver" aria-label="Left Align" data-id="@Model.id">
             <i class="fas fa-arrow-left"></i> Volver
         </button>
 
-        <button type="button" class="btn btn-default EjecucionSaveEdit" aria-label="Left Align" data-id="@Model.id">
+        <button type="button" class="btn btn-outline-primary EjecucionSaveEdit" aria-label="Left Align" data-id="@Model.id">
             <i class="fas fa-save"></i>Guardar
         </button>
     </div>

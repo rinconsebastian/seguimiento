@@ -24,6 +24,15 @@ namespace seguimiento.Controllers
 
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
+
+        
+            public static T CloneObject<T>(this object source)
+            {
+                T result = Activator.CreateInstance<T>();
+                //// **** made things  
+                return result;
+            }
+        
     }
 
 }
