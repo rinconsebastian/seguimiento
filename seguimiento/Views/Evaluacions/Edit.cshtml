@@ -1,0 +1,89 @@
+﻿@model seguimiento.Models.Evaluacion
+
+
+@{
+    ViewData["Title"] = "Panel de control";
+    ViewData["Subtitle"] = "Evaluaciones";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    var listaContexto = (SelectList)ViewBag.Contexto;
+    var listaCategorias = (SelectList)ViewBag.Categorias;
+    var listaIndicadores = (SelectList)ViewBag.Indicadores;
+}
+<h4>Editar evaluación</h4>
+<form id="formIndicador" asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="All" class="small text-danger"></div>
+    <input asp-for="Id" type="hidden" />
+    <div class="form-group row">
+        <label asp-for="Nombre" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="form-text small text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Contexto" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <select asp-for="Contexto" asp-items="@listaContexto" class="form-control"></select>
+            <span asp-validation-for="Contexto" class="form-text small text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Categoria" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <select asp-for="IdCategoria" asp-items="@listaCategorias" class="form-control">
+                <option value="0">Seleccione una opción</option>
+            </select>
+            <span asp-validation-for="IdCategoria" class="form-text small text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Indicador" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <select asp-for="IdIndicador" asp-items="@listaIndicadores" class="form-control">
+                <option value="0">Seleccione una opción</option>
+            </select>
+            <span asp-validation-for="IdIndicador" class="form-text small text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Minimo" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="Minimo" class="form-control" />
+            <span asp-validation-for="Minimo" class="form-text small text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Maximo" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="Maximo" class="form-control" />
+            <span asp-validation-for="Maximo" class="form-text small text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Color" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="Color" class="form-control" type="color" />
+            <span asp-validation-for="Color" class="form-text small text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-3 offset-3">
+            <input type="submit" value="Guardar" class="btn btn-outline-primary btn-block" />
+        </div>
+        <div class="col-sm-3">
+            <a asp-action="Index" class="btn btn btn-outline-dark btn-block">Volver</a>
+        </div>
+    </div>
+
+</form>
+
+

@@ -43,23 +43,17 @@ namespace seguimiento.Controllers
         {
             PropertyInfo[] propertyInfo = typeof(Configuracion).GetProperties();
             ViewBag.Props = propertyInfo;
-            return View(await db.Configuracion.FirstAsync());
+            var config = await db.Configuracion.FirstAsync();
+            if (config == null) { return NotFound(); }
+            return View(config);
         }
        
 
         [Authorize(Policy = "Configuracion.General")]
-        public async  Task<IActionResult> Edit(int? id)
+        public async  Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             Configuracion configuracion = await  db.Configuracion.FindAsync(id);
-            if (configuracion == null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            if (configuracion == null) { return NotFound(); }
             return View(configuracion);
         }
 
@@ -177,7 +171,7 @@ namespace seguimiento.Controllers
             DbUpdateConcurrencyException concurrencyEx = exception as DbUpdateConcurrencyException;
             if (concurrencyEx != null)
             {
-                mensaje = "erro no identificado";
+                mensaje = "Error no identificado";
             }
 
             DbUpdateException dbUpdateEx = exception as DbUpdateException;
@@ -203,7 +197,7 @@ namespace seguimiento.Controllers
 
                             default:
                                 // A custom exception of yours for other DB issues
-                                mensaje = "erro en la base de datos";
+                                mensaje = "Error en la base de datos";
                                 break;
                         }
                     }else

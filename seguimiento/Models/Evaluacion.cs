@@ -14,7 +14,7 @@ namespace seguimiento.Models
         [Key]
         public int Id { get; set; }
 
-        [Display(Name = "Evaluación")]
+        [Display(Name = "Nombre")]
         [Required]
         public string Nombre { get; set; }
 
@@ -23,11 +23,11 @@ namespace seguimiento.Models
         [Required]
         public string Color { get; set; }
 
-        [Display(Name = "Mínimo")]
+        [Display(Name = "Valor Mínimo")]
         [Required]
         public decimal Minimo { get; set; }
 
-        [Display(Name = "Máximo")]
+        [Display(Name = "Valor Máximo")]
         [Required]
         public decimal Maximo { get; set; }
 
@@ -41,6 +41,11 @@ namespace seguimiento.Models
         [Display(Name = "Categoria")]
         public virtual Categoria Categoria { get; set; }
 
+        [NotMapped]
+        public int IdIndicador { get; set; }
+
+        [NotMapped]
+        public int IdCategoria { get; set; }
 
     }
 }

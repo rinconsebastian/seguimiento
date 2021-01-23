@@ -14,8 +14,8 @@ namespace seguimiento.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager;
-        private readonly Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> _roleManager;
-        public HomeController(ILogger<HomeController> logger, Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager, Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> roleManager)
+        private readonly Microsoft.AspNetCore.Identity.RoleManager<ApplicationRole> _roleManager;
+        public HomeController(ILogger<HomeController> logger, Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager, Microsoft.AspNetCore.Identity.RoleManager<ApplicationRole> roleManager)
         {
             _logger = logger;
             _userManager = userManager;

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace seguimiento.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole,string>
     {
         
 
@@ -42,6 +42,7 @@ namespace seguimiento.Data
 
         public DbSet<PermisoRol> PermisoRol { get; set; }
         public DbSet<ValorCampo> ValorCampo { get; set; }
+        public DbSet<Policy> Policy { get; set; }
     }
 }
 

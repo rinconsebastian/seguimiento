@@ -214,9 +214,6 @@ namespace seguimiento.Controllers
         [Authorize(Policy = "Categoria.Editar")]
         public async Task<ActionResult> Index()
         {
-
-
-
             string error = (string)HttpContext.Session.GetComplex<string>("error");
             if (error != "")
             {
@@ -234,10 +231,9 @@ namespace seguimiento.Controllers
         [Authorize(Policy = "Categoria.Editar")]
         public async Task<ActionResult> Details(int id)
         {
-           
-          
             Categoria categoria = await db.Categoria.FindAsync(id);
-           
+            if (categoria == null) { return NotFound(); }
+
             //-----------------------------Campos adicionales Inicio
             List<CampoValor> campos = new List<CampoValor>();
             var Campos =await db.Campo.Where(m => m.NivelPadre.id == categoria.Nivel.id || m.TodaCategoria == true).ToListAsync();
@@ -301,7 +297,8 @@ namespace seguimiento.Controllers
         {
                       
             Categoria categoria = await db.Categoria.FindAsync(id);
-            
+            if (categoria == null) { return NotFound(); }
+
             List<SelectListItem> CategoriaLista = new List<SelectListItem>();
             var CategoriaListadb = await db.Categoria.Where(n => n.id != id).ToListAsync();
             foreach (var itemn in CategoriaListadb)
@@ -397,9 +394,9 @@ namespace seguimiento.Controllers
        [Authorize(Policy = "Categoria.Editar")]
         public async Task<ActionResult> Delete(int id)
         {
-            
             Categoria categoria = await db.Categoria.FindAsync(id);
-            
+            if (categoria == null) { return NotFound(); }
+
             return View(categoria);
         }
 

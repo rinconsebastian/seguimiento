@@ -523,6 +523,7 @@ namespace seguimiento.Controllers
         {
         
             Indicador indicador =await db.Indicador.FindAsync(id);
+            if (indicador == null) { return NotFound(); }
 
             List<SelectListItem> CategoriaLista = new List<SelectListItem>();
             var CategoriaListadb = await db.Categoria.ToListAsync();
@@ -620,7 +621,8 @@ namespace seguimiento.Controllers
         {//-------------------- VERIFICA PERMISOS DE ACUERDO AL ROL DE USUSARIO --------------------------------
            
             Indicador indicador = await db.Indicador.FindAsync(id);
-           
+            if (indicador == null) { return NotFound(); }
+
             return View(indicador);
         }
 
@@ -681,7 +683,8 @@ namespace seguimiento.Controllers
         {
            
             Indicador indicador = await db.Indicador.FindAsync(id);
-           
+            if (indicador == null) { return NotFound(); }
+
             //-----------------------------Campos adicionales Inicio
             List<CampoValor> campos = new List<CampoValor>();
             var Campos = await db.Campo.Where(m => m.TipoIndicadorPadre.Id == indicador.TipoIndicador.Id || m.TodoIndicador == true).ToListAsync();
