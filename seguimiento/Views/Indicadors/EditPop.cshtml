@@ -13,63 +13,63 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+    
         <h4>Editar indicador</h4>
         <h6>@Model.id @Model.nombre</h6>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.idCategoria, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group row">
+            @Html.LabelFor(model => model.idCategoria, htmlAttributes: new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.DropDownList("idCategoria", listacategoria, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.idCategoria, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ponderador, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group row">
+            @Html.LabelFor(model => model.ponderador, htmlAttributes: new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ponderador, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ponderador, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.tipo, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group row">
+            @Html.LabelFor(model => model.tipo, htmlAttributes: new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.DropDownList("tipo", listatipo, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.tipo, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.unidad, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group row">
+            @Html.LabelFor(model => model.unidad, htmlAttributes: new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.unidad, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.unidad, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.codigo, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group row">
+            @Html.LabelFor(model => model.codigo, htmlAttributes: new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.codigo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.codigo, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group row">
+            @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nota, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Nota, htmlAttributes: new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.Nota, htmlAttributes: new { @class = "form-control", rows = "3" })
                 @Html.ValidationMessageFor(model => model.Nota, "", new { @class = "text-danger" })
@@ -84,8 +84,8 @@
             if (campo.Campo.Activado == true)
             {
 
-                <div class="form-group">
-                    <label class="control-label col-md-2" for="adjunto">@Html.Raw(campo.Campo.Nombre.Remove(campo.Campo.Nombre.Length - 3))</label>
+                <div class="form-group row">
+                    <label class="col-md-2 col-form-label" for="adjunto">@Html.Raw(campo.Campo.Nombre.Remove(campo.Campo.Nombre.Length - 3))</label>
                     <div class="col-md-10">
                         @if (campo.Valor != null)
                         {
@@ -103,8 +103,8 @@
             }
         }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.adjunto, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group row">
+            @Html.LabelFor(model => model.adjunto, htmlAttributes: new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 <p class="align-right margin-bottom-0">
                     @Html.EditorFor(model => model.adjunto, new { htmlAttributes = new { @class = "form-control hide", @readonly = "true" } })
@@ -125,7 +125,7 @@
 
 
 
-    </div>
+    
 
 
 }
@@ -146,11 +146,13 @@
 
 <div class="modal-footer">
 
-    <button type="button" class="btn btn-default IndicadorVolver" aria-label="Left Align" data-id="@Model.id">
+    
+
+    <button type="button" class="btn btn-outline-dark IndicadorVolver"  data-id="@Model.id">
         <i class="fas fa-arrow-left"></i> Volver
     </button>
 
-    <button type="button" class="btn btn-default IndicadorSaveEdit" aria-label="Left Align" data-id="@Model.id">
+    <button type="button" class="btn btn-outline-primary IndicadorSaveEdit"  data-id="@Model.id">
         <i class="fas fa-save"></i>Guardar
     </button>
 </div>

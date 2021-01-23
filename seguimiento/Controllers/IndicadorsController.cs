@@ -700,6 +700,50 @@ namespace seguimiento.Controllers
 
             return View(indicador);
         }
+
+        [Authorize(Policy = "Indicador.Editar")]
+        public async Task<ActionResult> Reportar()
+        {
+            ResponsablesController controlResponsable = new ResponsablesController(db, userManager);
+
+            List<Indicador> indicadores = new List<Indicador>();
+            
+            List<ReporteViewModel> reporte = new List<ReporteViewModel>();
+
+            if (User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Super" && c.Value == "1")))
+            { 
+                indicadores = await db.Indicador.OrderBy(n => n.Categoria.numero).ThenBy(n => n.codigo).ThenBy(n => n.id).ToListAsync();
+
+            }
+            else
+            {
+                var userFull = await userManager.FindByEmailAsync(User.Identity.Name);
+
+                var ids = controlResponsable.GetAllIdsFromResponsable(userFull.IDDependencia);
+
+                indicadores = await db.Indicador.Where(n => ids.Contains(n.Categoria.IdResponsable)).OrderBy(n => n.Categoria.numero).ThenBy(n=>n.codigo).ThenBy(n => n.id).ToListAsync();
+                    
+                      //indicadores = db.Indicadors.Where(n => n.Categoria.IdResponsable ).OrderBy(n=>n.Categoria.numero).ThenBy(n => n.id).ToList();
+            }
+            foreach (var Indicador in indicadores)
+            {
+                ReporteViewModel item = new ReporteViewModel();
+                item.Indicador = Indicador;
+                var ejecuciones = await db.Ejecucion.Where(n => n.idindicador == Indicador.id && (n.Periodo.EditarEjecucion == true || n.Periodo.EditarProgramacion == true)).OrderBy(n => n.Periodo.orden).ToListAsync();
+
+                //var ejecuciones = db.ejecucions.SqlQuery("select * FROM ejecucions AS e, Periodoes AS p WHERE p.id=e.idperiodo AND e.idindicador="+Indicador.id+" AND (p.EditarEjecucion = 'TRUE' or P.EditarProgramacion= 'TRUE' )").ToList();
+
+                item.Ejecuciones = ejecuciones;
+                reporte.Add(item);
+            }
+
+            List<ReporteViewModel> reporteExportar = reporte.CloneObject<List<ReporteViewModel>>();
+
+            HttpContext.Session.SetComplex("reporte", reporteExportar);
+          
+
+            return View(reporte);
+        }
     }
 
 }

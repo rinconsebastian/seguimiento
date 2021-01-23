@@ -1,37 +1,25 @@
-﻿@{
-    Layout = "";
-
-   
-
-    
-
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seguimiento al Plan Estratégico 2017-2021</title>
+    <meta id="viewport" name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
+
+
+    <title>SISTEMA DE SEGUIMIENTO</title>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/devexpress/dx.all.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-   
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="~/css/site.css" />
 
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
-    <link rel="stylesheet" href="~/js/CambioPeriodoDashboard.js" />
-    <link rel="stylesheet" href="~/js/html2canvas.js" />
-    <link rel="stylesheet" href="~/js/Print.js" />
 
 
 
 
 </head>
-
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -85,32 +73,37 @@
         </nav>
     </header>
     <div class="container bodyccs body-content" id="bodycsss">
-        @RenderBody()
-    </div>
+        <div class="row">
+            <div class="col-md-12 div-contenido">
 
+                    <div class="row containerdetalle">
+                        <div class="col-md-12" id="detalle">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+                    <hr />
+                    <footer>
+                        <p class="footer-text">
+                            &copy; @DateTime.Now.Year
+                            <br />
+                         
+                        </p>
+                    </footer>
+            </div>
+</body>
 
     
 
+   
 
+  
+    
+    
+        
+    @RenderSection("scripts", required: false)
 
-
-
-</body>
 </html>
-
-
-<script type="text/javascript">
-
-
-    $(function () {
-        $('a').each(function () {
-            var urlp = $(this).prop('href');
-            var urlFul = (window.location.href);
-            if (urlp === urlFul) {
-                $(this).addClass('active');
-            }
-        });
-    });
-
-
-</script>

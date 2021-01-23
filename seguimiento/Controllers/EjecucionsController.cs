@@ -242,5 +242,56 @@ namespace seguimiento.Controllers
                
             return respuesta;
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Indicador.Editar")]
+        public async Task<bool> EditFormReporte(Ejecucion ejecucion)
+        {
+            try
+            {
+
+                Ejecucion original = await db.Ejecucion.FindAsync(ejecucion.id);
+                    
+                  
+                //si no se tiene permisos por rol o por periodo para editar la programación, se deja la original
+                if (!(User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Planeacion.Editar" && c.Value == "1"))) || original.Periodo.EditarProgramacion != true)
+                {
+                    ejecucion.planeado = original.planeado;
+                }
+                //si no se tiene permisos por rol o por periodo para editar la ejecución, se deja la original
+                if (!(User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Ejecucion.Editar" && c.Value == "1"))) || original.Periodo.EditarEjecucion != true)
+                {
+                  
+                    ejecucion.ejecutado = original.ejecutado;
+                }
+
+                ejecucion.adjunto = original.adjunto;
+                ejecucion.cargado = false;
+                ejecucion.idindicador = original.idindicador;
+                ejecucion.idperiodo = original.idperiodo;
+                ejecucion.Nota = original.Nota;
+                ejecucion.Periodo = original.Periodo;
+                ejecucion.Indicador = original.Indicador;
+
+                // Detach the Comparison State:
+                db.Entry(original).State = EntityState.Detached;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(ejecucion).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
     }
 }

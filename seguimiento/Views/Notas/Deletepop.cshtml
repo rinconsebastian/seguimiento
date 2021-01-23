@@ -1,0 +1,108 @@
+﻿@model seguimiento.Models.Nota
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Borrar</title>
+</head>
+<body>
+    <h3>Está seguro que desea eliminar la Nota @Html.DisplayFor(model => model.Titulo)?</h3>
+    <div class="form-notas-width">
+        <hr />
+        <dl class="dl-horizontal">
+            <dt class="NotaDisplayText">
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+
+            <dd class="NotaDisplayText">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+
+
+
+            <dt class="NotaDisplayText">
+                @Html.DisplayNameFor(model => model.Texto)
+            </dt>
+
+            <dd class="NotaDisplayText">
+                @Html.TextAreaFor(model => model.Texto, htmlAttributes: new { @class = "form-control nota-details-textarea", rows = "12", @readonly = "true" })
+            </dd>
+
+            <dt class="NotaDisplayText">
+                @Html.DisplayNameFor(model => model.Estado)
+            </dt>
+
+            <dd class="NotaDisplayText">
+                @Html.DisplayFor(model => model.Estado)
+            </dd>
+
+            <dt class="NotaDisplayText">
+                @Html.DisplayNameFor(model => model.FechaCreacion)
+            </dt>
+
+            <dd class="NotaDisplayText">
+                @Html.DisplayFor(model => model.FechaActualizacion)
+            </dd>
+            <dt class="NotaDisplayText">
+                @Html.DisplayNameFor(model => model.FechaActualizacion)
+            </dt>
+
+            <dd class="NotaDisplayText">
+                @Html.DisplayFor(model => model.FechaActualizacion)
+            </dd>
+            <dt class="NotaDisplayText">
+                @Html.DisplayNameFor(model => model.User.Nombre)
+            </dt>
+
+            <dd class="NotaDisplayText">
+                @Html.DisplayFor(model => model.User.Nombre) @Html.DisplayFor(model => model.User.Apellido)
+            </dd>
+
+            <dt class="NotaDisplayText">
+                @Html.DisplayNameFor(model => model.Adjunto)
+            </dt>
+
+            <dd class="NotaDisplayText">
+
+                @if (@Model.Adjunto != null && @Model.Adjunto != "")
+                {
+                    @Html.ActionLink(@Model.Adjunto, "UploadedFiles/" + @Model.Adjunto, "Upload", new { }, htmlAttributes: new { target = "_blank", id = "urlAdjunto" })
+                }
+
+            </dd>
+
+        </dl>
+
+
+    </div>
+    <div class="modal-footer">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "NotaDeleteForm" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" value="@Model.Id" name="id" id="id" />
+            <div class="form-actions no-color">
+                <button type="button" class="btn btn-outline-dark NotasVolver" aria-label="Left Align" data-id="@Model.Id" data-categoria="@Model.Categoria.id">
+                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true">Volver</span>
+                </button>
+                @if (ViewBag.editar && ViewBag.userFull != null)
+                {
+                    if ((ViewBag.editar && ViewBag.userFull.Id == Model.User.Id) )
+                    {
+                        <button type="button" class="btn btn-outline-danger NotaDelete" aria-label="Left Align" data-id="@Model.Id" data-categoria="@Model.Categoria.id">
+                            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">Borrar</span>
+                        </button>
+                    }
+                }
+            </div>
+        }
+
+    </div>
+</body>
+</html>
