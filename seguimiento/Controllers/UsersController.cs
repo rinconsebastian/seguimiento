@@ -96,7 +96,7 @@ namespace seguimiento.Controllers
                     }
                 
             }
-            ViewBag.Roles = new SelectList(await db.Roles.ToListAsync(), "Id", "Name");
+            ViewBag.Roles = new SelectList(await db.Roles.ToListAsync(), "Name", "Name");
             ViewBag.Responsables = new SelectList(await db.Responsable.ToListAsync(), "Id", "Nombre");
 
             return View(model);
