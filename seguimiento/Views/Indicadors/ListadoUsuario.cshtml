@@ -36,19 +36,19 @@
         </div>
 
     }
-
+    var codigo = registro[0].codigo != null ? registro[0].codigo : registro[0].id;
     grupo = 1;
     <div class="row tituloUsuario">
-        <div class="col-md-11">
-            <span class="IndicadorNumero">
-                @if (@registro[0].codigo != null)
-                {@registro[0].codigo}
-            else
-            {@registro[0].id}
-            </span> <span class="IndicadorTitulo"> @registro[0].nombre</span>
+        <div class="col-md-10">
+            <span class="IndicadorNumero">@codigo</span> <span class="IndicadorTitulo"> @registro[0].nombre</span>
         </div>
-        <div class="col-md-1">
-            <button class="btn btn-default btn-sm boton-bajo button-open-indicador" data-id="@registro[0].id"><i class="fas fa-external-link-alt"></i></button>
+        <div class="col-md-2 text-right">
+            <button class="btn btn-outline-dark btn-sm  ml-1 button-open-indicador" title="Ver detalles" data-id="@registro[0].id"><i class="fas fa-external-link-alt"></i></button>
+            <button class="btn btn-outline-warning btn-sm ml-1 button-open-indicador-chart"
+                    title="Ver gráfica" data-id="@registro[0].id" data-title="@codigo @registro[0].nombre"
+                    data-toggle="modal" data-target="#myModalChart">
+                <i class="fas fa-chart-area"></i>
+            </button>
         </div>
     </div>
     <div class="row IndicadorHistoricoCabecera IndicadorCabecera marginRowIndicadorUsusario">
@@ -287,6 +287,9 @@
 </div>
 
 <!--  --------------------------- MODAL  EJECUCION ------------------------------------------------------------- -->
+<!--  --------------------------- INICIO - MODAL GRAFICA ---------------------------  -->
+<partial name="_ModalChart" />
+<!--  --------------------------- FIN - MODAL GRAFICA --------------------------- -->
 <!--  --------------------------- MODAL  NOTAS ------------------------------------------------------------- -->
 
 <div class="modal fade" id="myModalNotas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -299,7 +302,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                
+
             </div>
             <div class="modal-body padding-bottom-0">
                 <div id="notas"></div>
@@ -315,8 +318,9 @@
 
 <script src="/js/ajaxDetalleIndicador.js"></script>
 <script src="/js/IndicadorListadoUsuarioPopGestion.js"></script>
+<script src="~/js/UploadScript.js"></script>
 
-
+<script src="~/js/IndicadorPopChartScript.js" async></script>
 
 
 <script type="text/javascript">

@@ -7,153 +7,101 @@
     var listacategoria = (SelectList)ViewBag.IdCategoria;
     var listatipo = (SelectList)ViewBag.tipo;
 }
-
-
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "IndicadorEditForm", @class = "form-notas-width" }))
-{
+<h4>Editar indicador</h4>
+<h6>@Model.id @Model.nombre</h6>
+<form id="IndicadorEditForm" asp-action="EditPop" method="post">
     @Html.AntiForgeryToken()
+    <div asp-validation-summary="All" class="small text-danger"></div>
+    <input asp-for="id" type="hidden" />
 
-    
-        <h4>Editar indicador</h4>
-        <h6>@Model.id @Model.nombre</h6>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.id)
 
-        <div class="form-group row">
-            @Html.LabelFor(model => model.idCategoria, htmlAttributes: new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.DropDownList("idCategoria", listacategoria, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.idCategoria, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group row">
+        <label asp-for="Categoria" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            @Html.DropDownList("idCategoria", listacategoria, htmlAttributes: new { @class = "form-control" })
+            <span asp-validation-for="idCategoria" class="form-text small text-danger"></span>
         </div>
-
-        <div class="form-group row">
-            @Html.LabelFor(model => model.ponderador, htmlAttributes: new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ponderador, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ponderador, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ponderador" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="ponderador" class="form-control" />
+            <span asp-validation-for="ponderador" class="form-text small text-danger"></span>
         </div>
-
-        <div class="form-group row">
-            @Html.LabelFor(model => model.tipo, htmlAttributes: new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.DropDownList("tipo", listatipo, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.tipo, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="tipo" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            @Html.DropDownList("tipo", listatipo, htmlAttributes: new { @class = "form-control" })
+            <span asp-validation-for="tipo" class="form-text small text-danger"></span>
         </div>
-
-        <div class="form-group row">
-            @Html.LabelFor(model => model.unidad, htmlAttributes: new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.unidad, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.unidad, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="unidad" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="unidad" validation-for="Email" validationerror-class="is-invalid" class="form-control" />
+            <span asp-validation-for="unidad" class="form-text small text-danger"></span>
         </div>
+    </div>
 
-        <div class="form-group row">
-            @Html.LabelFor(model => model.codigo, htmlAttributes: new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.codigo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.codigo, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group row">
+        <label asp-for="codigo" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="codigo" class="form-control" />
+            <span asp-validation-for="codigo" class="form-text small text-danger"></span>
         </div>
-
-        <div class="form-group row">
-            @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="nombre" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="nombre" class="form-control" />
+            <span asp-validation-for="nombre" class="form-text small text-danger"></span>
         </div>
+    </div>
 
-        <div class="form-group row">
-            @Html.LabelFor(model => model.Nota, htmlAttributes: new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Nota, htmlAttributes: new { @class = "form-control", rows = "3" })
-                @Html.ValidationMessageFor(model => model.Nota, "", new { @class = "text-danger" })
-            </div>
+
+
+
+    <div class="form-group row">
+        <label asp-for="Nota" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <textarea asp-for="Nota" class="form-control"></textarea>
+            <span asp-validation-for="Nota" class="form-text small text-danger"></span>
         </div>
-
-
-
-
-        @foreach (var campo in ViewBag.campos)
+    </div>
+    @foreach (var campo in ViewBag.Campos)
+    {
+        if (campo.Campo.Activado == true)
         {
-            if (campo.Campo.Activado == true)
-            {
-
-                <div class="form-group row">
-                    <label class="col-md-2 col-form-label" for="adjunto">@Html.Raw(campo.Campo.Nombre.Remove(campo.Campo.Nombre.Length - 3))</label>
-                    <div class="col-md-10">
-                        @if (campo.Valor != null)
-                        {
-                            @* @Html.TextBox((string)campo.Campo.Nombre, (string)campo.Valor.Texto, (string)campo.Valor.Texto, new { @class = "form-control" })*@
-                            @Html.TextArea((string)campo.Campo.Nombre, (string)campo.Valor.Texto, new { @class = "form-control", rows = "2" })
-
-                        }
-                        else
-                        {
-                            @Html.TextBox((string)campo.Campo.Nombre, "", "", new { @class = "form-control" })
-
-                        }
-                    </div>
-                </div>
-            }
-        }
-
-        <div class="form-group row">
-            @Html.LabelFor(model => model.adjunto, htmlAttributes: new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                <p class="align-right margin-bottom-0">
-                    @Html.EditorFor(model => model.adjunto, new { htmlAttributes = new { @class = "form-control hide", @readonly = "true" } })
-                    @if (@Model.adjunto != null && @Model.adjunto != "")
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label text-capitalize" for="@campo.Campo.Nombre">@Html.Raw(campo.Campo.Nombre.Remove(campo.Campo.Nombre.Length - 3))</label>
+                <div class="col-md-9">
+                    @if (campo.Valor != null)
                     {
-                        @Html.ActionLink(@Model.adjunto, "UploadedFiles/" + @Model.adjunto, "Upload", new { }, htmlAttributes: new { target = "_blank", id = "urlAdjuntoEjecucion" })
+                        @Html.TextBox((string)campo.Campo.Nombre, (string)campo.Valor.Texto, (string)campo.Valor.Texto, new { @class = "form-control" })
                     }
                     else
                     {
-                        <a href="" target="_blank" id="urlAdjuntoEjecucion"></a>
+                        @Html.TextBox((string)campo.Campo.Nombre, "", "", new { @class = "form-control" })
+
                     }
-
-                    @Html.ValidationMessageFor(model => model.adjunto, "", new { @class = "text-danger  uploading" })
-                </p>
+                </div>
             </div>
-        </div>
-
-
-
-
-    
-
-
-}
-
-@using (Html.BeginForm("UploadFile", "Upload", FormMethod.Post, new { enctype = "multipart/form-data", id = "uploadFileFormEjecucion", @class = "form-notas-width" }))
-{
-
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-10">
-            @Html.TextBox("file", "", new { type = "file", id = "fileuploadtextEjecucion" })
-        </div>
-        @ViewBag.Message
-
-    </div>
-}
+        }
+    }
+    <!-- Hdden input Adjunto para el formulario-->
+    @Html.EditorFor(model => model.adjunto, new { htmlAttributes = new { @id = "Adjunto_Ind-" + Model.id, @class = "form-control hide", @readonly = "true" } })
+</form>
+<!-- Input file para Adjunto -->
+@await Html.PartialAsync("_IndicadorUpload", Model)
 
 
 <div class="modal-footer">
-
-    
-
-    <button type="button" class="btn btn-outline-dark IndicadorVolver"  data-id="@Model.id">
+    <button type="button" class="btn btn-outline-dark IndicadorVolver" data-id="@Model.id">
         <i class="fas fa-arrow-left"></i> Volver
     </button>
-
-    <button type="button" class="btn btn-outline-primary IndicadorSaveEdit"  data-id="@Model.id">
-        <i class="fas fa-save"></i>Guardar
+    <button type="button" class="btn btn-outline-primary IndicadorSaveEdit" data-id="@Model.id">
+        <i class="fas fa-save"></i> Guardar
     </button>
 </div>
 

@@ -88,14 +88,6 @@
     <script>
         $("a#@(ViewContext.RouteData.Values["Controller"])-@(ViewContext.RouteData.Values["Action"])").addClass("active");
     </script>
-    <script type="application/javascript">
-        $('input[type="file"]').change(function(e){
-            if(e.target.files.length  > 0){
-                var fileName = e.target.files[0].name;
-                $('.custom-file-label').html(fileName);
-            }
-        });
-    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

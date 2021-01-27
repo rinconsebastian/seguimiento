@@ -2,19 +2,11 @@
 
 
 @{
-
+    var codigo = Model.codigo != null ? Model.codigo : Model.id.ToString();
     Layout = "";
 }
-
-
-
-<div class="form-notas-width">
-
-    <h4>Hoja de vida de indicador</h4>
-    <h6>@if (@Model.codigo != null)
-    {@Model.codigo}
-else
-{@Model.id} @Model.nombre</h6>
+<h4>Hoja de vida de indicador</h4>
+<h6>@codigo @Model.nombre</h6>
 <hr />
 @if (ViewBag.tipo == "exito")
 {
@@ -24,96 +16,79 @@ else
 {
     <div class="alert alert-danger" role="alert">@ViewBag.mensaje</div>
 }
-<dl class="row">
+<div class="condensed">
+    <div class="form-group row">
+        <label asp-for="Categoria" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <p class="form-control-plaintext font-weight-light">
+                @Html.DisplayFor(model => model.Categoria.numero)  @Html.DisplayFor(model => model.Categoria.nombre)
+            </p>
+        </div>
+    </div>
 
-    <dt class="IndicadorDisplayText  col-md-6">
-        @Html.DisplayNameFor(model => model.Categoria)
-    </dt>
+    <div class="form-group row">
+        <label asp-for="TipoIndicador" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.TipoIndicador.Tipo)</p>
+        </div>
+    </div>
 
-    <dd class="IndicadorDisplayText  col-md-6">
-        @Html.DisplayFor(model => model.Categoria.numero)  @Html.DisplayFor(model => model.Categoria.nombre)
-    </dd>
+    <div class="form-group row">
+        <label asp-for="ponderador" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.ponderador)</p>
+        </div>
+    </div>
 
+    <div class="form-group row">
+        <label asp-for="unidad" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.unidad)</p>
+        </div>
+    </div>
 
-    <dt class="IndicadorDisplayText  col-md-6">
-        @Html.DisplayNameFor(model => model.TipoIndicador)
-    </dt>
+    <div class="form-group row">
+        <label asp-for="Nota" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.Nota)</p>
+        </div>
+    </div>
 
-    <dd class="IndicadorDisplayText  col-md-6">
-        @Html.DisplayFor(model => model.TipoIndicador.Tipo)
-    </dd>
+    <div class="form-group row">
+        <label asp-for="adjunto" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <p class="form-control-plaintext font-weight-light">
+                <a href="/UploadedFiles/@Html.DisplayFor(model => model.adjunto)" target="_blank">@Html.DisplayFor(model => model.adjunto)</a>
+            </p>
+        </div>
+    </div>
 
-    <dt class="IndicadorDisplayText  col-md-6">
-        @Html.DisplayNameFor(model => model.ponderador)
-    </dt>
-
-    <dd class="IndicadorDisplayText  col-md-6">
-        @Html.DisplayFor(model => model.ponderador)
-    </dd>
-
-    <dt class="IndicadorDisplayText  col-md-6">
-        @Html.DisplayNameFor(model => model.unidad)
-    </dt>
-
-    <dd class="IndicadorDisplayText  col-md-6">
-        @Html.DisplayFor(model => model.unidad)
-    </dd>
-
-
-
-    <dt class="IndicadorDisplayText  col-md-6">
-        @Html.DisplayNameFor(model => model.Nota)
-    </dt>
-
-    <dd class="IndicadorDisplayText  col-md-6">
-        @Html.DisplayFor(model => model.Nota)
-    </dd>
-
-    <dt class="IndicadorDisplayText  col-md-6">
-        @Html.DisplayNameFor(model => model.adjunto)
-    </dt>
-    <dd class="IndicadorDisplayText  col-md-6">
-        @if (@Model.adjunto != null && @Model.adjunto != "")
-        {
-            @Html.ActionLink(@Model.adjunto, "UploadedFiles/" + @Model.adjunto, "Upload", new { }, htmlAttributes: new { target = "_blank", id = "urlAdjunto" })
-        }
-    </dd>
-
-
-    @foreach (var campo in ViewBag.campos)
+    @foreach (var campo in ViewBag.Campos)
     {
-
         if (campo.Campo.Activado == true)
         {
-            <dt class="IndicadorDisplayText  col-md-6">
-                @campo.Campo.Nombre
-            </dt>
 
-            <dd class="IndicadorDisplayText  col-md-6">
-                @if (campo.Valor != null)
-                {
-                    @campo.Valor.Texto
-                }
-            </dd>
+            <div class="form-group row">
+                <label for="@Html.Encode(campo.Campo.Nombre)" class="col-sm-3 col-form-label text-capitalize">@Html.Encode(campo.Campo.Nombre)</label>
+                <div class="col-sm-9">
+                    @if (campo.Valor != null)
+                    {
+                        <p class="form-control-plaintext font-weight-light">@Html.Encode(campo.Valor.Texto)</p>
+                    }
+                </div>
+            </div>
         }
     }
-
-</dl>
 </div>
-@*
-    <p class=" float-right">
-        @Html.ActionLink("Atras", "Index", "", htmlAttributes: new { @class = "btn btn-default" })
-        @Html.ActionLink("Editar", "Edit", new { id = Model.id }, htmlAttributes: new { @class = "btn btn-default" })
-        </p>
-
-*@
 @if (ViewBag.MostrarBotonEditarIndicador == true)
 {
     <div class="modal-footer">
-
         <button type="button" class="btn btn-outline-primary button-edit-indicador" aria-label="Left Align" data-id="@Model.id">
-            <i class="fas fa-edit"></i>Editar
+            <i class="fas fa-edit"></i> Editar
         </button>
-
     </div>
+}
+else
+{
+    <br />
 }

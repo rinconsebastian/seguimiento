@@ -13,19 +13,21 @@
 
 @foreach (var registro in ViewBag.listado)
 {
-
+    var codigo = registro[0].codigo != null ? registro[0].codigo : registro[0].id;
     grupo = 1;
     <div class="row titulo">
-        <div class="col-md-11">
+        <div class="col-md-10">
             <span class="IndicadorNumero">
-                @if (@registro[0].codigo != null)
-                {@registro[0].codigo}
-            else
-            {@registro[0].id}
+                @codigo
             </span> <span class="IndicadorTitulo"> @registro[0].nombre</span>
         </div>
-        <div class="col-md-1">
-            <button class="btn btn-default btn-sm boton-bajo button-open-indicador" data-id="@registro[0].id"><i class="fas fa-external-link-alt"></i></button>
+        <div class="col-md-2 text-right">
+            <button class="btn btn-outline-dark btn-sm  ml-1 button-open-indicador" title="Ver detalles" data-id="@registro[0].id"><i class="fas fa-external-link-alt"></i></button>
+            <button class="btn btn-outline-warning btn-sm ml-1 button-open-indicador-chart"
+                    title="Ver gráfica" data-id="@registro[0].id" data-title="@codigo @registro[0].nombre"
+                    data-toggle="modal" data-target="#myModalChart">
+                <i class="fas fa-chart-area"></i>
+            </button>
         </div>
     </div>
     <div class="row IndicadorHistoricoCabecera IndicadorCabecera">
@@ -268,12 +270,17 @@
 </div>
 
 <!--  --------------------------- MODAL  EJECUCION ------------------------------------------------------------- -->
-
+<!--  --------------------------- INICIO - MODAL GRAFICA ---------------------------  -->
+<partial name="_ModalChart" />
+<!--  --------------------------- FIN - MODAL GRAFICA --------------------------- -->
 
 
 <script src="~/js/ajaxDetalleIndicador.js" async></script>
 <script src="~/js/IndicadorPopGestion.js" async></script>
 
+
+<script src="~/js/IndicadorPopChartScript.js" async></script>
+<script src="~/js/UploadScript.js"></script>
 
 
 @*@Scripts.Render("~/bundles/ajaxDetalleIndicador")

@@ -61,25 +61,12 @@
             <span asp-validation-for="Nota" class="form-text small text-danger"></span>
         </div>
     </div>
-    @Html.EditorFor(model => model.adjunto, new { htmlAttributes = new { @id = "Adjunto", @class = "form-control hide", @readonly = "true" } })
+    <!-- Hdden input Adjunto para el formulario-->
+    @Html.EditorFor(model => model.adjunto, new { htmlAttributes = new { @id = "Adjunto_Ind-0" + Model.id, @class = "form-control hide", @readonly = "true" } })
 </form>
-<div id="EjecucionContenidoConfig">
-    <form id="uploadFileFormEjecucion" asp-action="UploadFile" asp-controller="Upload" enctype="multipart/form-data" method="post">
-        <div class="form-group row">
+<!-- Input file para Adjunto -->
+@await Html.PartialAsync("_IndicadorUpload", Model)
 
-            <label asp-for="adjunto" class="col-md-3 col-form-label"></label>
-            <div class="col-md-9">
-                <div class="custom-file">
-                    <input id="fileuploadtextEjecucion" name="file" type="file" class="custom-file-input" lang="es">
-                    <label class="custom-file-label" for="customFile" data-browse="Elegir">Seleccionar Archivo</label>
-                </div>
-                <span  asp-validation-for="adjunto" class="uploading form-text small text-danger"></span>
-                <a href="" target="_blank" id="urlAdjuntoEjecucion" class="small form-text"></a>
-
-            </div>
-        </div>
-    </form>
-</div>
 <div class="form-group row">
     <div class="col-sm-3 offset-3">
         <input type="submit" value="Guardar" class="btn btn-outline-primary btn-block" form="formIndicador" />
@@ -91,6 +78,5 @@
 
 @section scripts
 {
-    <script async src="~/js/ConfiguracionScript.js"></script>
-
+    <script async src="~/js/UploadScript.js"></script>
 }

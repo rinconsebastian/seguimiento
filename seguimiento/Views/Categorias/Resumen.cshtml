@@ -13,72 +13,72 @@
                 <div class="col-md-12 margenTitulo">
                     <h5 class="titulo tituloCategoria">
                         @categoria[0].numero@if (@categoria[0].numero != "")
-                    {@Html.Encode(".");
-                }  @categoria[0].Nivel.nombre @categoria[0].nombre
-            </h5>
+                        {@Html.Encode(".");
+                    }  @categoria[0].Nivel.nombre @categoria[0].nombre
+                </h5>
+            </div>
         </div>
-    </div>
-    <div class="row margin-left-0">
-        <div class="col-md-6">
-            <div class="row categoriaDescripcionFila">
-                <div class="col-md-3 categoriaDescripcionTitulo">Texto</div>
-                <div class="col-md-9 text-justify categoriaDescripcion">@categoria[0].texto</div>
-            </div>
-            <div class="row categoriaDescripcionFila">
-                <div class="col-md-3 categoriaDescripcionTitulo">Objetivo</div>
-                <div class="col-md-9 text-justify categoriaDescripcion">@categoria[0].objetivo</div>
-            </div>
-            <div class="row categoriaDescripcionFila">
-                <div class="col-md-3 categoriaDescripcionTitulo">Responsable</div>
-                <div class="col-md-9 text-right categoriaDescripcion">@categoria[0].Responsable.Nombre</div>
-            </div>
-            <div class="row categoriaDescripcionFila">
-                <div class="col-md-3 categoriaDescripcionTitulo">Ponderador</div>
-                <div class="col-md-9 text-right categoriaDescripcion">@categoria[0].Ponderador</div>
-            </div>
-            <div class="row categoriaDescripcionFila">
-                <div class="col-md-3 categoriaDescripcionTitulo">Seguimiento</div>
-                <div class="col-md-9 right categoriaDescripcion">
-                    <button type="button" id="AbrirNotas" class="btn btn-outline-dark btn-xs" aria-label="Left Align" data-categoria="@categoria[0].id">
-                        <i class="fas fa-sticky-note"></i>Notas
-                    </button>
-                    <span class="float-right">
-                        Abiertas
-                        <span class="badge color-orange-numeronotas">@ViewBag.notasAbiertas</span>
-                        Cerradas
-                        <span class="badge color-green-numeronotas">@ViewBag.notasCerradas</span>
-                    </span>
+        <div class="row margin-left-0">
+            <div class="col-md-6">
+                <div class="row categoriaDescripcionFila">
+                    <div class="col-md-3 categoriaDescripcionTitulo">Texto</div>
+                    <div class="col-md-9 text-justify categoriaDescripcion">@categoria[0].texto</div>
+                </div>
+                <div class="row categoriaDescripcionFila">
+                    <div class="col-md-3 categoriaDescripcionTitulo">Objetivo</div>
+                    <div class="col-md-9 text-justify categoriaDescripcion">@categoria[0].objetivo</div>
+                </div>
+                <div class="row categoriaDescripcionFila">
+                    <div class="col-md-3 categoriaDescripcionTitulo">Responsable</div>
+                    <div class="col-md-9 text-right categoriaDescripcion">@categoria[0].Responsable.Nombre</div>
+                </div>
+                <div class="row categoriaDescripcionFila">
+                    <div class="col-md-3 categoriaDescripcionTitulo">Ponderador</div>
+                    <div class="col-md-9 text-right categoriaDescripcion">@categoria[0].Ponderador</div>
+                </div>
+                <div class="row categoriaDescripcionFila">
+                    <div class="col-md-3 categoriaDescripcionTitulo">Seguimiento</div>
+                    <div class="col-md-9 right categoriaDescripcion">
+                        <button type="button" id="AbrirNotas" class="btn btn-outline-dark btn-xs" aria-label="Left Align" data-categoria="@categoria[0].id">
+                            <i class="fas fa-sticky-note"></i>Notas
+                        </button>
+                        <span class="float-right">
+                            Abiertas
+                            <span class="badge color-orange-numeronotas">@ViewBag.notasAbiertas</span>
+                            Cerradas
+                            <span class="badge color-green-numeronotas">@ViewBag.notasCerradas</span>
+                        </span>
 
+                    </div>
+                </div>
+                @foreach (var campo in ViewBag.campos)
+                {
+
+                    if (campo.Campo.Activado == true)
+                    {<div class="row categoriaDescripcionFila">
+                            <div class="col-md-3 categoriaDescripcionTitulo">@campo.Campo.Nombre</div>
+                            <div class="col-md-9 text-right categoriaDescripcion">
+                                @if (campo.Valor != null)
+                                {
+                                    @campo.Valor.Texto
+
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="row categoriaDescripcionFila">
+                    <div class="col-md-3 categoriaDescripcionTitulo">Reporte</div>
+                    <div class="col-md-9 text-right categoriaDescripcion"><a class="btn btn-primary btn-xs btn-unicentro" href="../Dashboard/basic?id=@categoria[0].id">Ver reporte &raquo;</a></div>
                 </div>
             </div>
-            @foreach (var campo in ViewBag.campos)
-            {
 
-                if (campo.Campo.Activado == true)
-                {<div class="row categoriaDescripcionFila">
-                        <div class="col-md-3 categoriaDescripcionTitulo">@campo.Campo.Nombre</div>
-                        <div class="col-md-9 text-right categoriaDescripcion">
-                            @if (campo.Valor != null)
-                            {
-                                @campo.Valor.Texto
 
-                            }
-                        </div>
-                    </div>
-                }
-            }
-            <div class="row categoriaDescripcionFila">
-                <div class="col-md-3 categoriaDescripcionTitulo">Reporte</div>
-                <div class="col-md-9 text-right categoriaDescripcion"><a class="btn btn-primary btn-xs btn-unicentro" href="../Dashboard/basic?id=@categoria[0].id">Ver reporte &raquo;</a></div>
+            <div class="col-md-6" id="grafica">
+                <canvas id="myChart" width="600" height="300"></canvas>
             </div>
         </div>
-
-
-        <div class="col-md-6" id="grafica">
-            <canvas id="myChart" width="600" height="300"></canvas>
-        </div>
     </div>
-</div>
 </div>
 if (@categoria[0].unificacion != null)
 {
@@ -110,7 +110,7 @@ if (@categoria[0].unificacion != null)
                                 }
                                 else if (@ejecucion.Periodo.tipo == "subtotal")
                                 {
-                                    <th class="paddingTablaEjecucion  text-center  fondoGrupo_@(grupo % 2) control_grupo_unido control_grupo_unido_@grupo" data-grupo="@grupo" data-displayed="hide"><strong>@ejecucion.Periodo.nombre</strong><i class="fas fa-plus-circle boton_grupo_unido boton_grupo_@grupo"  style="color:red; float:right"></i></th>
+                                    <th class="paddingTablaEjecucion  text-center  fondoGrupo_@(grupo % 2) control_grupo_unido control_grupo_unido_@grupo" data-grupo="@grupo" data-displayed="hide"><strong>@ejecucion.Periodo.nombre</strong><i class="fas fa-plus-circle boton_grupo_unido boton_grupo_@grupo" style="color:red; float:right"></i></th>
                                     grupo = grupo + 1;
                                 }
                                 else
@@ -203,7 +203,7 @@ if (@categoria[0].unificacion != null)
     </div>
 }
 
-<!--  --------------------------- MODAL  GRÁFICA ------------------------------------------------------------- -->
+<!--  --------------------------- MODAL GRÁFICA ------------------------------------------------------------- -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -211,23 +211,23 @@ if (@categoria[0].unificacion != null)
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title tituloCategoria" id="myModalLabel">
                     @categoria[0].numero@if (@categoria[0].numero != "")
-                {@Html.Encode(".");
-            }  @categoria[0].Nivel.nombre @categoria[0].nombre
-        </h4>
-    </div>
-    <div class="modal-body">
-        <canvas id="myChartmodal" width="900" height="500"></canvas>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    {@Html.Encode(".");
+                }  @categoria[0].Nivel.nombre @categoria[0].nombre
+            </h4>
+        </div>
+        <div class="modal-body">
+            <canvas id="myChartmodal" width="900" height="500"></canvas>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 
+        </div>
     </div>
 </div>
 </div>
-</div>
+<!--  --------------------------- MODAL GRÁFICA ------------------------------------------------------------- -->
 
 <!--  --------------------------- MODAL  NOTAS ------------------------------------------------------------- -->
-<!--  --------------------------- MODAL  GRÁFICA ------------------------------------------------------------- -->
 <div class="modal fade" id="myModalNotas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -236,11 +236,11 @@ if (@categoria[0].unificacion != null)
                     @categoria[0].numero@if (@categoria[0].numero != "")
                     {@Html.Encode(".");
                 }  @categoria[0].Nivel.nombre @categoria[0].nombre
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <div class="modal-body padding-bottom-0">
             <div id="notas"></div>
         </div>

@@ -95,58 +95,6 @@ function EjecucionAlmacenarEdicion() {
 }
 
 
-//-----------------------------AJAXA POST PARA CARGAR ARCHIVOS
-$('#EjecucionContenido').on('change', '#fileuploadtextEjecucion', function () {
-    /*alert("change");
-    $('#uploadFileFormEjecucion').submit();
-});
-
-$('#EjecucionContenido').on('submit', '#uploadFileFormEjecucion', function (d) {
-
-    d.preventDefault();
-    */
-    var formulario = $(this).closest('form');
-
-    // Serialize your form
-    var formData = new FormData(formulario[0]);
-    var dt = new Date();
-    var time = dt.getFullYear() + "-" + dt.getMonth() + "-" + dt.getDay() + "-" + dt.getHours() + "-" + dt.getMinutes() + "-" + dt.getSeconds() + "e-" + $('#id').val();
-
-    //alert(time);
-    formData.append("id", time);
-
-
-    $('#urlAdjuntoEjecucion').empty();
-    $('.uploading').empty();
-    $('.uploading').append('cargando <img src="../images/ajax-loader.gif">');
-
-    //alert(formData.stringify());
-    $.ajax({
-        type: "POST",
-        url: '../Upload/UploadFile',
-        data: formData,
-        dataType: 'json',
-        contentType: false,
-        processData: false,
-        success: function (response) {
-
-            //var respuesta = JSON.parse(response);
-            $('#adjunto').val(response.Nombre);
-            $('#urlAdjuntoEjecucion').attr("href", "Upload/UploadedFiles/" + response.Nombre)
-            $('.uploading').empty();
-            $('#urlAdjuntoEjecucion').empty();
-            $('#urlAdjuntoEjecucion').append(response.Nombre);
-
-        },
-        error: function (error) {
-            $('.uploading').empty();
-            $('.uploading').append("Imposible cargar el archivo");
-            //alert("errror al cargar el archivo");
-        }
-    });
-
-});
-
 // detalles de un indicador
 function displayIndicadorDetails(id, tipo, mensaje) {
     $('#EjecucionContenido').empty();
@@ -169,7 +117,7 @@ function displayIndicadorDetails(id, tipo, mensaje) {
 function displayIndicadorEdit(id) {
     $('#EjecucionContenido').empty();
     $('#myModalEjecucion').modal('show');
-    $('#EjecucionContenido').append('<div class="loading"><img src="../images/loadingcircle.gif" ></div>');
+    $('#EjecucionContenido').append('<div class="loading"><img src="/images/loadingcircle.gif" ></div>');
     $.get("../Indicadors/EditPop", { 'id': id })
         .done(function (data) {
 

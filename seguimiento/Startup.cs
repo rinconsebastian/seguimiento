@@ -50,8 +50,8 @@ namespace seguimiento
                         "server=127.0.0.1;user=jerico;password=NmkkAJWmFo9zmjtj;database=jerico",
                          // Replace with your server version and type.
                          // For common usages, see pull request #1233.
-                         new MariaDbServerVersion(new Version(10, 4, 10)), // use MariaDbServerVersion for MariaDB MySqlServerVersion
-                         //new MySqlServerVersion(new Version(10, 4, 10)),
+                         //new MariaDbServerVersion(new Version(10, 4, 10)), // use MariaDbServerVersion for MariaDB MySqlServerVersion
+                         new MySqlServerVersion(new Version(10, 4, 10)),
                         mySqlOptions => mySqlOptions
                             .CharSetBehavior(CharSetBehavior.NeverAppend))
                     // Everything from this point on is optional but helps with debugging.

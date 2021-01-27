@@ -1127,3 +1127,16 @@ input, select, textarea {
 .custom-file{
     max-width: 424px!important;
 }
+/*##################################### DETAILS POP UP #####################################*/
+.condensed .row {
+    margin-bottom: 0;
+}
+.condensed .col-form-label {
+    padding-bottom: 0;
+    font-size: smaller;
+    font-weight: 600;
+}
+
+.condensed p{
+    padding-bottom: 4px;
+}

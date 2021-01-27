@@ -17,7 +17,7 @@ namespace seguimiento.Models
         [Required]
         public string Mensaje { get; set; }
 
-        [Display(Name = "complimiento")]
+        [Display(Name = "Cumplimiento")]
         public string CalculadoDisplay { get; set; }
 
         public string PlaneadoError { get; set; }
