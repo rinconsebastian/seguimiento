@@ -43,6 +43,30 @@ namespace seguimiento.Data
         public DbSet<PermisoRol> PermisoRol { get; set; }
         public DbSet<ValorCampo> ValorCampo { get; set; }
         public DbSet<Policy> Policy { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            List<Policy> data = new List<Policy>
+            {
+                new Policy() { id = 1, nombre = "Ver Configuración general", claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.General" },
+                new Policy() { id = 2, nombre = "Configuración dependencia", claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Responsable" },
+                new Policy() { id = 3, nombre = "Editar ejecución", claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Ejecucion.Editar" },
+                new Policy() { id = 4, nombre = "Editar planeación", claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Planeacion.Editar" },
+                new Policy() { id = 5, nombre = "Editar indicadores", claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Indicador.Editar" },
+                new Policy() { id = 6, nombre = "Editar periodo", claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Periodo.Editar" },
+                new Policy() { id = 7, nombre = "Editar categorias", claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Categoria.Editar" },
+                new Policy() { id = 8, nombre = "Editar dependencias", claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Responsable.Editar" },
+                new Policy() { id = 9, nombre = "Editar niveles", claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Nivel.Editar" },
+                new Policy() { id = 10, nombre = "Editar campos", claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Campo.Editar" },
+                new Policy() { id = 11, nombre = "Editar evaluaciones", claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Evaluacion.Editar" },
+                new Policy() { id = 12, nombre = "Editar roles", claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Rol.Editar" },
+                new Policy() { id = 13, nombre = "Editar usuarios", claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Usuario.Editar" },
+                new Policy() { id = 14, nombre = "Ver registro actividad", claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Logs" },
+                new Policy() { id = 15, nombre = "Editar notas", claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Nota.Editar" }
+                };
+            modelBuilder.Entity<Policy>().HasData(data);
+        }
     }
 }
 

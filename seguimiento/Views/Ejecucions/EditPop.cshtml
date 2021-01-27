@@ -2,141 +2,102 @@
 
 @{
     Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>EditPop</title>
-</head>
-<body>
-
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "EjecucionEditForm", @class = "form-notas-width" }))
+    var link = "";
+    var text = "";
+    if (Model != null && Model.adjunto != null && Model.adjunto != "")
     {
-        @Html.AntiForgeryToken()
-
-      
-            <h4>Editar ejecución @Model.Periodo.nombre</h4>
-            <h6>@Model.Indicador.nombre</h6>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(model => model.id)
-
-            <div class="form-group  hide">
-                @Html.LabelFor(model => model.idindicador, "idindicador", htmlAttributes: new { @class = "col-md-3 col-form-label" })
-                <div class="col-md-9">
-                    @Html.EditorFor(model => model.idindicador, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.idindicador, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group hide">
-                @Html.LabelFor(model => model.idperiodo, "idperiodo", htmlAttributes: new { @class = "col-md-3 col-form-label" })
-                <div class="col-md-9">
-                    @Html.EditorFor(model => model.idperiodo, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.idperiodo, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group row">
-
-
-                @Html.LabelFor(model => model.planeado, htmlAttributes: new { @class = "col-md-3 col-form-label" })
-                <div class="col-md-9">
-                    @if (ViewBag.PuedeEditarPlaneado == true)
-                    {
-                        @Html.EditorFor(model => model.planeado, new { htmlAttributes = new { @class = "form-control" } })
-                    }
-                    else
-                    {
-                        @Html.EditorFor(model => model.planeado, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
-                    }
-                    @Html.ValidationMessageFor(model => model.planeado, "", new { @class = "text-danger" })
-                </div>
-            </div>
-             
-            <div class="form-group row">
-                @Html.LabelFor(model => model.ejecutado, htmlAttributes: new { @class = "col-md-3 col-form-label" })
-                <div class="col-md-9">
-                    @if (ViewBag.PuedeEditarEjecucion == true)
-                    {
-                        @Html.EditorFor(model => model.ejecutado, new { htmlAttributes = new { @class = "form-control" } })
-                    }
-                    else
-                    {
-                        @Html.EditorFor(model => model.ejecutado, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
-                    }
-                    @Html.ValidationMessageFor(model => model.ejecutado, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group row">
-                @Html.LabelFor(model => model.cargado, htmlAttributes: new { @class = "col-md-3 col-form-label" })
-                <div class="col-md-9">
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.cargado)
-                        @Html.ValidationMessageFor(model => model.cargado, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                @Html.LabelFor(model => model.Nota, htmlAttributes: new { @class = "col-md-3 col-form-label" })
-                <div class="col-md-9">
-                    @Html.TextAreaFor(model => model.Nota, htmlAttributes: new { @class = "form-control", rows = "6" })
-                    @Html.ValidationMessageFor(model => model.Nota, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-
-
-            <div class="form-group row">
-                @Html.LabelFor(model => model.adjunto, htmlAttributes: new { @class = "col-md-3 col-form-label" })
-                <div class="col-md-9">
-                    <p class="align-right margin-bottom-0">
-                        @Html.EditorFor(model => model.adjunto, new { htmlAttributes = new { @class = "form-control hide", @readonly = "true" } })
-                        @if (@Model.adjunto != null && @Model.adjunto != "")
-                        {
-                            @Html.ActionLink(@Model.adjunto, "UploadedFiles/" + @Model.adjunto, "Upload", new { }, htmlAttributes: new { target = "_blank", id = "urlAdjuntoEjecucion" })
-                        }
-                        else
-                        {
-                            <a href="" target="_blank" id="urlAdjuntoEjecucion"></a>
-                        }
-
-                        @Html.ValidationMessageFor(model => model.adjunto, "", new { @class = "text-danger  uploading" })
-                    </p>
-                </div>
-            </div>
-
-
-        
+        link = "/UploadedFiles/" + Model.adjunto;
+        text = Model.adjunto;
     }
-    @using (Html.BeginForm("UploadFile", "Upload", FormMethod.Post, new { enctype = "multipart/form-data", id = "uploadFileFormEjecucion", @class = "form-notas-width" }))
-    {
+    var key = "Eje-" + Model.id;
+}
+<h4>Editar ejecución @Model.Periodo.nombre</h4>
+<h6>@Model.Indicador.nombre</h6>
+<hr />
+<form id="EjecucionEditForm" asp-action="EditPop" method="post">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="All" class="small text-danger"></div>
+    <input asp-for="id" type="hidden" />
 
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-9">
-                @Html.TextBox("file", "", new { type = "file", id = "fileuploadtextEjecucion" })
+
+
+    <div class="form-group row hide">
+        <label asp-for="idindicador" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="idindicador" class="form-control" />
+            <span asp-validation-for="idindicador" class="form-text small text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row hide">
+        <label asp-for="idperiodo" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="idperiodo" class="form-control" />
+            <span asp-validation-for="idperiodo" class="form-text small text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="planeado" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="planeado" class="form-control" readonly="@(ViewBag.PuedeEditarPlaneado == false ? "readonly": null)" />
+            <span asp-validation-for="planeado" class="form-text small text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ejecutado" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <input asp-for="ejecutado" class="form-control" readonly="@(ViewBag.PuedeEditarEjecucion ==false  ? "readonly": null)" />
+            <span asp-validation-for="ejecutado" class="form-text small text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="form-group row row">
+        <div class="col-sm-9 offset-3">
+            <div class="custom-control custom-switch">
+                <input class="custom-control-input" asp-for="cargado" />
+                <label asp-for="cargado" class="custom-control-label"></label>
             </div>
-            @ViewBag.Message
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label asp-for="Nota" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <textarea asp-for="Nota" class="form-control"></textarea>
+            <span asp-validation-for="Nota" class="form-text small text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Hdden input Adjunto para el formulario-->
+    @Html.EditorFor(model => model.adjunto, new { htmlAttributes = new { @id = "Adjunto_Eje-" + Model.id, @class = "form-control hide", @readonly = "true" } })
+</form>
+<!-- Input file para Adjunto -->
+<form asp-action="UploadFile" asp-controller="Upload" enctype="multipart/form-data" method="post">
+    <div class="form-group row">
+
+        <label asp-for="adjunto" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <div class="custom-file">
+                <input id="fileupload_@key" name="file" data-key="@key" type="file" class="custom-file-input fileUploadAdjunto" lang="es">
+                <label class="custom-file-label" for="fileupload_@key" data-browse="Elegir">Seleccionar Archivo</label>
+            </div>
+            <span asp-validation-for="adjunto" id="info_@key" class="uploading_@key form-text small text-danger"></span>
+            <a href="@link" target="_blank" id="link_@key" class="small form-text">@text</a>
 
         </div>
-    }
-
-
-    <div class="modal-footer">
-
-        <button type="button" class="btn btn-outline-dark EjecucionVolver" aria-label="Left Align" data-id="@Model.id">
-            <i class="fas fa-arrow-left"></i> Volver
-        </button>
-
-        <button type="button" class="btn btn-outline-primary EjecucionSaveEdit" aria-label="Left Align" data-id="@Model.id">
-            <i class="fas fa-save"></i>Guardar
-        </button>
     </div>
-</body>
-</html>
+</form>
+
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark EjecucionVolver" aria-label="Left Align" data-id="@Model.id">
+        <i class="fas fa-arrow-left"></i> Volver
+    </button>
+    <button type="button" class="btn btn-outline-primary EjecucionSaveEdit" aria-label="Left Align" data-id="@Model.id">
+        <i class="fas fa-save"></i> Guardar
+    </button>
+</div>
+
