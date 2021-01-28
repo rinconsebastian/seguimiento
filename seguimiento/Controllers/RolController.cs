@@ -57,9 +57,13 @@ namespace seguimiento.Controllers
         [Authorize(Policy = "Rol.Editar")]
         public async Task<ActionResult> Create( ApplicationRole Rol)
         {
-            var normalized = Rol.Name.ToUpper();
-            var validation = await db.Roles.Where(n => n.NormalizedName.StartsWith(normalized)).CountAsync();
-            Rol.NormalizedName = validation == 0 ? normalized : normalized + "_" + validation ;
+            var validation = await db.Roles.Where(n => n.Name == Rol.Name).CountAsync();
+            if(validation > 0)
+            {
+                ModelState.AddModelError("", "El nombre del rol ya ha sido usado.");
+                return View(Rol);
+            }
+            Rol.NormalizedName = Rol.Name.ToUpper();
             if (ModelState.IsValid)
             {
                 
@@ -145,7 +149,14 @@ namespace seguimiento.Controllers
         [Authorize(Policy = "Rol.Editar")]
         public async Task<ActionResult> Edit(ApplicationRole Rol)
         {
-            if (ModelState.IsValid)
+
+            var validation = await db.Roles.Where(n => n.Name == Rol.Name && n.Id != Rol.Id).CountAsync();
+            if (validation > 0)
+            {
+                ModelState.AddModelError("", "El nombre del rol ya ha sido usado.");
+            }
+            Rol.NormalizedName = Rol.Name.ToUpper();
+            if (ModelState.IsValid && validation == 0)
             {
                 db.Entry(Rol).State = EntityState.Modified;
                 await db.SaveChangesAsync();

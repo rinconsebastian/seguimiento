@@ -320,6 +320,40 @@ namespace seguimiento.Controllers
             return View(indicador);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> ChartPop(int id, string tipo)
+        {
+            List<IndicadorChartViewModel> dataset = new List<IndicadorChartViewModel>();
+
+            var periodos = await db.Periodo.Where(n => n.Ocultar == false && n.tipo == tipo).OrderBy(n => n.orden).Select(n => n.id).ToListAsync();
+            var ejecuciones = await db.Ejecucion.Where(n => n.idindicador == id && periodos.Contains(n.idperiodo))
+                .Select(n => new {
+                    Periodo = n.Periodo.nombre,
+                    Planeado = n.planeado,
+                    Ejecutado = n.ejecutado
+                }).ToListAsync();
+
+            foreach(var eje in ejecuciones)
+            {
+                var item = new IndicadorChartViewModel();
+                item.Periodo = eje.Periodo;
+                item.Ejecutado = null;
+                if (eje.Ejecutado != null && eje.Ejecutado != "")
+                {
+                    try { item.Ejecutado = System.Convert.ToDecimal(eje.Ejecutado); }
+                    catch { }
+                }
+                item.Planeado = null;
+                if (  eje.Planeado != null && eje.Planeado != "")
+                {
+                    try { item.Planeado = System.Convert.ToDecimal(eje.Planeado); }
+                    catch { }
+                }
+                dataset.Add(item);
+            }
+            return Json(dataset.ToArray());
+        }
+
         [Authorize(Policy = "Indicador.Editar")]
         public async Task<ActionResult> Editpop(int id)
         {

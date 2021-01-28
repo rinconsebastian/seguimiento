@@ -2,133 +2,117 @@
 
 @{
     Layout = null;
+    var link = "";
+    var text = "";
+    if (Model != null && Model.Adjunto != null && Model.Adjunto != "")
+    {
+        link = "/UploadedFiles/" + Model.Adjunto;
+        text = Model.Adjunto;
+    }
+    var key = "Nota-" + Model.Id;
 }
 
-<!DOCTYPE html>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "NotaEditForm", @class = "form-notas-width" }))
+{
+    @Html.AntiForgeryToken()
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Edit</title>
-</head>
-<body>
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "NotaEditForm", @class = "form-notas-width" }))
-    {
-        @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <h4> Editar nota @Model.Titulo</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
 
-        <div class="form-horizontal">
-            <h4> Editar nota @Model.Titulo</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(model => model.Id)
-
-            <div class="form-group">
-                <label class="control-label  col-md-3" for="FechaCreacion">F. Creación</label>
-                <div class="col-md-9">
-                    <input type="text" value="@Model.FechaCreacion.ToLocalTime().ToString()" class="form-control" readonly="true" />
-                    @Html.EditorFor(model => model.FechaCreacion, new { htmlAttributes = new { @class = "form-control hide", @readonly = "true" } })
-                    @Html.ValidationMessageFor(model => model.FechaCreacion, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.DropDownList("Estado", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Texto, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.TextAreaFor(model => model.Texto, htmlAttributes: new { @class = "form-control", rows = "6" })
-                    @Html.ValidationMessageFor(model => model.Texto, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group hide">
-                @Html.LabelFor(model => model.IdCategoria, "IdCategoria", htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.DropDownList("IdCategoria", null, htmlAttributes: new { @class = "form-control", @readonly = "true" })
-                    @Html.ValidationMessageFor(model => model.IdCategoria, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-
-
-
-            <div class="form-group hide">
-                @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control", @readonly = "true" })
-                    @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-
-
-            <div class="form-group hide">
-                <label class="control-label  col-md-3" for="FechaActualizacion">F. Actualización</label>
-                <div class="col-md-9">
-                    @Html.EditorFor(model => model.FechaActualizacion, new { htmlAttributes = new { @class = "form-control", @readonly = "true", @Value = DateTime.Now.ToLocalTime().ToString() } })
-                    @Html.ValidationMessageFor(model => model.FechaActualizacion, "", new { @class = "text-danger" })
-
-                </div>
-            </div>
-
-
-            <div class="form-group margin-bottom-0">
-                @Html.LabelFor(model => model.Adjunto, htmlAttributes: new { @class = "control-label  col-md-3 padding-top-0" })
-                <div class="col-md-9">
-                    <p class="align-right margin-bottom-0">
-                        @Html.EditorFor(model => model.Adjunto, new { htmlAttributes = new { @class = "form-control hide", @readonly = "true" } })
-                        @if (@Model.Adjunto != null && @Model.Adjunto != "")
-                        {@Html.ActionLink(@Model.Adjunto, "UploadedFiles/" + @Model.Adjunto, "Upload", new { }, htmlAttributes: new { target = "_blank", id = "urlAdjunto" })
-                    }
-                    else
-                    { <a href="" target="_blank" id="urlAdjunto"></a>}
-
-
-                        @Html.ValidationMessageFor(model => model.Adjunto, "", new { @class = "text-danger uploading" })
-                    </p>
-                </div>
-            </div>
-
-
+    <div class="form-group">
+        <label class="control-label  col-md-3" for="FechaCreacion">F. Creación</label>
+        <div class="col-md-9">
+            <input type="text" value="@Model.FechaCreacion.ToLocalTime().ToString()" class="form-control" readonly="true" />
+            @Html.EditorFor(model => model.FechaCreacion, new { htmlAttributes = new { @class = "form-control hide", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.FechaCreacion, "", new { @class = "text-danger" })
         </div>
-    }
-
-    @using (Html.BeginForm("UploadFile", "Upload", FormMethod.Post, new { enctype = "multipart/form-data", id = "uploadFileForm", @class = "form-notas-width" }))
-    {
-
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-9">
-                @Html.TextBox("file", "", new { type = "file", id = "fileuploadtext" })
-            </div>
-            @ViewBag.Message
-
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
         </div>
-    }
-
-    <div class="modal-footer">
-
-        <button type="button" class="btn btn-default NotasVolver" aria-label="Left Align" data-id="@Model.Id" data-categoria="@Model.Categoria.id">
-            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true">Volver</span>
-        </button>
-
-        <button type="button" class="btn btn-default NotaSaveEdit" aria-label="Left Align" data-id="@Model.Id" data-categoria="@Model.Categoria.id">
-            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">Guardar</span>
-        </button>
     </div>
 
-</body>
-</html>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.DropDownList("Estado", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Texto, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.TextAreaFor(model => model.Texto, htmlAttributes: new { @class = "form-control", rows = "6" })
+            @Html.ValidationMessageFor(model => model.Texto, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group hide">
+        @Html.LabelFor(model => model.IdCategoria, "IdCategoria", htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.DropDownList("IdCategoria", null, htmlAttributes: new { @class = "form-control", @readonly = "true" })
+            @Html.ValidationMessageFor(model => model.IdCategoria, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group hide">
+        @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control", @readonly = "true" })
+            @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group hide">
+        <label class="control-label  col-md-3" for="FechaActualizacion">F. Actualización</label>
+        <div class="col-md-9">
+            @Html.EditorFor(model => model.FechaActualizacion, new { htmlAttributes = new { @class = "form-control", @readonly = "true", @Value = DateTime.Now.ToLocalTime().ToString() } })
+            @Html.ValidationMessageFor(model => model.FechaActualizacion, "", new { @class = "text-danger" })
+
+        </div>
+    </div>
+
+    <!-- Hdden input Adjunto para el formulario-->
+    @Html.EditorFor(model => model.Adjunto, new { htmlAttributes = new { @id = "Adjunto_Nota-" + Model.Id, @class = "form-control hide", @readonly = "true" } })
+</div>
+}
+
+<!-- Input file para Adjunto -->
+<form asp-action="UploadFile" asp-controller="Upload" enctype="multipart/form-data" method="post">
+    <div class="form-group row">
+
+        <label asp-for="Adjunto" class="col-md-3 col-form-label"></label>
+        <div class="col-md-9">
+            <div class="custom-file">
+                <input id="fileupload_@key" name="file" data-key="@key" type="file" class="custom-file-input fileUploadAdjunto" lang="es">
+                <label class="custom-file-label" for="fileupload_@key" data-browse="Elegir">Seleccionar Archivo</label>
+            </div>
+            <span asp-validation-for="Adjunto" id="info_@key" class="uploading_@key form-text small text-danger"></span>
+            <a href="@link" target="_blank" id="link_@key" class="small form-text">@text</a>
+
+        </div>
+    </div>
+</form>
+
+<div class="modal-footer">
+
+    <button type="button" class="btn btn-default NotasVolver" aria-label="Left Align" data-id="@Model.Id" data-categoria="@Model.Categoria.id">
+        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true">Volver</span>
+    </button>
+
+    <button type="button" class="btn btn-default NotaSaveEdit" aria-label="Left Align" data-id="@Model.Id" data-categoria="@Model.Categoria.id">
+        <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">Guardar</span>
+    </button>
+</div>

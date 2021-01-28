@@ -20,109 +20,96 @@
         title[2] = "Este cálculo puede ser erroneo";
     }
 }
-<div class="form-notas-width">
+<h4>Ejecución @Model.Periodo.nombre</h4>
+<h6>@Model.Indicador.nombre</h6>
+@if (ViewBag.tipo == "exito")
+{
+    <div class="alert alert-success" role="alert">@ViewBag.mensaje</div>
+}
+@if (ViewBag.tipo == "error")
+{
+    <div class="alert alert-danger" role="alert">@ViewBag.mensaje</div>
+}
+<div class="condensed">
+    <div class="form-group row">
+        <label asp-for="Indicador.unidad" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.Indicador.unidad)</p>
+        </div>
+    </div>
 
+    <div class="form-group row">
+        <label asp-for="planeado" class="col-sm-3 col-form-label @alert[0]" title="@title[0]"></label>
+        <div class="col-sm-9">
+            <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.planeado)</p>
+        </div>
+    </div>
 
+    <div class="form-group row">
+        <label asp-for="ejecutado" class="col-sm-3 col-form-label @alert[1]" title="@title[1]"></label>
+        <div class="col-sm-9">
+            <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.ejecutado)</p>
+        </div>
+    </div>
 
-    <h4>Ejecución @Model.Periodo.nombre</h4>
-    <h6>@Model.Indicador.nombre</h6>
-    @if (ViewBag.tipo == "exito")
-    {
-        <div class="alert alert-success" role="alert">@ViewBag.mensaje</div>
-    }
-    @if (ViewBag.tipo == "error")
-    {
-        <div class="alert alert-danger" role="alert">@ViewBag.mensaje</div>
-    }
-    <hr />
-    <dl class="row">
-        <dt class="NotaDisplayText col-md-6">
-            @Html.DisplayNameFor(model => model.Indicador.unidad)
-        </dt>
+    <div class="form-group row">
+        <label asp-for="CalculadoDisplay" class="col-sm-3 col-form-label @alert[2]" title="@title[2]"></label>
+        <div class="col-sm-9">
+            <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.CalculadoDisplay)</p>
+        </div>
+    </div>
 
-        <dd class="NotaDisplayText col-md-6">
-            @Html.DisplayFor(model => model.Indicador.unidad)
-        </dd>
-        <dt class="NotaDisplayText col-md-6">
-            @Html.DisplayNameFor(model => model.planeado)
-        </dt>
-
-        <dd class="NotaDisplayText col-md-6 @alert[0]" title="@title[0]">
-            @Html.DisplayFor(model => model.planeado)
-        </dd>
-
-        <dt class="NotaDisplayText col-md-6">
-            @Html.DisplayNameFor(model => model.ejecutado)
-        </dt>
-
-        <dd class="NotaDisplayText col-md-6 @alert[1]" title="@title[1]">
-            @Html.DisplayFor(model => model.ejecutado)
-        </dd>
-
-        <dt class="NotaDisplayText col-md-6">
-            @Html.DisplayNameFor(model => model.CalculadoDisplay)
-        </dt>
-
-        <dd class="NotaDisplayText col-md-6 @alert[2]" title="@title[2]">
-            @Html.DisplayFor(model => model.CalculadoDisplay)
-        </dd>
-
-        <dt class="NotaDisplayText col-md-6">
-            @Html.DisplayNameFor(model => model.Evaluacion)
-        </dt>
-
-        <dd class="NotaDisplayText col-md-6 @alert[2]" title="@title[2]">
+    <div class="form-group row">
+        <label asp-for="Evaluacion" class="col-sm-3 col-form-label @alert[2]" title="@title[2]"></label>
+        <div class="col-sm-9">
             @if (@Model.Evaluacion.Color != null && @Model.CalculadoDisplay != null && @Model.CalculadoDisplay != "")
             {
-                <span style="color:@Model.Evaluacion.Color">
+                <p class="form-control-plaintext font-weight-light">
                     @Html.DisplayFor(model => model.Evaluacion.texto)
-                </span>
-                <svg width='16' height='16' class='float-right'><circle cx='8' cy='8' r='8' fill='@Model.Evaluacion.Color' />@Model.Evaluacion.texto</svg>}
-        </dd>
-
-
-        <dt class="NotaDisplayText col-md-6">
-            @Html.DisplayNameFor(model => model.cargado)
-        </dt>
-
-        <dd class="NotaDisplayText col-md-6">
-            @Html.DisplayFor(model => model.cargado)
-        </dd>
-
-        <dt class="NotaDisplayText col-md-6">
-            @Html.DisplayNameFor(model => model.Nota)
-        </dt>
-
-        <dd class="NotaDisplayText col-md-6">
-            @Html.DisplayFor(model => model.Nota)
-        </dd>
-
-        <dt class="NotaDisplayText col-md-6">
-            @Html.DisplayNameFor(model => model.FechaActualizacion)
-        </dt>
-
-        <dd class="NotaDisplayText col-md-6">
-            @{
-                DateTime fupdate = @Model.FechaActualizacion;
-                DateTime localfupdate = TimeZoneInfo.ConvertTimeFromUtc(fupdate, TimeZoneInfo.Local);
+                    <i class="fas fa-circle" style="color: @Model.Evaluacion.Color"></i>
+                </p>
             }
-            @localfupdate.ToString("hh:mm:ss dd/MM/yyyy")
+        </div>
+    </div>
 
-        </dd>
+    <div class="form-group row">
+        <label asp-for="cargado" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <p class="form-control-plaintext font-weight-light">
+            @(Model.cargado ? "Si": "No")
+            </p>
+        </div>
+    </div>
 
-        <dt class="NotaDisplayText col-md-6">
-            @Html.DisplayNameFor(model => model.adjunto)
-        </dt>
+    <div class="form-group row">
+        <label asp-for="Nota" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.Nota)</p>
+        </div>
+    </div>
 
-        <dd class="NotaDisplayText col-md-6">
-            @if (@Model.adjunto != null && @Model.adjunto != "")
-            {
-                @Html.ActionLink(@Model.adjunto, "UploadedFiles/" + @Model.adjunto, "Upload", new { }, htmlAttributes: new { target = "_blank", id = "urlAdjuntoDisplay" })
-            }
+    <div class="form-group row">
+        <label asp-for="FechaActualizacion" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <p class="form-control-plaintext font-weight-light">
+                @{
+                    DateTime fupdate = @Model.FechaActualizacion;
+                    DateTime localfupdate = TimeZoneInfo.ConvertTimeFromUtc(fupdate, TimeZoneInfo.Local);
+                }
+                @localfupdate.ToString("hh:mm:ss dd/MM/yyyy")
+            </p>
+        </div>
+    </div>
 
-        </dd>
+    <div class="form-group row">
+        <label asp-for="adjunto" class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+            <p class="form-control-plaintext font-weight-light">
+                <a href="/UploadedFiles/@Html.DisplayFor(model => model.adjunto)" target="_blank">@Html.DisplayFor(model => model.adjunto)</a>
+            </p>
+        </div>
+    </div>
 
-    </dl>
 </div>
 
 
@@ -131,7 +118,12 @@
     <div class="modal-footer">
 
         <button type="button" class="btn btn-outline-primary EjecucionEdit" aria-label="Left Align" data-id="@Model.id">
-            <i class="fas fa-edit"></i>Editar
+            <i class="fas fa-edit"></i> Editar
         </button>
 
-    </div>}
+    </div>
+}
+else
+{
+    <br />
+}
