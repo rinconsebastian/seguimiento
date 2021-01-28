@@ -1149,3 +1149,6 @@ input, select, textarea {
 .condensed p{
     padding-bottom: 4px;
 }
+.Reportar-form-input {
+    max-width: 100% !important;
+}

@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">seguimiento</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Dashboard" asp-action="Basic">seguimiento</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -22,7 +22,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Basic">Reporte</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Basic">Inicio</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Main" asp-action="Index">Estructura</a>
@@ -31,7 +31,7 @@
                          (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Planeacion.Editar" && c.Value == "1")))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Indicadors" asp-action="Reportar">Reportar 2 periodos</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Indicadors" asp-action="Reportar">Reporte masivo</a>
                             </li>
                         }
 

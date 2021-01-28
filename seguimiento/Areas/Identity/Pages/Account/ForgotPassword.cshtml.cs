@@ -33,6 +33,7 @@ namespace seguimiento.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
+            [Display(Name = "Correo")]
             public string Email { get; set; }
         }
 
@@ -59,8 +60,8 @@ namespace seguimiento.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Restablecimiento de contraseña ",
+                    $"Por favor restablezca su contraseña haciendo <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clic aquí</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

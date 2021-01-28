@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +11,8 @@ using seguimiento.Formulas;
 using seguimiento.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting;
@@ -761,22 +764,89 @@ namespace seguimiento.Controllers
             }
             foreach (var Indicador in indicadores)
             {
+                Indicador.Categoria.Responsable = null;
+                if (Indicador.Categoria.CategoriaPadre != null) { Indicador.Categoria.CategoriaPadre.Responsable = null; }
+
+
                 ReporteViewModel item = new ReporteViewModel();
                 item.Indicador = Indicador;
                 var ejecuciones = await db.Ejecucion.Where(n => n.idindicador == Indicador.id && (n.Periodo.EditarEjecucion == true || n.Periodo.EditarProgramacion == true)).OrderBy(n => n.Periodo.orden).ToListAsync();
 
+                foreach(var ejecucion in ejecuciones)
+                {
+                    ejecucion.Indicador.Categoria.Responsable = null;
+                    if (ejecucion.Indicador.Categoria.CategoriaPadre != null) { ejecucion.Indicador.Categoria.CategoriaPadre.Responsable = null; }
+                }
                 //var ejecuciones = db.ejecucions.SqlQuery("select * FROM ejecucions AS e, Periodoes AS p WHERE p.id=e.idperiodo AND e.idindicador="+Indicador.id+" AND (p.EditarEjecucion = 'TRUE' or P.EditarProgramacion= 'TRUE' )").ToList();
 
                 item.Ejecuciones = ejecuciones;
-                reporte.Add(item);
+
+               reporte.Add(item);
             }
 
-            List<ReporteViewModel> reporteExportar = reporte.CloneObject<List<ReporteViewModel>>();
+          
 
-            HttpContext.Session.SetComplex("reporte", reporteExportar);
+            HttpContext.Session.SetComplex("reporte", reporte);
           
 
             return View(reporte);
+        }
+
+        public ActionResult ReportExportExcel()
+        {
+            var reporte = (List<ReporteViewModel>)HttpContext.Session.GetComplex<List<ReporteViewModel>>("reporte");
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Users");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Id";
+                worksheet.Cell(currentRow, 2).Value = "Indicador";
+
+                foreach (var registro in reporte)
+                {
+                    if (currentRow == 1)
+                    {
+                        var currentColumn0 = 3;
+                        foreach (var ejecucion in registro.Ejecuciones)
+                        {
+                            worksheet.Cell(currentRow, currentColumn0).Value = ejecucion.Periodo.nombre + "-Planeado";
+                            currentColumn0++;
+                            worksheet.Cell(currentRow, currentColumn0).Value = ejecucion.Periodo.nombre + "-Ejecutado";
+                            currentColumn0++;
+                        }
+                    }
+
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = registro.Indicador.id;
+                    worksheet.Cell(currentRow, 2).Value = registro.Indicador.nombre;
+
+                    var currentColumn = 3;
+                    foreach (var ejecucion in registro.Ejecuciones)
+                    {
+                        worksheet.Cell(currentRow, currentColumn).Value = ejecucion.planeado;
+                        currentColumn++;
+                        worksheet.Cell(currentRow, currentColumn).Value = ejecucion.ejecutado;
+                        currentColumn++;
+
+                    }
+                }
+
+
+
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "users.xlsx");
+                }
+            }
+
         }
     }
 

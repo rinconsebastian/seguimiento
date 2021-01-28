@@ -27,8 +27,8 @@
                 <span class="IndicadorTitulo">@categoria</span>
             </div>
             <div class="col-md-1">
-                <button type="button" class=" AbrirNotas btn btn-outline-dark btn-xs" data-categoria="@registro[0].Categoria.id" aria-label="Left Align">
-                    <i class='fas fa-sticky-note'></i> Notas
+                <button type="button" class=" AbrirNotas btn btn-outline-light btn-sm" data-categoria="@registro[0].Categoria.id" aria-label="Left Align">
+                    <small><b><i class='fas fa-sticky-note'></i> Notas</b></small>
                 </button>
 
             </div>
@@ -43,7 +43,7 @@
             <span class="IndicadorNumero">@codigo</span> <span class="IndicadorTitulo"> @registro[0].nombre</span>
         </div>
         <div class="col-md-2 text-right">
-            <button class="btn btn-outline-dark btn-sm  ml-1 button-open-indicador" title="Ver detalles" data-id="@registro[0].id"><i class="fas fa-external-link-alt"></i></button>
+            <button class="btn btn-outline-light btn-sm  ml-1 button-open-indicador" title="Ver detalles" data-id="@registro[0].id"><i class="fas fa-external-link-alt"></i></button>
             <button class="btn btn-outline-warning btn-sm ml-1 button-open-indicador-chart"
                     title="Ver gráfica" data-id="@registro[0].id" data-title="@codigo @registro[0].nombre"
                     data-toggle="modal" data-target="#myModalChart">

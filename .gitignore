@@ -341,3 +341,4 @@ healthchecksdb
 seguimiento/Startup.cs
 /seguimiento/wwwroot/UploadedFiles
 seguimiento/Startup.cs
+seguimiento/appsettings.json
