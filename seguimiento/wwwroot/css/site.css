@@ -2,14 +2,57 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+    display: flex;
+    align-items: center;
+}
+
+.nombre-plan {
+    font-size: large !important;
+    font-weight: bold !important;
+    cursor: pointer;
+    webkit-transition: 0.15s ease-in-out;
+    -moz-transition: 0.15s ease-in-out;
+    -o-transition: 0.15s ease-in-out;
+    transition: 0.15s ease-in-out;
+}
+.logo-plan {
+    max-height: 50px !important;
+    cursor: pointer;
+    webkit-transition: 0.15s ease-in-out;
+    -moz-transition: 0.15s ease-in-out;
+    -o-transition: 0.15s ease-in-out;
+    transition: 0.15s ease-in-out;
+}
+
+.logo-plan:hover {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+        /*-webkit-box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.45);
+        box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.45);*/
+    }
+
+
+.nombre-plan:hover {
+   
+    /*-webkit-box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.45);
+        box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.45);*/
+}
+
+.navbar {
+    backdrop-filter: blur(6px);
+    background-color: rgba(0,0,0,.1) !important;
+}
+
+.titulo-plan {
+    font-size: medium;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {
@@ -535,6 +578,7 @@ textarea {
 .IndicadoresTitulo-margen {
     margin-bottom: 0px;
     margin-top: 0px;
+    width: 100%;
 }
 
 .categoriaDescripcion {
@@ -560,8 +604,9 @@ textarea {
 }
 
 .IndicadoresTituloGeneral {
-    margin-top: 20px;
     margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px !important;
 }
 
 @media (min-width: 992px) {
@@ -1012,13 +1057,13 @@ input, select, textarea {
 }
 
 .color-ruta {
-    background-color: #e0000a;
+    
 }
 
 .olrutas {
     margin-bottom: 0px;
-    background-color: #e0000a;
-    color: #fff;
+   
+   
     /*font-style: italic;*/
 }
 
@@ -1063,22 +1108,10 @@ input, select, textarea {
     text-overflow: ellipsis;
 }
 
-.btn-unicentro {
-    background-color: #e0000a !important;
-    border-color: #e0000a !important;
-}
 
-    .btn-unicentro.active {
-        background-color: #e0000a !important;
-        border-color: #e0000a !important;
-        font-weight: bold;
-    }
 
-    .btn-unicentro:hover {
-        background-color: #e0000a !important;
-        border-color: #e0000a !important;
-        font-weight: bold;
-    }
+
+    
 
 
 .Usuario-Header.active {
@@ -1109,6 +1142,7 @@ input, select, textarea {
 
 .botones-opciones {
     text-align: right;
+    padding-top: 5px;
 }
 
 .width100 {width: 100% !important;

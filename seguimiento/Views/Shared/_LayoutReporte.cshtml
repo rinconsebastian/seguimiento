@@ -16,18 +16,18 @@
 
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
 
-
+    <partial name="_colorMenuPartial" />
 
 
 </head>
 <body>
-    <header>
+    <header <partial name="_imagenNavegacionPartial" />>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Dashboard" asp-action="Basic">seguimiento</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Dashboard" asp-action="Basic"><partial name="_LogoPartial" /></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    <i class="fas fa-bars"></i>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
@@ -76,34 +76,35 @@
         <div class="row">
             <div class="col-md-12 div-contenido">
 
-                    <div class="row containerdetalle">
-                        <div class="col-md-12" id="detalle">
-                            @RenderBody()
-                        </div>
+                <div class="row containerdetalle">
+                    <div class="col-md-12" id="detalle">
+                        @RenderBody()
                     </div>
                 </div>
-
             </div>
 
-                    <hr />
-                    <footer>
-                        <p class="footer-text">
-                            &copy; @DateTime.Now.Year
-                            <br />
-                         
-                        </p>
-                    </footer>
-            </div>
+        </div>
+
+        <hr />
+        <footer>
+            <p class="footer-text">
+                &copy; @DateTime.Now.Year
+                <br />
+
+            </p>
+        </footer>
+    </div>
+
 </body>
 
-    
+<partial name="_footerPartial" />
 
-   
 
-  
-    
-    
-        
-    @RenderSection("scripts", required: false)
+
+
+
+
+
+@RenderSection("scripts", required: false)
 
 </html>

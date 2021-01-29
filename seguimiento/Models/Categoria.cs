@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace seguimiento.Models
@@ -13,8 +14,10 @@ namespace seguimiento.Models
         [Key]
         public int id { get; set; }
 
+        [JsonIgnore]
         [Display(Name = "Categoría padre")]
         public int idCategoria { get; set; }
+        [JsonIgnore]
         [ForeignKey("idCategoria")]
         public virtual Categoria CategoriaPadre { get; set; }
 
@@ -24,8 +27,10 @@ namespace seguimiento.Models
         [ForeignKey("idNivel")]
         public virtual Nivel Nivel { get; set; }
 
+        [JsonIgnore]
         [Display(Name = "Responsable")]
         public int IdResponsable { get; set; }
+        [JsonIgnore]
         [ForeignKey("IdResponsable")]
         public virtual Responsable Responsable { get; set; }
 

@@ -36,8 +36,19 @@ namespace seguimiento.Models
 
         [Display(Name = "Imagen encabezado")]
         public string ImgHeader { get; set; }
+        
         [Display(Name = "Imagen fondo")]
         public string ImgBackgroud { get; set; }
+
+       
+        [Display(Name = "Color Texto Cabecera")]
+        public string colorTextoHeader { get; set; }
+
+        [Display(Name = "Color  Principal")]
+        public string colorPrincipal { get; set; }
+
+        [Display(Name = "Color Texto Principal")]
+        public string colorTextoPrincipal { get; set; }
 
         [Required]
         [Display(Name = "Email  contacto")]

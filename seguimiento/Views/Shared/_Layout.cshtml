@@ -13,16 +13,17 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/devexpress/dx.all.js"></script>
 
+    <partial name="_colorMenuPartial" />
 </head>
 <body>
-    <header>
+    <header <partial name="_imagenNavegacionPartial" />>
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Dashboard" asp-action="Basic">seguimiento</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Dashboard" asp-action="Basic">  <partial name="_LogoPartial" /></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    <i class="fas fa-bars"></i>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
@@ -67,24 +68,20 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container bodyccs">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - seguimiento - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    <partial name="_footerPartial" />
 
-    
+
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script src="~/js/chart.js" as></script>
 
-   
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -1,0 +1,18 @@
+﻿@using Microsoft.EntityFrameworkCore;
+
+@inject seguimiento.Data.ApplicationDbContext db
+
+@{
+    var fondo = "";
+    
+    var conf = await db.Configuracion.FirstOrDefaultAsync();
+    if (conf != null)
+    {
+        fondo = conf.ImgHeader;
+      
+    }
+}
+
+
+
+style="background-image: url(@fondo);"

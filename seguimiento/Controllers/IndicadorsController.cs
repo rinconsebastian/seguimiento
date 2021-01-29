@@ -758,14 +758,14 @@ namespace seguimiento.Controllers
 
                 var ids = controlResponsable.GetAllIdsFromResponsable(userFull.IDDependencia);
 
-                indicadores = await db.Indicador.Where(n => ids.Contains(n.Categoria.IdResponsable)).OrderBy(n => n.Categoria.numero).ThenBy(n=>n.codigo).ThenBy(n => n.id).ToListAsync();
+                indicadores = await db.Indicador.Where(n => ids.Contains(n.Categoria.IdResponsable)).OrderBy(n => n.Categoria.numero).ThenBy(n=>n.codigo).ThenBy(n => n.id).AsNoTracking().ToListAsync();
                     
                       //indicadores = db.Indicadors.Where(n => n.Categoria.IdResponsable ).OrderBy(n=>n.Categoria.numero).ThenBy(n => n.id).ToList();
             }
             foreach (var Indicador in indicadores)
             {
                 Indicador.Categoria.Responsable = null;
-                if (Indicador.Categoria.CategoriaPadre != null) { Indicador.Categoria.CategoriaPadre.Responsable = null; }
+                if (Indicador.Categoria.CategoriaPadre != null) { Indicador.Categoria.CategoriaPadre = null; }
 
 
                 ReporteViewModel item = new ReporteViewModel();
@@ -775,7 +775,7 @@ namespace seguimiento.Controllers
                 foreach(var ejecucion in ejecuciones)
                 {
                     ejecucion.Indicador.Categoria.Responsable = null;
-                    if (ejecucion.Indicador.Categoria.CategoriaPadre != null) { ejecucion.Indicador.Categoria.CategoriaPadre.Responsable = null; }
+                    if (ejecucion.Indicador.Categoria.CategoriaPadre != null) { ejecucion.Indicador.Categoria.CategoriaPadre = null; }
                 }
                 //var ejecuciones = db.ejecucions.SqlQuery("select * FROM ejecucions AS e, Periodoes AS p WHERE p.id=e.idperiodo AND e.idindicador="+Indicador.id+" AND (p.EditarEjecucion = 'TRUE' or P.EditarProgramacion= 'TRUE' )").ToList();
 

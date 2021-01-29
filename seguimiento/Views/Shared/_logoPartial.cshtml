@@ -1,0 +1,18 @@
+﻿@using Microsoft.EntityFrameworkCore;
+
+@inject  seguimiento.Data.ApplicationDbContext db
+
+@{
+    var logo = "";
+    var entidad = "";
+    var titulo = "Seguimiento";
+    var conf = await db.Configuracion.FirstOrDefaultAsync();
+    if (conf != null)
+    {
+        logo = conf.Logo;
+        titulo = conf.NombrePlan;
+        entidad = conf.Entidad;
+    }
+}
+
+<img src="@logo" class="logo-plan"/><h1 class="nombre-plan">@entidad <br /> <span class="titulo-Plan">@titulo</span></h1>
