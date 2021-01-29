@@ -16,9 +16,9 @@ var funcChart = {
         });
     },
     updateDataset: function () {
-        $('#modalChartContent').html('<div class="loading"><img src="' + currenthost + 'images/loadingcircle.gif" ></div>');
+        $('#modalChartContent').html('<div class="loading"><img src="../images/loadingcircle.gif" ></div>');
         var tipo = $('#inputChart').val();
-        $.get(currenthost +"Indicadors/ChartPop", { 'id': idIndicador, 'tipo': tipo })
+        $.get("../Indicadors/ChartPop", { 'id': idIndicador, 'tipo': tipo })
             .done(function (data) {
                 chart.option("dataSource", data);
                 $('#modalChartContent').html('');

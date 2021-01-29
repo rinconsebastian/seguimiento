@@ -33,7 +33,7 @@ var funcUpload = {
                         
                         $('#Adjunto_'+key).val(response.nombre);
                         $('#info_' + key).empty();
-                        $('#link_' + key).attr("href", currenthost + "/UploadedFiles/" + response.nombre)
+                        $('#link_' + key).attr("href", "../UploadedFiles/" + response.nombre)
                         $('#link_' + key).html(response.nombre);
                     }
                     else {
@@ -72,7 +72,7 @@ var funcUpload = {
   
     init: function () {
         console.log("Upload Script load");
-        currenthost = location.protocol + '//' + location.host + '/';
+        currenthost = location.protocol + '//' + location.host + '/' + location.pathname+'/';
         funcUpload.loadFile();
 
         funcUpload.showSelection();
