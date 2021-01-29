@@ -329,7 +329,7 @@ namespace seguimiento.Controllers
             List<IndicadorChartViewModel> dataset = new List<IndicadorChartViewModel>();
 
             var periodos = await db.Periodo.Where(n => n.Ocultar == false && n.tipo == tipo).OrderBy(n => n.orden).Select(n => n.id).ToListAsync();
-            var ejecuciones = await db.Ejecucion.Where(n => n.idindicador == id && periodos.Contains(n.idperiodo))
+            var ejecuciones = await db.Ejecucion.Where(n => n.idindicador == id && periodos.Contains(n.idperiodo)).OrderBy(n=>n.Periodo.orden)
                 .Select(n => new {
                     Periodo = n.Periodo.nombre,
                     Planeado = n.planeado,
@@ -368,6 +368,14 @@ namespace seguimiento.Controllers
             { CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() }); }
             ViewBag.IdCategoria = new SelectList(CategoriaLista, "Value", "Text", indicador.Categoria.id);
             ViewBag.tipo = new SelectList(db.TipoIndicador, "Id", "Tipo", indicador.TipoIndicador.Id);
+
+
+
+            List<SelectListItem> UnidadesLista = new List<SelectListItem>();
+            UnidadesLista.Add(new SelectListItem() { Text = "Número", Value = "Numero" });
+            UnidadesLista.Add(new SelectListItem() { Text = "Porcentaje", Value = "Porcentaje" });
+            ViewBag.unidad = new SelectList(UnidadesLista, "Value", "Text", indicador.unidad);
+
             if (indicador == null)
             {
             //    return HttpNotFound();
@@ -514,6 +522,12 @@ namespace seguimiento.Controllers
             ViewBag.Categorias = new SelectList(CategoriaLista, "Value", "Text", "");
             ViewBag.Tipos = new SelectList(await db.TipoIndicador.ToListAsync(), "Id", "Tipo", "");
 
+            List<SelectListItem> UnidadesLista = new List<SelectListItem>();
+            UnidadesLista.Add(new SelectListItem() { Text = "Número", Value = "Numero" });
+            UnidadesLista.Add(new SelectListItem() { Text = "Porcentaje", Value = "Porcentaje" });
+            ViewBag.unidad = new SelectList(UnidadesLista, "Value", "Text", "");
+
+
             return View();
         }
 
@@ -548,8 +562,14 @@ namespace seguimiento.Controllers
             { 
                 CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() });
             }
-            ViewBag.Categorias = new SelectList(CategoriaLista, "Value", "Text", "");
-            ViewBag.Tipos = new SelectList(await db.TipoIndicador.ToListAsync(), "Id", "Tipo", "");
+
+            ViewBag.Categorias = new SelectList(CategoriaLista, "Value", "Text", indicador.idCategoria);
+            ViewBag.Tipos = new SelectList(await db.TipoIndicador.ToListAsync(), "Id", "Tipo", indicador.tipo);
+
+            List<SelectListItem> UnidadesLista = new List<SelectListItem>();
+            UnidadesLista.Add(new SelectListItem() { Text = "Número", Value = "Numero" });
+            UnidadesLista.Add(new SelectListItem() { Text = "Porcentaje", Value = "Porcentaje" });
+            ViewBag.unidad = new SelectList(UnidadesLista, "Value", "Text", indicador.unidad);
 
             return View(indicador);
         }
@@ -568,6 +588,11 @@ namespace seguimiento.Controllers
             { CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() }); }
             ViewBag.Categorias = new SelectList(CategoriaLista, "Value", "Text", indicador.Categoria.id);
             ViewBag.Tipos = new SelectList(await db.TipoIndicador.ToListAsync(), "Id", "Tipo", indicador.TipoIndicador.Id);
+
+            List<SelectListItem> UnidadesLista = new List<SelectListItem>();
+            UnidadesLista.Add(new SelectListItem() { Text = "Número", Value = "Numero" });
+            UnidadesLista.Add(new SelectListItem() { Text = "Porcentaje", Value = "Porcentaje" });
+            ViewBag.unidad = new SelectList(UnidadesLista, "Value", "Text", indicador.unidad);
 
 
             //-----------------------------Campos adicionales Inicio
@@ -647,8 +672,17 @@ namespace seguimiento.Controllers
             ViewBag.Categorias = new SelectList(CategoriaLista, "Value", "Text", indicador.idCategoria);
             ViewBag.Tipos = new SelectList(await db.TipoIndicador.ToListAsync(), "Id", "Tipo", indicador.tipo);
 
+            List<SelectListItem> UnidadesLista = new List<SelectListItem>();
+            UnidadesLista.Add(new SelectListItem() { Text = "Número", Value = "Numero" });
+            UnidadesLista.Add(new SelectListItem() { Text = "Porcentaje", Value = "Porcentaje" });
+            ViewBag.unidad = new SelectList(UnidadesLista, "Value", "Text", indicador.unidad);
+
+
             //regenerar campos adicionales en viewbag
             ViewBag.Campos = HttpContext.Session.GetComplex<List<CampoValor>>("Campos");
+
+
+
 
             return View(indicador);
         }

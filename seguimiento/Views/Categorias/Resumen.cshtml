@@ -34,7 +34,7 @@
                 </div>
                 <div class="row categoriaDescripcionFila">
                     <div class="col-md-3 categoriaDescripcionTitulo">Ponderador</div>
-                    <div class="col-md-9 text-right categoriaDescripcion">@categoria[0].Ponderador</div>
+                    <div class="col-md-9 text-right categoriaDescripcion">@categoria[0].Ponderador.ToString("#.##")</div>
                 </div>
                 <div class="row categoriaDescripcionFila">
                     <div class="col-md-3 categoriaDescripcionTitulo">Seguimiento</div>
@@ -82,125 +82,134 @@
 </div>
 if (@categoria[0].unificacion != null)
 {
-    <div class="row">
-        <div class="col-md-12">
-            <h5 class="titulo">Consolidado de avance</h5>
+    var totalEjecutados = false;
+    @foreach (var ejecucion in categoria[1])
+    {
+        totalEjecutados = totalEjecutados || ejecucion.Periodo.cargado;
+    }
 
-            <table class="table table-bordered table-hover table-condensed tablaIndicador tablaPonderado">
+    if (totalEjecutados == true)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="titulo">Consolidado de avance</h5>
 
-                <tbody>
+                <table class="table table-bordered table-hover table-condensed tablaIndicador tablaPonderado">
 
-                    <tr>
-                        <th><strong class="IndicadorHistoricoCol1">Perido</strong></th>
+                    <tbody>
 
-                        @foreach (var ejecucion in categoria[1])
-                        {
-                            var periodoDesplegado = "periodo";
-                            if (@ejecucion.Periodo.desplegado == true)
-                            { periodoDesplegado = ""; }
+                        <tr>
+                            <th><strong class="IndicadorHistoricoCol1">Periodo</strong></th>
 
-
-                            if (ejecucion.Periodo.Ocultar != true)
+                            @foreach (var ejecucion in categoria[1])
                             {
+                                var periodoDesplegado = "periodo";
+                                if (@ejecucion.Periodo.desplegado == true)
+                                { periodoDesplegado = ""; }
 
 
-                                if (@ejecucion.Periodo.tipo == "periodo")
+                                if (ejecucion.Periodo.Ocultar != true)
                                 {
-                                    <th class="paddingTablaEjecucion @periodoDesplegado periodoaccion text-center fondoGrupo_@(grupo % 2) grupo_unido grupo_unido_@grupo" data-grupo="@grupo"><strong>@ejecucion.Periodo.nombre</strong></th>
-                                }
-                                else if (@ejecucion.Periodo.tipo == "subtotal")
-                                {
-                                    <th class="paddingTablaEjecucion  text-center  fondoGrupo_@(grupo % 2) control_grupo_unido control_grupo_unido_@grupo" data-grupo="@grupo" data-displayed="hide"><strong>@ejecucion.Periodo.nombre</strong><i class="fas fa-plus-circle boton_grupo_unido boton_grupo_@grupo" style="color:red; float:right"></i></th>
-                                    grupo = grupo + 1;
-                                }
-                                else
-                                {
-                                    <th class="paddingTablaEjecucion  text-center"><strong>@ejecucion.Periodo.nombre</strong></th>
-                                }
 
-                            }
-                        }
-                    </tr>
-                    <tr>
-                        <td><strong class="IndicadorHistoricoCol1">Cumplimiento</strong></td>
-                        @{ grupo = 1;
-                            var sn = 0;}
-                        @foreach (var ejecucion in categoria[1])
-                        {
-                            var periodoDesplegado = "periodo";
-                            if (@ejecucion.Periodo.desplegado == true)
-                            { periodoDesplegado = ""; }
 
-                            var title = "";
-                            if (@categoria[2][sn].texto != null)
-                            { title = @categoria[2][sn].texto; }
-
-                            if (ejecucion.Periodo.Ocultar != true)
-                            {
-                                if (@ejecucion.Periodo.tipo != "lbase" && @ejecucion.Periodo.tipo != "meta")
-                                {
                                     if (@ejecucion.Periodo.tipo == "periodo")
                                     {
-                                        if (@ejecucion.Periodo.cargado == true)
-                                        {
-                                            <td title="@title" class="paddingTablaEjecucion text-center  @periodoDesplegado periodoaccion fondoGrupo_@(grupo % 2)  grupo_unido grupo_unido_@grupo" data-grupo="@grupo">
-                                                @if (@categoria[2][sn].Color != null)
-                                                {<svg width='16' height='16' class='float-left'><circle cx='8' cy='8' r='8' fill='@categoria[2][sn].Color' />@categoria[2][sn].texto</svg>}@String.Format("{0:n2}", ejecucion.Calculado)%
-                                            </td>
-                                        }
-                                        else
-                                        {
-                                            <td class="paddingTablaEjecucion text-center @periodoDesplegado periodoaccion fondoGrupo_@(grupo % 2)  grupo_unido grupo_unido_@grupo" data-grupo="@grupo"></td>
-
-                                        }
-
+                                        <th class="paddingTablaEjecucion @periodoDesplegado periodoaccion text-center fondoGrupo_@(grupo % 2) grupo_unido grupo_unido_@grupo" data-grupo="@grupo"><strong>@ejecucion.Periodo.nombre</strong></th>
                                     }
                                     else if (@ejecucion.Periodo.tipo == "subtotal")
                                     {
-                                        if (@ejecucion.Periodo.cargado == true)
-                                        {
-                                            <td title="@title" class="paddingTablaEjecucion text-center  fondoGrupo_@(grupo % 2)" data-grupo="@grupo">
-                                                @if (@categoria[2][sn].Color != null)
-                                                {<svg width='16' height='16' class='float-left'><circle cx='8' cy='8' r='8' fill='@categoria[2][sn].Color' />@categoria[2][sn].texto</svg>}@String.Format("{0:n2}", ejecucion.Calculado)%
-                                            </td>
-                                            grupo = grupo + 1;
-
-                                        }
-                                        else
-                                        {
-                                            <td class="paddingTablaEjecucion text-center  fondoGrupo_@(grupo % 2)" data-grupo="@grupo"></td>
-                                            grupo = grupo + 1;
-                                        }
+                                        <th class="paddingTablaEjecucion  text-center  fondoGrupo_@(grupo % 2) control_grupo_unido control_grupo_unido_@grupo" data-grupo="@grupo" data-displayed="hide"><strong>@ejecucion.Periodo.nombre</strong><i class="fas fa-plus-circle boton_grupo_unido boton_grupo_@grupo" style="color:red; float:right"></i></th>
+                                        grupo = grupo + 1;
                                     }
                                     else
                                     {
-                                        if (@ejecucion.Periodo.cargado == true)
-                                        {
-                                            <td class="text-center paddingTablaEjecucion" title="@title">
-                                                @if (@categoria[2][sn].Color != null)
-                                                {<svg width='16' height='16' class='float-left'><circle cx='8' cy='8' r='8' fill='@categoria[2][sn].Color' />@categoria[2][sn].texto</svg>}@String.Format("{0:n2}", ejecucion.Calculado)%
-                                            </td>
-                                        }
-                                        else
-                                        {
-                                            <td class="text-center paddingTablaEjecucion"></td>
-                                        }
-
+                                        <th class="paddingTablaEjecucion  text-center"><strong>@ejecucion.Periodo.nombre</strong></th>
                                     }
 
                                 }
                             }
-                            sn = sn + 1;
-                        }
+                        </tr>
+                        <tr>
+                            <td><strong class="IndicadorHistoricoCol1">Cumplimiento</strong></td>
+                            @{ grupo = 1;
+                                var sn = 0;}
+                            @foreach (var ejecucion in categoria[1])
+                            {
+                                var periodoDesplegado = "periodo";
+                                if (@ejecucion.Periodo.desplegado == true)
+                                { periodoDesplegado = ""; }
+
+                                var title = "";
+                                if (@categoria[2][sn].texto != null)
+                                { title = @categoria[2][sn].texto; }
+
+                                if (ejecucion.Periodo.Ocultar != true)
+                                {
+                                    if (@ejecucion.Periodo.tipo != "lbase" && @ejecucion.Periodo.tipo != "meta")
+                                    {
+                                        if (@ejecucion.Periodo.tipo == "periodo")
+                                        {
+                                            if (@ejecucion.Periodo.cargado == true)
+                                            {
+                                                <td title="@title" class="paddingTablaEjecucion text-center  @periodoDesplegado periodoaccion fondoGrupo_@(grupo % 2)  grupo_unido grupo_unido_@grupo" data-grupo="@grupo">
+                                                    @if (@categoria[2][sn].Color != null)
+                                                    {<svg width='16' height='16' class='float-left'><circle cx='8' cy='8' r='8' fill='@categoria[2][sn].Color' />@categoria[2][sn].texto</svg>}@String.Format("{0:n2}", ejecucion.Calculado)%
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="paddingTablaEjecucion text-center @periodoDesplegado periodoaccion fondoGrupo_@(grupo % 2)  grupo_unido grupo_unido_@grupo" data-grupo="@grupo"></td>
+
+                                            }
+
+                                        }
+                                        else if (@ejecucion.Periodo.tipo == "subtotal")
+                                        {
+                                            if (@ejecucion.Periodo.cargado == true)
+                                            {
+                                                <td title="@title" class="paddingTablaEjecucion text-center  fondoGrupo_@(grupo % 2)" data-grupo="@grupo">
+                                                    @if (@categoria[2][sn].Color != null)
+                                                    {<svg width='16' height='16' class='float-left'><circle cx='8' cy='8' r='8' fill='@categoria[2][sn].Color' />@categoria[2][sn].texto</svg>}@String.Format("{0:n2}", ejecucion.Calculado)%
+                                                </td>
+                                                grupo = grupo + 1;
+
+                                            }
+                                            else
+                                            {
+                                                <td class="paddingTablaEjecucion text-center  fondoGrupo_@(grupo % 2)" data-grupo="@grupo"></td>
+                                                grupo = grupo + 1;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (@ejecucion.Periodo.cargado == true)
+                                            {
+                                                <td class="text-center paddingTablaEjecucion" title="@title">
+                                                    @if (@categoria[2][sn].Color != null)
+                                                    {<svg width='16' height='16' class='float-left'><circle cx='8' cy='8' r='8' fill='@categoria[2][sn].Color' />@categoria[2][sn].texto</svg>}@String.Format("{0:n2}", ejecucion.Calculado)%
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center paddingTablaEjecucion"></td>
+                                            }
+
+                                        }
+
+                                    }
+                                }
+                                sn = sn + 1;
+                            }
 
 
-                    </tr>
+                        </tr>
 
-                </tbody>
+                    </tbody>
 
-            </table>
+                </table>
+            </div>
         </div>
-    </div>
+    }
 }
 
 <!--  --------------------------- MODAL GRÁFICA ------------------------------------------------------------- -->

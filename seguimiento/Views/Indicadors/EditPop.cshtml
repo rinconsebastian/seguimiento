@@ -6,6 +6,8 @@
     Layout = "";
     var listacategoria = (SelectList)ViewBag.IdCategoria;
     var listatipo = (SelectList)ViewBag.tipo;
+    var listaunidad = (SelectList)ViewBag.unidad;
+
 }
 <h4>Editar indicador</h4>
 <h6>@Model.id @Model.nombre</h6>
@@ -38,11 +40,12 @@
     </div>
     <div class="form-group row">
         <label asp-for="unidad" class="col-md-3 col-form-label"></label>
-        <div class="col-md-9">
-            <input asp-for="unidad" validation-for="Email" validationerror-class="is-invalid" class="form-control" />
+        <div class="col-md-7">
+            @Html.DropDownList("unidad", listaunidad, htmlAttributes: new { @class = "form-control" })
             <span asp-validation-for="unidad" class="form-text small text-danger"></span>
         </div>
     </div>
+
 
     <div class="form-group row">
         <label asp-for="codigo" class="col-md-3 col-form-label"></label>

@@ -54,7 +54,7 @@ namespace seguimiento.ViewComponents
             ViewBag.tipo = tipo;
 
             //listado de periodos
-            ViewBag.Periodos = new SelectList(await db.Periodo.Where(n => n.tipo == "periodo" || n.tipo == "subtotal" || n.tipo == "total").ToListAsync(), "id", "nombre", System.Convert.ToInt32(periodo));
+            ViewBag.Periodos = new SelectList(await db.Periodo.Where(n => n.tipo == "periodo" || n.tipo == "subtotal" || n.tipo == "total").OrderBy(n=>n.orden).ToListAsync(), "id", "nombre", System.Convert.ToInt32(periodo));
 
             return View(Categorias);
 

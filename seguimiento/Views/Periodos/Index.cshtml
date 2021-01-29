@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 <div class="float-right">
-    <a asp-controller="EjecucionCategorias" asp-action="Evaluar" class="btn btn-outline-warning" target="_blank">Evaluar Totales</a>
+    <a asp-controller="EjecucionCategoria" asp-action="Evaluar" class="btn btn-outline-warning" target="_blank">Evaluar Totales</a>
 </div>
 <h4>Periodos</h4>
 @if (ViewBag.error != null)
@@ -43,6 +43,9 @@
             @Html.DisplayNameFor(model => model.Ocultar)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.desplegado)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.EditarProgramacion)
         </th>
         <th>
@@ -53,41 +56,45 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.orden)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.tipo)
-            </td>
-            <td class="text-center">
-                @(item.calculo ? "Si" : "No")
-            </td>
-            <td class="text-center">
-                @(item.cargado ? "Si" : "No")
-            </td>
-            <td class="text-center">
-                @(item.Ocultar ? "Si" : "No")
-            </td>
-            <td class="text-center">
-                @(item.EditarProgramacion ? "Si" : "No")
-            </td>
-            <td class="text-center">
-                @(item.EditarEjecucion ? "Si" : "No")
-            </td>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.orden)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.nombre)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.tipo)
+    </td>
+    <td class="text-center">
+        @(item.calculo ? "Si" : "No")
+    </td>
+    <td class="text-center">
+        @(item.cargado ? "Si" : "No")
+    </td>
+    <td class="text-center">
+        @(item.Ocultar ? "Si" : "No")
+    </td>
+    
+    <td class="text-center">
+        @(item.desplegado ? "Si" : "No")
+    </td>
+    <td class="text-center">
+        @(item.EditarProgramacion ? "Si" : "No")
+    </td>
+    <td class="text-center">
+        @(item.EditarEjecucion ? "Si" : "No")
+    </td>
 
-            <td>
-                <span class="button-inline small-button">
-                    <a href='@Url.Action("Details", new { id=item.id })' class="btn btn-default btn-sm" title="Detalles"><i class="fas fa-file-alt"></i></a>
-                    <a href='@Url.Action("Edit", new { id=item.id })' class="btn btn-default btn-sm" title="Editar"><i class="fas fa-edit"></i></a>
-                    <a href='@Url.Action("Delete", new { id=item.id })' class="btn btn-default btn-sm" title="Borrar"><i class="fas fa-trash"></i></a>
-                </span>
+    <td>
+        <span class="button-inline small-button">
+            <a href='@Url.Action("Details", new { id=item.id })' class="btn btn-default btn-sm" title="Detalles"><i class="fas fa-file-alt"></i></a>
+            <a href='@Url.Action("Edit", new { id=item.id })' class="btn btn-default btn-sm" title="Editar"><i class="fas fa-edit"></i></a>
+            <a href='@Url.Action("Delete", new { id=item.id })' class="btn btn-default btn-sm" title="Borrar"><i class="fas fa-trash"></i></a>
+        </span>
 
-            </td>
-        </tr>
+    </td>
+</tr>
     }
 
 </table>
