@@ -18,9 +18,7 @@ namespace seguimiento.Models
         [Required]
         public Configuracion configuracion { get; set; }
 
-        [Required]
-        public PermisoRol permisos { get; set; }
-
+        
 
     }
 }

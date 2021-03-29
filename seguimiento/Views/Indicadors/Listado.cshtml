@@ -35,13 +35,13 @@
     </div>
     <div class="row rowIndicador">
         <div class="col-md-12 tablaEjecucion">
-            <table class="table table-bordered table-condensed tablaIndicador">
+            <table class="table table-bordered small font-weight-lighter table-condensed tablaIndicador">
 
                 <tbody>
                     <tr>
                         @{n = 0;
                         }
-                        <td class="IndicadorHistoricoCol1 IndicadorHistoricoCabecera ">Perido</td>
+                        <td class="IndicadorHistoricoCol1 IndicadorHistoricoCabecera ">Periodo</td>
                         @foreach (var ejecucion in registro[1])
                         {
                             var periodoDesplegado = "periodo";
@@ -52,7 +52,7 @@
                                 n = n + 1;
                                 if (ejecucion.Periodo.tipo == "periodo")
                                 {
-                                    <td class="paddingTablaEjecucion IndicadorHistoricoCabecera text-center @periodoDesplegado periodoaccion fondoGrupo_@(grupo % 2) indicador_@(ejecucion.idindicador) grupo_@(ejecucion.idindicador)_@grupo" data-grupo="@grupo">@ejecucion.Periodo.nombre</td>
+                                    <td class="paddingTablaEjecucion IndicadorHistoricoCabecera text-center @periodoDesplegado periodoaccion2 fondoGrupo_@(grupo % 2) indicador_@(ejecucion.idindicador) grupo_@(ejecucion.idindicador)_@grupo" data-grupo="@grupo">@ejecucion.Periodo.nombre</td>
                                 }
                                 else if (ejecucion.Periodo.tipo == "subtotal")
                                 {

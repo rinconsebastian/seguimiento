@@ -792,7 +792,12 @@ namespace seguimiento.Controllers
 
                 var ids = controlResponsable.GetAllIdsFromResponsable(userFull.IDDependencia);
 
-                indicadores = await db.Indicador.Where(n => ids.Contains(n.Categoria.IdResponsable)).OrderBy(n => n.Categoria.numero).ThenBy(n=>n.codigo).ThenBy(n => n.id).AsNoTracking().ToListAsync();
+                indicadores = await db.Indicador.Where(n => ids.Contains(n.Categoria.IdResponsable))
+                    .Include(n => n.Categoria)
+                    .Include(n => n.Categoria.CategoriaPadre)
+                    .Include(n => n.Categoria.Nivel)
+                    .Include(n => n.TipoIndicador)
+                    .OrderBy(n => n.Categoria.numero).ThenBy(n=>n.codigo).ThenBy(n => n.id).AsNoTracking().ToListAsync();
                     
                       //indicadores = db.Indicadors.Where(n => n.Categoria.IdResponsable ).OrderBy(n=>n.Categoria.numero).ThenBy(n => n.id).ToList();
             }

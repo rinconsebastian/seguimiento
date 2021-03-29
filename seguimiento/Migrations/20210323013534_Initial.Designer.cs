@@ -9,8 +9,8 @@ using seguimiento.Data;
 namespace seguimiento.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201120194705_8")]
-    partial class _8
+    [Migration("20210323013534_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,32 +18,6 @@ namespace seguimiento.Migrations
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.0");
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("AspNetRoles");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -66,6 +40,113 @@ namespace seguimiento.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.General",
+                            ClaimValue = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Responsable",
+                            ClaimValue = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Ejecucion.Editar",
+                            ClaimValue = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Planeacion.Editar",
+                            ClaimValue = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Indicador.Editar",
+                            ClaimValue = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Periodo.Editar",
+                            ClaimValue = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Categoria.Editar",
+                            ClaimValue = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Responsable.Editar",
+                            ClaimValue = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Nivel.Editar",
+                            ClaimValue = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Campo.Editar",
+                            ClaimValue = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Evaluacion.Editar",
+                            ClaimValue = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Rol.Editar",
+                            ClaimValue = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Usuario.Editar",
+                            ClaimValue = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Logs",
+                            ClaimValue = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            ClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Nota.Editar",
+                            ClaimValue = "1",
+                            RoleId = "1"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -128,6 +209,13 @@ namespace seguimiento.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "1",
+                            RoleId = "1"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -149,6 +237,42 @@ namespace seguimiento.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("seguimiento.Models.ApplicationRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            ConcurrencyStamp = "97f6ff5b-6816-44fc-8e6f-bbdedd1223f9",
+                            Name = "Administrador",
+                            NormalizedName = "ADMINISTRADOR"
+                        });
                 });
 
             modelBuilder.Entity("seguimiento.Models.ApplicationUser", b =>
@@ -222,6 +346,27 @@ namespace seguimiento.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccessFailedCount = 0,
+                            Apellido = "",
+                            ConcurrencyStamp = "05622443-5cfd-4389-8879-4523ac4c5aee",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = true,
+                            IDDependencia = 1,
+                            LockoutEnabled = false,
+                            Nombre = "Admin",
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAECPDxHYYnrFlyL6ghv6NFqs7g9ZlRCuHRIgzChzRa5GDZpnwsj563VfwncgzZt+OTw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "NNK44MKHKTBOV6DHXJ4BT2Q3SYO3WQC2",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.com"
+                        });
                 });
 
             modelBuilder.Entity("seguimiento.Models.Campo", b =>
@@ -274,7 +419,7 @@ namespace seguimiento.Migrations
                     b.Property<decimal>("Ponderador")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<int>("idCategoria")
+                    b.Property<int?>("idCategoria")
                         .HasColumnType("int");
 
                     b.Property<int>("idNivel")
@@ -308,6 +453,18 @@ namespace seguimiento.Migrations
                     b.HasIndex("idNivel");
 
                     b.ToTable("Categoria");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            IdResponsable = 1,
+                            Ponderador = 1m,
+                            idNivel = 1,
+                            nombre = "Principal",
+                            numero = "0.",
+                            unificacion = true
+                        });
                 });
 
             modelBuilder.Entity("seguimiento.Models.Configuracion", b =>
@@ -322,6 +479,9 @@ namespace seguimiento.Migrations
 
                     b.Property<string>("Entidad")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("EstiloReporte")
                         .HasColumnType("longtext");
 
                     b.Property<string>("ImgBackgroud")
@@ -350,6 +510,15 @@ namespace seguimiento.Migrations
                     b.Property<int>("anoInicial")
                         .HasColumnType("int");
 
+                    b.Property<string>("colorPrincipal")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("colorTextoHeader")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("colorTextoPrincipal")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("contacto")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -367,6 +536,28 @@ namespace seguimiento.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Configuracion");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            CalculoNivel = "2",
+                            Entidad = "Entidad",
+                            EstiloReporte = "",
+                            Logo = "/images/SIE.png",
+                            NombrePlan = "Plan",
+                            PonderacionTipo = "PonderacionAbsoluta",
+                            activo = true,
+                            anoFinal = 2021,
+                            anoInicial = 2020,
+                            colorPrincipal = "#52a3a1",
+                            colorTextoHeader = "#ffffff",
+                            colorTextoPrincipal = "#00000",
+                            contacto = "rinconsebastian@gmail.com",
+                            libre = true,
+                            nombrePeriodoAnual = "Trimestre",
+                            periodosAnuales = 4
+                        });
                 });
 
             modelBuilder.Entity("seguimiento.Models.Ejecucion", b =>
@@ -475,6 +666,35 @@ namespace seguimiento.Migrations
                     b.HasIndex("Indicadorid");
 
                     b.ToTable("Evaluacion");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Color = "#ff0000",
+                            Contexto = "Global",
+                            Maximo = 60m,
+                            Minimo = 0m,
+                            Nombre = "Mínimo"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Color = "#ffff00",
+                            Contexto = "Global",
+                            Maximo = 80m,
+                            Minimo = 60m,
+                            Nombre = "Aceptable"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Color = "#00ff00",
+                            Contexto = "Global",
+                            Maximo = 100m,
+                            Minimo = 80m,
+                            Nombre = "Satisfactorio"
+                        });
                 });
 
             modelBuilder.Entity("seguimiento.Models.Indicador", b =>
@@ -577,6 +797,22 @@ namespace seguimiento.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Nivel");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            color = "000000",
+                            nombre = "Plan",
+                            numero = 1
+                        },
+                        new
+                        {
+                            id = 2,
+                            color = "000000",
+                            nombre = "Categoria",
+                            numero = 2
+                        });
                 });
 
             modelBuilder.Entity("seguimiento.Models.Nota", b =>
@@ -662,82 +898,115 @@ namespace seguimiento.Migrations
                     b.ToTable("Periodo");
                 });
 
-            modelBuilder.Entity("seguimiento.Models.PermisoRol", b =>
+            modelBuilder.Entity("seguimiento.Models.Policy", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<bool>("CategoriasE")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("CategoriasV")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("ConfiguraciongE")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("EjecucionesE")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("EjecucionesV")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("IdRol")
+                    b.Property<string>("claim")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<bool>("IndicadoresE")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<string>("nombre")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.Property<bool>("IndicadoresV")
-                        .HasColumnType("tinyint(1)");
+                    b.HasKey("id");
 
-                    b.Property<bool>("NivelesE")
-                        .HasColumnType("tinyint(1)");
+                    b.ToTable("Policy");
 
-                    b.Property<bool>("NotasE")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("NotasV")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("NotificaconesE")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("PeriodosE")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("PlaneadosE")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("PlaneadosV")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("ResponsablesE")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("RolesE")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("RolesV")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("SuperCategoria")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("SuperUsuario")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("UsuariosE")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("UsuariosV")
-                        .HasColumnType("tinyint(1)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PermisoRol");
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.General",
+                            nombre = "Ver Configuración general"
+                        },
+                        new
+                        {
+                            id = 2,
+                            claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Responsable",
+                            nombre = "Configuración dependencia"
+                        },
+                        new
+                        {
+                            id = 3,
+                            claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Ejecucion.Editar",
+                            nombre = "Editar ejecución"
+                        },
+                        new
+                        {
+                            id = 4,
+                            claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Planeacion.Editar",
+                            nombre = "Editar planeación"
+                        },
+                        new
+                        {
+                            id = 5,
+                            claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Indicador.Editar",
+                            nombre = "Editar indicadores"
+                        },
+                        new
+                        {
+                            id = 6,
+                            claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Periodo.Editar",
+                            nombre = "Editar periodo"
+                        },
+                        new
+                        {
+                            id = 7,
+                            claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Categoria.Editar",
+                            nombre = "Editar categorias"
+                        },
+                        new
+                        {
+                            id = 8,
+                            claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Responsable.Editar",
+                            nombre = "Editar dependencias"
+                        },
+                        new
+                        {
+                            id = 9,
+                            claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Nivel.Editar",
+                            nombre = "Editar niveles"
+                        },
+                        new
+                        {
+                            id = 10,
+                            claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Campo.Editar",
+                            nombre = "Editar campos"
+                        },
+                        new
+                        {
+                            id = 11,
+                            claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Evaluacion.Editar",
+                            nombre = "Editar evaluaciones"
+                        },
+                        new
+                        {
+                            id = 12,
+                            claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Rol.Editar",
+                            nombre = "Editar roles"
+                        },
+                        new
+                        {
+                            id = 13,
+                            claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Usuario.Editar",
+                            nombre = "Editar usuarios"
+                        },
+                        new
+                        {
+                            id = 14,
+                            claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Logs",
+                            nombre = "Ver registro actividad"
+                        },
+                        new
+                        {
+                            id = 15,
+                            claim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Nota.Editar",
+                            nombre = "Editar notas"
+                        });
                 });
 
             modelBuilder.Entity("seguimiento.Models.Responsable", b =>
@@ -749,7 +1018,7 @@ namespace seguimiento.Migrations
                     b.Property<bool>("Editar")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("IdJefe")
+                    b.Property<int?>("IdJefe")
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
@@ -761,6 +1030,14 @@ namespace seguimiento.Migrations
                     b.HasIndex("IdJefe");
 
                     b.ToTable("Responsable");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Editar = true,
+                            Nombre = "Entidad"
+                        });
                 });
 
             modelBuilder.Entity("seguimiento.Models.TipoIndicador", b =>
@@ -789,6 +1066,16 @@ namespace seguimiento.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TipoIndicador");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Descripcion = "AIncnoacumTmtto",
+                            Enable = true,
+                            Tipo = "AIncnoacumTmtto",
+                            file = "AIncnoacumTmtto"
+                        });
                 });
 
             modelBuilder.Entity("seguimiento.Models.ValorCampo", b =>
@@ -822,7 +1109,7 @@ namespace seguimiento.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("seguimiento.Models.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -849,7 +1136,7 @@ namespace seguimiento.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("seguimiento.Models.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -896,9 +1183,7 @@ namespace seguimiento.Migrations
 
                     b.HasOne("seguimiento.Models.Categoria", "CategoriaPadre")
                         .WithMany()
-                        .HasForeignKey("idCategoria")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("idCategoria");
 
                     b.HasOne("seguimiento.Models.Nivel", "Nivel")
                         .WithMany()
@@ -1008,9 +1293,7 @@ namespace seguimiento.Migrations
                 {
                     b.HasOne("seguimiento.Models.Responsable", "ResponsableJefe")
                         .WithMany("Hijos")
-                        .HasForeignKey("IdJefe")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdJefe");
 
                     b.Navigation("ResponsableJefe");
                 });

@@ -78,5 +78,8 @@ namespace seguimiento.Models
         [Display(Name = "Libre")]
         public bool libre { get; set; }
 
+        [Display(Name = "Estilo Reporte")]
+        public string EstiloReporte { get; set; }
+
     }
 }
