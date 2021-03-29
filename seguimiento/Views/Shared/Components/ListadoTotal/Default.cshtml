@@ -8,31 +8,21 @@
 
     @foreach (var item in Model)
     {
-        i = i + 1;
-        if (i > 1) { disp = "none"; } else { disp = ""; }
+        disp = item.idNivel > 2 ? "none" : "";
+
         var padre = "";
         if (item.CategoriaPadre != null)
         {
             padre = item.CategoriaPadre.id.ToString();
         }
 
-
         <div class="row rowListado rowListadoNivel-@item.Nivel.numero" style='background-color:@item.Nivel.color; display:@disp' data-padre="@padre" data-nivel="@item.Nivel.numero">
-
-
             <div class="row ">
-
                 <div class="col-md-12">
-
-
                     <input type="button" value="@item.numero @item.nombre" class="ListadoCategoria btn @item.Nivel.color" data-id="@item.id" data-childs="hide" data-nivel="@item.Nivel.numero" />
                 </div>
-
-
             </div>
         </div>
-
-
     }
 
 

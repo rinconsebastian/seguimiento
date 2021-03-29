@@ -16,7 +16,7 @@ namespace seguimiento.Models
 
         [JsonIgnore]
         [Display(Name = "Categoría padre")]
-        public int idCategoria { get; set; }
+        public int? idCategoria { get; set; }
         [JsonIgnore]
         [ForeignKey("idCategoria")]
         public virtual Categoria CategoriaPadre { get; set; }

@@ -48,8 +48,7 @@ namespace seguimiento
             services.AddDbContext<ApplicationDbContext>(opt =>
              opt.UseLazyLoadingProxies().UseMySql(
                         // Replace with your connection string.
-                        "server=192.168.0.250;user=desarrollo;password=Feserito87@;database=jerico",
-                        //"server=127.0.0.1;user=jerico;password=NmkkAJWmFo9zmjtj;database=jerico",
+                        "server=127.0.0.1;user=seguimiento;password=Seguimiento***123;database=seguimiento2",
                          // Replace with your server version and type.
                          // For common usages, see pull request #1233.
                         new MariaDbServerVersion(new Version(10, 4, 10)), // use MariaDbServerVersion for MariaDB MySqlServerVersion

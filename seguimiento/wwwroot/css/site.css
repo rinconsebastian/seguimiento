@@ -50,6 +50,7 @@ a.navbar-brand {
     font-size: medium;
 }
 
+
 /* Provide sufficient contrast against white background */
 a {
     color: #0366d6;
@@ -1186,3 +1187,29 @@ input, select, textarea {
 .Reportar-form-input {
     max-width: 100% !important;
 }
+
+.container-full {
+    max-width: none;
+    margin: 0;
+}
+
+.container-reporte {
+    max-width: none;
+    height: 90vh;
+    overflow: scroll;
+}
+.reporte-row{
+    max-width: none;
+    width: max-content;
+}
+    .reporte-row .reporte-row-text {
+        width:500px;
+        padding: 3px;
+    }
+    .reporte-row .reporte-row-ejecucion {
+        max-width: 200px;
+        display: inline-block;
+    }
+        .reporte-row .reporte-row-ejecucion .form-control.Reportar-form-input {
+            font-size: 11px;
+        }

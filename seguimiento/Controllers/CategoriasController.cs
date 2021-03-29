@@ -117,22 +117,10 @@ namespace seguimiento.Controllers
 
             while (categorias[0].Nivel.numero < nivel)
             {
-                List<int> idcategorias = new List<int>();
-                foreach (Categoria categx in categorias)
-                {
-                    idcategorias.Add(categx.id);
-                }
-
-                string texto = String.Join(", ", idcategorias.ToArray());
-                categorias = await db.Categoria.Where(n => idcategorias.Contains(n.idCategoria)).ToListAsync();
-
-                if (categorias.Count == 0)
-                {
-                    break;
-                }
+                List<int> idPadres = categorias.Select(n => n.id).ToList();
+                categorias = await db.Categoria.Where(n => n.idCategoria != null && idPadres.Contains((int)n.idCategoria)).ToListAsync();
+                if (categorias.Count == 0){break;}
             }
-
-
             return categorias;
         }
 
@@ -148,10 +136,6 @@ namespace seguimiento.Controllers
 
         public async Task<Dictionary<int,int>> CategoriasMenores(int id)
         {
-            //apuntadores genéricdos 
-            int n;
-            //lista que guarda ids a consultar
-            List<int> ids = new List<int>();
             //determina el id del nivel máximo el padre de todo
             var nivelMaximo = 0;
             var nivelMaximoOk = await db.Nivel.OrderByDescending(n=>n.numero).FirstOrDefaultAsync();
@@ -174,16 +158,10 @@ namespace seguimiento.Controllers
                 while (categorias.First().Value != nivelMaximo)
                 {
                     //cra una lista con las categorias de las cuales se van a buscar los hijos
-                    n = 0;
-                    ids.Clear();
-                    foreach (var categoria in categorias)
-                    {
-                        ids.Add(categoria.Key);
-                        n++;
-                    }
+                    List<int> idsPadres = categorias.Select(n => n.Key).ToList();
+
                     // obtiene las categorias 
-                    string texto = String.Join(", ", ids.ToArray()); ;
-                    categorias = await db.Categoria.Where(n=>ids.Contains(n.idCategoria)).Select(gr => new
+                    categorias = await db.Categoria.Where(n=>n.idCategoria != null && idsPadres.Contains((int)n.idCategoria)).Select(gr => new
                     {
                         gr.idNivel,
                         gr.id
@@ -458,10 +436,7 @@ namespace seguimiento.Controllers
 
         public async Task<List<Categoria>> CategoriasMenoresList(int id)
         {
-            //apuntadores genéricdos 
-            int n;
-            //lista que guarda ids a consultar
-            List<int> ids = new List<int>();
+
             //determina el id del nivel máximo el padre de todo
             var numeroNivleMax = await db.Nivel.OrderByDescending(n => n.numero).FirstOrDefaultAsync();
             var nivelMaximo = numeroNivleMax.id;
@@ -475,16 +450,9 @@ namespace seguimiento.Controllers
                 while (categorias[0].idNivel != nivelMaximo)
                 {
                     //cra una lista con las categorias de las cuales se van a buscar los hijos
-                    n = 0;
-                    ids.Clear();
-                    foreach (Categoria categoria in categorias)
-                    {
-                        ids.Add(categorias[n].id);
-                        n++;
-                    }
+                    List<int> idsPadres = categorias.Select(n => n.id).ToList();
                     // obtiene las categorias 
-                    string texto = String.Join(", ", ids.ToArray()); ;
-                    categorias = await db.Categoria.Where(n => ids.Contains(n.idCategoria)).ToListAsync();
+                    categorias = await db.Categoria.Where(n => n.idCategoria != null && idsPadres.Contains((int)n.idCategoria)).ToListAsync();
                      
                 }
             }

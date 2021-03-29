@@ -56,7 +56,7 @@
 
     @foreach (var item in Model)
     {
-<tr>
+<tr class="@(item.tipo != "periodo" ? "table-active": "")">
     <td>
         @Html.DisplayFor(modelItem => item.orden)
     </td>

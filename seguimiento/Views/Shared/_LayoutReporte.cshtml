@@ -29,50 +29,11 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-bars"></i>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Basic">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Main" asp-action="Index">Estructura</a>
-                        </li>
-                        @if (User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Ejecucion.Editar" && c.Value == "1") ||
-                        (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Planeacion.Editar" && c.Value == "1")))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Indicadors" asp-action="Reportar">Reporte masivo</a>
-                            </li>
-                        }
-
-                        @if (User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Ejecucion.Editar" && c.Value == "1") ||
-                          (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Planeacion.Editar" && c.Value == "1")))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Indicadors" asp-action="ListadoUsuario">Mis indicadores</a>
-                            </li>
-                        }
-                        @if (User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.General" && c.Value == "1") ||
-                   (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Responsable" && c.Value == "1") ||
-                   (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Indicador.Editar" && c.Value == "1") ||
-                   (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Periodo.Editar" && c.Value == "1") ||
-                   (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Categoria.Editar" && c.Value == "1") ||
-                   (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Nivel.Editar" && c.Value == "1") ||
-                   (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Rol.Editar" && c.Value == "1") ||
-                   (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Usuario.Editar" && c.Value == "1")))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Configuracions" asp-action="Index2">Configuracion</a>
-                            </li>
-                        }
-
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
+                <partial name="_MenuHeaderPartial" />
             </div>
         </nav>
     </header>
-    <div class="container bodyccs body-content" id="bodycsss">
+    <div class="container bodyccs body-content container-reporte" id="bodycsss">
         <div class="row">
             <div class="col-md-12 div-contenido">
 
