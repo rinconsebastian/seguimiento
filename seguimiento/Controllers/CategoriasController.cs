@@ -161,12 +161,21 @@ namespace seguimiento.Controllers
                     List<int> idsPadres = categorias.Select(n => n.Key).ToList();
 
                     // obtiene las categorias 
-                    categorias = await db.Categoria.Where(n=>n.idCategoria != null && idsPadres.Contains((int)n.idCategoria)).Select(gr => new
+                   var categoriasn = await db.Categoria.Where(n=>n.idCategoria != null && idsPadres.Contains((int)n.idCategoria)).Select(gr => new
                     {
                         gr.idNivel,
                         gr.id
                     }
                     ).ToDictionaryAsync(n => n.id, n => n.idNivel);
+
+                    if(categoriasn.Count > 0)
+                    {
+                        categorias = categoriasn;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 //    categorias = db.Database.SqlQuery<Matrizx2>("SELECT idNivel, id FROM Categorias WHERE idCategoria IN (" + texto + ")").ToList();
                 }
             }

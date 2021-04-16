@@ -26,12 +26,12 @@
         </div>
     </div>
 
-    <div class="form-group row">
-        <label asp-for="TipoIndicador" class="col-sm-3 col-form-label"></label>
-        <div class="col-sm-9">
-            <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.TipoIndicador.Tipo)</p>
-        </div>
-    </div>
+    <!-- <div class="form-group row">
+         <label asp-for="TipoIndicador" class="col-sm-3 col-form-label"></label>
+         <div class="col-sm-9">
+             <p class="form-control-plaintext font-weight-light">@Html.DisplayFor(model => model.TipoIndicador.Tipo)</p>
+         </div>
+     </div> -->
 
     <div class="form-group row">
         <label asp-for="ponderador" class="col-sm-3 col-form-label"></label>
@@ -73,7 +73,7 @@
                 <div class="col-sm-9">
                     @if (campo.Valor != null)
                     {
-                        <p class="form-control-plaintext font-weight-light">@Html.Encode(campo.Valor.Texto)</p>
+                        <p class="form-control-plaintext font-weight-light">@campo.Valor.Texto</p>
                     }
                 </div>
             </div>

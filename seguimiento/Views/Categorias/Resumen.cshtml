@@ -14,8 +14,16 @@
                     <h5 class="titulo tituloCategoria">
                         @categoria[0].numero@if (@categoria[0].numero != "")
                         {@Html.Encode(".");
-                    }  @categoria[0].Nivel.nombre @categoria[0].nombre
-                </h5>
+                    }
+                        @{
+                            var nombreNivel = @categoria[0].Nivel.nombre;
+                            if(categoria[0].Nivel.nombre == "-"){
+                                nombreNivel = "";
+                            }
+
+                        }
+                         @nombreNivel @categoria[0].nombre
+                    </h5>
             </div>
         </div>
         <div class="row margin-left-0">
