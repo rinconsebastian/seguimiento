@@ -72,7 +72,7 @@ var funcUpload = {
   
     init: function () {
         console.log("Upload Script load");
-        currenthost = location.protocol + '//' + location.host + '/' + location.pathname+'/';
+        currenthost = $('#Root').val();//location.protocol + '//' + location.host + '/' + location.pathname+'/';
         funcUpload.loadFile();
 
         funcUpload.showSelection();

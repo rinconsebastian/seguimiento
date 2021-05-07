@@ -42,7 +42,7 @@
     <div class="container bodyccs body-content" id="bodycsss">
         @RenderBody()
     </div>
-
+    @Html.Hidden("Root", Url.Content("~/"))
     <partial name="_footerPartial" />
 
 
