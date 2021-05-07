@@ -42,5 +42,6 @@ namespace seguimiento.Models
         [Display(Name = "F. Actualización")]
         public DateTime FechaActualizacion { get { return updatedDate ?? DateTime.UtcNow; } set { updatedDate = value; } }
 
+        public virtual ICollection<EjecucionAdjunto> Adjuntos { get; set; }
     }
 }

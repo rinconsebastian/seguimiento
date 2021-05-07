@@ -35,6 +35,7 @@ namespace seguimiento.Data
        
         public DbSet<Indicador> Indicador { get; set; }
         public DbSet<Ejecucion> Ejecucion { get; set; }
+        public DbSet<EjecucionAdjunto> EjecucionAdjunto { get; set; }
         public DbSet<EjecucionCategoria> EjecucionCategoria { get; set; }
         public DbSet<Evaluacion> Evaluacion { get; set; }
         public DbSet<Log> Log { get; set; }
