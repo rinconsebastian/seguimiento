@@ -1,0 +1,11 @@
+﻿@model IEnumerable<seguimiento.Models.EjecucionAdjunto>
+@{
+    Layout = null;
+}
+@foreach (EjecucionAdjunto adj in Model)
+{
+    <p class="form-control-plaintext py-0 font-weight-light input-size  d-flex align-items-center">
+        @await Component.InvokeAsync("Adjunto", new { fileName = adj.adjunto, name = adj.nombre })
+        <a class="delete-adjunto ml-auto" href="#" data-id="@adj.id"><i class="fas fa-trash small text-danger"></i></a>
+    </p>
+}

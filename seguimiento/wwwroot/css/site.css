@@ -614,7 +614,20 @@ textarea {
     .modal-lg {
         width: 900px;
     }
+
+    .modal-700 {
+        max-width: 700px;
+    }
 }
+
+.modal:nth-of-type(even) {
+    z-index: 1052 !important;
+}
+
+.modal-backdrop.show:nth-of-type(even) {
+    z-index: 1051 !important;
+}
+  
 
 #myChart {
     cursor: pointer;
@@ -661,7 +674,7 @@ input[type="file"] {
     padding-bottom: 0px !important;
 }
 
-input, select, textarea {
+input, select, textarea, .input-size {
     max-width: 424px !important;
 }
 

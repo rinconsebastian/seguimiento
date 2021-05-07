@@ -104,9 +104,18 @@ namespace seguimiento.Controllers
                 ViewBag.PuedeEditarPlaneado = await configuracionControl.PermisoEditarEjecucionPlaneado(User, ejecucion);
 
             }
-            
-           
+
+            ViewBag.Adjuntos = await db.EjecucionAdjunto.Where(n => n.idejecucion == ejecucion.id).ToListAsync();
             return View(ejecucion);
+        }
+
+        // GET: ejecucions/Edit/5
+        [Authorize(Policy = "Ejecucion.Editar")]
+
+        public async Task<ActionResult> EditPopAdjuntos(int idEjecucion)
+        {
+            var adjuntos = await db.EjecucionAdjunto.Where(n => n.idejecucion == idEjecucion).ToListAsync();
+            return View(adjuntos);
         }
 
         [HttpPost]

@@ -66,6 +66,8 @@ var funcUpload = {
             if (e.target.files.length > 0) {
                 var fileName = e.target.files[0].name;
                 $(this).next('.custom-file-label').html(fileName);
+            } else {
+                $(this).next('.custom-file-label').html('Seleccionar Archivo');
             }
         });
     },

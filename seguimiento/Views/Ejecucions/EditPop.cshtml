@@ -4,12 +4,8 @@
     Layout = null;
     var link = "";
     var text = "";
-    if (Model != null && Model.adjunto != null && Model.adjunto != "")
-    {
-        link = "/UploadedFiles/" + Model.adjunto;
-        text = Model.adjunto;
-    }
-    var key = "Eje-" + Model.id;
+
+    var adjuntos = ViewBag.Adjuntos;
 }
 <h4>Editar ejecución @Model.Periodo.nombre</h4>
 <h6>@Model.Indicador.nombre</h6>
@@ -74,22 +70,41 @@
     <!-- Hdden input Adjunto para el formulario-->
     @Html.EditorFor(model => model.adjunto, new { htmlAttributes = new { @id = "Adjunto_Eje-" + Model.id, @class = "form-control hide", @readonly = "true" } })
 </form>
-<!-- Input file para Adjunto -->
-<form asp-action="UploadFile" asp-controller="Upload" enctype="multipart/form-data" method="post">
+
+@if (adjuntos != null)
+{
     <div class="form-group row">
-
-        <label asp-for="adjunto" class="col-md-3 col-form-label"></label>
-        <div class="col-md-9">
-            <div class="custom-file">
-                <input id="fileupload_@key" name="file" data-key="@key" type="file" class="custom-file-input fileUploadAdjunto" lang="es">
-                <label class="custom-file-label" for="fileupload_@key" data-browse="Elegir">Seleccionar Archivo</label>
-            </div>
-            <span asp-validation-for="adjunto" id="info_@key" class="uploading_@key form-text small text-danger"></span>
-            <a href="@link" target="_blank" id="link_@key" class="small form-text">@text</a>
-
+        <label class="col-sm-3 col-form-label">Adjuntos</label>
+        <div class="col-sm-9" id="ejecAdjunto">
+            @foreach (EjecucionAdjunto adj in adjuntos)
+            {
+            <p class="form-control-plaintext py-0 font-weight-light input-size d-flex align-items-center">
+                @await Component.InvokeAsync("Adjunto", new { fileName = adj.adjunto, name = adj.nombre })
+                <a class="delete-adjunto ml-auto" href="#" data-id="@adj.id"><i class="fas fa-trash small text-danger"></i></a>
+            </p>
+            }
         </div>
     </div>
+}
+<hr />
+<form id="formAdjuntoEjec" asp-action="Create" asp-controller="EjecucionAdjunto" enctype="multipart/form-data" method="post"  class="form-inline">
+    @Html.Hidden("id", Model.id, new { id = "idejecucion"})
+    <label class="sr-only" for="nameAdjuntoEjec">Nombre del adjunto</label>
+    <input id="nameAdjuntoEjec" name="name" type="text" class="form-control mr-sm-2 mt-1" placeholder="Nombre del adjunto">
+    <div class="input-group mr-sm-2 mt-1">
+        <div class="custom-file">
+            <input id="fileAdjuntoEjec" name="file" required type="file" class="custom-file-input fileUploadAdjuntoEjec" lang="es">
+            <label class="custom-file-label" for="fileAdjuntoEjec" data-browse="Elegir">Seleccionar Archivo</label>
+        </div>
+    </div>
+    <button id="btnAdjuntoEjec" type="submit" class="btn btn-primary mt-1">Cargar</button>
 </form>
+<div class="row">
+    <div class="col-12">
+        <span id="uploadingAdjuntoEjec" class="form-text small text-primary"></span>
+        <span id="infoAdjuntoEjec" class="form-text small text-danger"></span>
+    </div>
+</div>
 
 
 <div class="modal-footer">

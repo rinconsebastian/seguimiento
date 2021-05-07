@@ -37,6 +37,8 @@ $('#EjecucionContenido').on('click', '.IndicadorSaveEdit', function () {
 //---------------------------------------------------- FUNCIONES
 function loadEjecucion(id, tipo, mensaje) {
     $('#EjecucionContenido').empty();
+    $('#myModalEjecucion .modal-dialog').removeClass('modal-700');
+    $('#myModalEjecucion .modal-dialog').addClass('modal-md');
     $('#myModalEjecucion').modal('show');
     $('#EjecucionContenido').append('<div class="loading"><img src="../images/loadingcircle.gif" ></div>');
     //alert("click");
@@ -56,17 +58,15 @@ function loadEjecucion(id, tipo, mensaje) {
 function displayEditEjecucion(id, tipo, mensaje) {
     $('#EjecucionContenido').empty();
     $('#myModalEjecucion').modal('show');
+    $('#myModalEjecucion .modal-dialog').removeClass('modal-md');
+    $('#myModalEjecucion .modal-dialog').addClass('modal-700');
     $('#EjecucionContenido').append('<div class="loading"><img src="../images/loadingcircle.gif" ></div>');
     $.get("../ejecucions/EditPop", { 'id': id })
         .done(function (data) {
             //alert(tipo);
             //alert(mensaje);
-
-            $('#EjecucionContenido').empty();
-            $('#EjecucionContenido').append(data);
-
+            $('#EjecucionContenido').html(data);
         });
-
 
 }
 

@@ -103,14 +103,6 @@
         </div>
     </div>
 
-    <div class="form-group row">
-        <label asp-for="adjunto" class="col-sm-3 col-form-label"></label>
-        <div class="col-sm-9">
-            <p class="form-control-plaintext font-weight-light">
-                <a href="/UploadedFiles/@Html.DisplayFor(model => model.adjunto)" target="_blank">@Html.DisplayFor(model => model.adjunto)</a>
-            </p>
-        </div>
-    </div>
     @if (adjuntos != null)
     {
         <div class="form-group row">
