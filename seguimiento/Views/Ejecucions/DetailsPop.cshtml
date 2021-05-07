@@ -19,6 +19,8 @@
         alert[2] = "valorTexto";
         title[2] = "Este cálculo puede ser erroneo";
     }
+
+    var adjuntos = ViewBag.Adjuntos;
 }
 <h4>Ejecución @Model.Periodo.nombre</h4>
 <h6>@Model.Indicador.nombre</h6>
@@ -76,7 +78,7 @@
         <label asp-for="cargado" class="col-sm-3 col-form-label"></label>
         <div class="col-sm-9">
             <p class="form-control-plaintext font-weight-light">
-            @(Model.cargado ? "Si": "No")
+                @(Model.cargado ? "Si": "No")
             </p>
         </div>
     </div>
@@ -109,6 +111,20 @@
             </p>
         </div>
     </div>
+    @if (adjuntos != null)
+    {
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Adjuntos</label>
+            <div class="col-sm-9">
+                @foreach (EjecucionAdjunto adj in adjuntos)
+                {
+                <p class="form-control-plaintext py-0 font-weight-light">
+                    @await Component.InvokeAsync("Adjunto", new { fileName = adj.adjunto, name = adj.nombre })
+                </p>
+                }
+            </div>
+        </div>
+    }
 
 </div>
 

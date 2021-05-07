@@ -30,7 +30,7 @@ namespace seguimiento.Controllers
         public async Task<IActionResult> DetailsPop(int id, string tipo="", string mensaje="")
         {
             ConfiguracionsController configuracionControl = new ConfiguracionsController(db, userManager);
-             EvaluacionsController controlEvaluacion = new EvaluacionsController(db);
+            EvaluacionsController controlEvaluacion = new EvaluacionsController(db);
             UnidadesdeMedida Unidad = new UnidadesdeMedida();
 
             EjecucionCalculada respuestaFormato = new EjecucionCalculada();
@@ -76,7 +76,7 @@ namespace seguimiento.Controllers
                 respuestaFormato = controlEvaluacion.SetEvaluacion(Unidad.Formato(respuesta), evaluaciones); //almacena cada ejecucionCalcuada en la lista pero antes ajusta el formato con la clase unidadess de medida
 
 
-
+                ViewBag.Adjuntos = await db.EjecucionAdjunto.Where(n => n.idejecucion == ejec.id).ToListAsync();
                 ViewBag.tipo = tipo;
                 ViewBag.mensaje = mensaje;
 
