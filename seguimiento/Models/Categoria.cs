@@ -29,6 +29,7 @@ namespace seguimiento.Models
 
         [JsonIgnore]
         [Display(Name = "Responsable")]
+        [Required]
         public int IdResponsable { get; set; }
         [JsonIgnore]
         [ForeignKey("IdResponsable")]

@@ -33,22 +33,26 @@
         <label asp-for="idCategoria" class="col-md-3 col-form-label"></label>
         <div class="col-md-9">
             <select asp-for="idCategoria" asp-items="@listaCategorias" class="form-control">
-                <option value="0">Seleccione una opción</option>
+                <option value="">Seleccione una opción</option>
             </select>
-            <span asp-validation-for="idNivel" class="form-text small text-danger"></span>
+            <span asp-validation-for="idCategoria" class="form-text small text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
         <label asp-for="idNivel" class="col-md-3 col-form-label"></label>
         <div class="col-md-9">
-            <select asp-for="idNivel" asp-items="@listaNiveles" class="form-control"></select>
+            <select asp-for="idNivel" asp-items="@listaNiveles" class="form-control">
+                <option value="">Seleccione una opción</option>
+            </select>
             <span asp-validation-for="idNivel" class="form-text small text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
         <label asp-for="IdResponsable" class="col-md-3 col-form-label"></label>
         <div class="col-md-9">
-            <select asp-for="IdResponsable" asp-items="@listaDependencias" class="form-control"></select>
+            <select asp-for="IdResponsable" asp-items="@listaDependencias" class="form-control">
+                <option value="">Seleccione una opción</option>
+            </select>
             <span asp-validation-for="IdResponsable" class="form-text small text-danger"></span>
         </div>
     </div>
