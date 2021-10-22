@@ -93,7 +93,11 @@ namespace seguimiento.Formulas
                 catch (System.FormatException) { msg = "el valor ejecutado tiene un formato incorrecto"; }
                 catch (System.ArgumentNullException) { msg = "ejecutado Nulo"; }
 
-                sumaPlaneado =  valPlaneado;
+                 if (calculada.planeado != "")
+                {
+                    sumaPlaneado = valPlaneado;
+
+                }
                 if (calculada.cargado == true && calculada.Periodo.cargado == true)
                 {
                     sumaEjecutados = valEjecutado;
