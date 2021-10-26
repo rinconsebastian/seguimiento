@@ -133,6 +133,11 @@ namespace seguimiento.Controllers
                 PonderacionAbsoluta ponderacion = new PonderacionAbsoluta(db,userManager);
                 var casa =await ponderacion.Calculo_total_categoria(configuracion);
             }
+            if (configuracion.PonderacionTipo == "PonderacionAbsolutaVacios")
+            {
+                PonderacionAbsolutaVacios ponderacion = new PonderacionAbsolutaVacios(db, userManager);
+                var casa = await ponderacion.Calculo_total_categoria(configuracion);
+            }
 
             return true;
         }

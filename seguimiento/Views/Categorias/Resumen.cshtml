@@ -122,7 +122,7 @@ if (@categoria[0].unificacion != null)
 
                                     if (@ejecucion.Periodo.tipo == "periodo")
                                     {
-                                        <th class="paddingTablaEjecucion @periodoDesplegado periodoaccion2 text-center fondoGrupo_@(grupo % 2) grupo_unido grupo_unido_@grupo" data-grupo="@grupo"><strong>@ejecucion.Periodo.nombre</strong></th>
+                                        <th class="paddingTablaEjecucion @periodoDesplegado periodoaccion2 text-center fondoGrupo_@(grupo % 2) grupo_unido grupo_unido_@grupo" data-grupo="@grupo">@ejecucion.Periodo.nombre</th>
                                     }
                                     else if (@ejecucion.Periodo.tipo == "subtotal")
                                     {
@@ -157,7 +157,7 @@ if (@categoria[0].unificacion != null)
                                     {
                                         if (@ejecucion.Periodo.tipo == "periodo")
                                         {
-                                            if (@ejecucion.Periodo.cargado == true)
+                                            if (@ejecucion.Periodo.cargado == true & ejecucion.Mostrar == true)
                                             {
                                                 <td title="@title" class="paddingTablaEjecucion text-center  @periodoDesplegado periodoaccion fondoGrupo_@(grupo % 2)  grupo_unido grupo_unido_@grupo" data-grupo="@grupo">
                                                     @if (@categoria[2][sn].Color != null)
