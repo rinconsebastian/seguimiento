@@ -33,7 +33,7 @@ var funcChart = {
             //dataSource: dataSource,
             commonSeriesSettings: {
                 argumentField: "periodo",
-                type: "stackedline"
+                type: "line"
             },
             size: {
                 height: 300,

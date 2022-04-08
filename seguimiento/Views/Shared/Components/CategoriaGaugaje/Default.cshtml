@@ -19,9 +19,9 @@
     @if (@Model != null) {
     @:    var dataSource_@ViewBag.Numero = [{
     @:    name: '@Model.Categoria.nombre',
-    @:    mean: @Model.Calculado,
-    @:    min: @Model.Calculado,
-    @:    max: @Model.Calculado
+    @:    mean: @Model.Calculado.ToString("0.0"),
+    @:    min: @Model.Calculado.ToString("0.0"),
+    @:    max: @Model.Calculado.ToString("0.0")
     @:    }];
     }
     else

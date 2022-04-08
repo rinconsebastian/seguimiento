@@ -1,6 +1,7 @@
 ﻿using seguimiento.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -18,15 +19,17 @@ namespace seguimiento.Formulas
             decimal valEjecutado = 0, valPlaneado = 0, valCalculado;
             string msg = "";
             EjecucionCalculada respuesta = new EjecucionCalculada();
+            if (ejecucion.ejecutado != null) { ejecucion.ejecutado = ejecucion.ejecutado.Replace(',', '.'); }
+            if (ejecucion.planeado != null) { ejecucion.planeado = ejecucion.planeado.Replace(',', '.'); }
 
             //conversión a # de los valores ejecutados y planeados
-            try { valEjecutado = System.Convert.ToDecimal(ejecucion.ejecutado); }
+            try { decimal.TryParse(ejecucion.ejecutado, NumberStyles.Any, CultureInfo.InvariantCulture, out valEjecutado); }
             catch (System.OverflowException) { msg = "el valor ejecutado genera desbordamiento"; }
             catch (System.FormatException) { msg = "el valor ejecutado tiene un formato incorrecto"; }
             catch (System.ArgumentNullException) { msg = "ejecutado Nulo"; }
 
             //conversión a # de los valores ejecutados y planeados
-            try { valPlaneado = System.Convert.ToDecimal(ejecucion.planeado); }
+            try { decimal.TryParse(ejecucion.planeado, NumberStyles.Any, CultureInfo.InvariantCulture, out valPlaneado); }
             catch (System.OverflowException) { msg = "el valor planeado genera desbordamiento"; }
             catch (System.FormatException) { msg = "el valor planeado tiene un formato incorrecto"; }
             catch (System.ArgumentNullException) { msg = "planeado Nulo"; }
@@ -72,7 +75,7 @@ namespace seguimiento.Formulas
             return respuesta;
         }
 
-        public Object Calculo_subtotal(Ejecucion ejecucion, List<object> listadoParaSubtotal)
+        public Object Calculo_subtotal(Ejecucion ejecucion, List<object> listadoParaSubtotal, decimal lineaBase)
         {
             decimal sumaPlaneado = 0, sumaEjecutados = 0, valEjecutado = 0, valPlaneado = 0, valCalculado = 0;
             int cuenta = 0;
@@ -83,17 +86,20 @@ namespace seguimiento.Formulas
             {
                 valEjecutado = 0;
                 valPlaneado = 0;
-                try { valEjecutado = Convert.ToDecimal(calculada.ejecutado); }
+                if (calculada.ejecutado != null) { calculada.ejecutado = calculada.ejecutado.Replace(',', '.'); }
+                if (calculada.planeado != null) { calculada.planeado = calculada.planeado.Replace(',', '.'); }
+               
+                try { decimal.TryParse(calculada.ejecutado, NumberStyles.Any, CultureInfo.InvariantCulture, out valEjecutado); }
                 catch (System.OverflowException) { msg = "el valor ejecutado genera desbordamiento"; }
                 catch (System.FormatException) { msg = "el valor ejecutado tiene un formato incorrecto"; }
                 catch (System.ArgumentNullException) { msg = "ejecutado Nulo"; }
 
-                try { valPlaneado = System.Convert.ToDecimal(calculada.planeado); }
+                try { decimal.TryParse(calculada.planeado, NumberStyles.Any, CultureInfo.InvariantCulture, out valPlaneado); }
                 catch (System.OverflowException) { msg = "el valor ejecutado genera desbordamiento"; }
                 catch (System.FormatException) { msg = "el valor ejecutado tiene un formato incorrecto"; }
                 catch (System.ArgumentNullException) { msg = "ejecutado Nulo"; }
 
-                 if (calculada.planeado != "")
+                if (calculada.planeado != "")
                 {
                     sumaPlaneado = valPlaneado;
 

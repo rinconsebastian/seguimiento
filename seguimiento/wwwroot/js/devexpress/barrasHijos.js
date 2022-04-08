@@ -35,7 +35,9 @@ function BarrasHijos(numero, data, categoria) {
                 visible: true
             },
             label: {
-                overlappingBehavior: "rotate"
+                overlappingBehavior: "rotate",
+                rotationAngle: 270
+
             }
         },
         "export": {

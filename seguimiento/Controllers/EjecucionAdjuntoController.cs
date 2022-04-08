@@ -38,7 +38,7 @@ namespace seguimiento.Controllers
                 {
                     try
                     {
-                        var _path = Path.Combine(_env.ContentRootPath, "UploadedFiles");
+                        var _path = Path.Combine(_env.ContentRootPath, "wwwroot/UploadedFiles");
                         //Crea la carpeta
                         var _pathFolder = Path.Combine(_path, "Adjuntos", id);
                         if (!Directory.Exists(_pathFolder))
@@ -73,7 +73,7 @@ namespace seguimiento.Controllers
 
             }
             else { error = "Error: El archivo no es válido."; }
-            return Json(error);
+            return Json("");
         }
 
         [HttpPost]
@@ -88,7 +88,7 @@ namespace seguimiento.Controllers
                 ConfiguracionsController controlConfiguracion = new ConfiguracionsController(db, userManager);
                 try
                 {
-                    var _path = Path.Combine(_env.ContentRootPath, "UploadedFiles");
+                    var _path = Path.Combine(_env.ContentRootPath, "wwwroot/UploadedFiles");
                     var filepath = Path.Combine(_path, adjunto.adjunto);
                     System.IO.File.Delete(filepath);
 

@@ -24,9 +24,12 @@ namespace seguimiento.Controllers
        
         public async Task<ActionResult> Basic(string tperiodo = "", int id= 0)
         {
+            var hijos = "Cumplimiento desagregado";
 
             PeriodosController controlPeriodo = new PeriodosController(db, userManager);
             CategoriasController controlCategoria = new CategoriasController(db, userManager);
+
+           NivelsController controlNivel = new NivelsController(db, userManager);
 
             List<Widget> Widgets = new List<Widget>();
            
@@ -56,9 +59,31 @@ namespace seguimiento.Controllers
                 if (categoria != null)
                 {
                     id = categoria.id;
+                    var nivel = categoria.Nivel.numero + 1;
+
+                    var nivelH = await controlNivel.getFromNumero(nivel);
+                    if(nivelH != null)
+                    {
+                        hijos = "Cumplimiento acumulado por " + nivelH.nombre;
+                    }
                 }
             }
-           
+            else
+            {
+                Categoria categoria = await controlCategoria.getFromId(id);
+                if (categoria != null)
+                {
+                    
+                    var nivel = categoria.Nivel.numero + 1;
+
+                    var nivelH = await controlNivel.getFromNumero(nivel);
+                    if (nivelH != null)
+                    {
+                        hijos = "Cumplimiento acumulado por " + nivelH.nombre;
+                    }
+                }
+            }
+
 
 
 
@@ -96,7 +121,7 @@ namespace seguimiento.Controllers
             widget4.Alto = "55%";
             //widget4.Name = "IndicadoresCategoria";
             widget4.Name = "CategoriaHijosEstadoBarras";
-            widget4.Titulo = "Cumplimiento acumulado por";
+            widget4.Titulo = hijos;
             Widgets.Add(widget4);
 
 

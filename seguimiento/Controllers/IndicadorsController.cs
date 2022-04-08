@@ -23,17 +23,17 @@ namespace seguimiento.Controllers
 {
     public class IndicadorsController : Controller
     {
-       
+
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
-       
+
         public IndicadorsController(ApplicationDbContext context, UserManager<ApplicationUser> _userManager)
         {
             db = context;
             userManager = _userManager;
         }
 
-        
+
         public async Task<IActionResult> Listado(int itemId)
         {
 
@@ -50,8 +50,8 @@ namespace seguimiento.Controllers
 
 
             //-----------consulta los indicadores que pertenecen a esa categoria si no lo logra genera alerta
-            indicadores = await db.Indicador.Where(n => n.idCategoria == idPadre).Include(n=>n.TipoIndicador).ToListAsync();
-           
+            indicadores = await db.Indicador.Where(n => n.idCategoria == idPadre).Include(n => n.TipoIndicador).ToListAsync();
+
 
 
             foreach (var indicador in indicadores) // ciclo que se repite para cada indicador encontrado
@@ -89,7 +89,7 @@ namespace seguimiento.Controllers
                             listadoParaSubtotal.Add(respuesta); //almacena ejecucón para el calculo del subtotal
                             break;
                         case "subtotal":
-                            object[] argsSubtotal = { registro, listadoParaSubtotal }; //carga los argumentos en un objeto 
+                            object[] argsSubtotal = { registro, listadoParaSubtotal, lineaBase }; //carga los argumentos en un objeto 
                             respuesta = (EjecucionCalculada)operadorSubtotal.Invoke(op, argsSubtotal); //envia los argumentos mediante invoke al metodo Calculo_subtotal
                             listadoEjecuciones.Add(ControlEvaluacion.SetEvaluacion((Unidad.Formato(respuesta)), evaluaciones)); //almacena cada ejecucionCalcuada en la lista pero antes ajusta el formato con la clase unidadess de medida
                             listadoParaTotal.Add(respuesta); //almacena ejecucón para el calculo del subtotal
@@ -148,7 +148,7 @@ namespace seguimiento.Controllers
 
             ResponsablesController controlResponsable = new ResponsablesController(db, userManager);
             EvaluacionsController controlEvaluacion = new EvaluacionsController(db);
-            
+
             //--- variables
             List<Categoria> categorias = new List<Categoria>(); // variable que almacena los indicadores devueltos por la base de datos
             List<Indicador> indicadores = new List<Indicador>(); // variable que almacena los indicadores devueltos por la base de datos
@@ -170,13 +170,13 @@ namespace seguimiento.Controllers
             //consulta las categorias sobre las que la dependencia del usuario tiene responsabilidad
             if (User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Super" && c.Value == "1")))
             {
-               categorias = await db.Categoria.OrderBy(n => n.numero).ToListAsync();
-               
+                categorias = await db.Categoria.OrderBy(n => n.numero).ToListAsync();
+
             }
             else
             {
                 categorias = await db.Categoria.Where(n => idsx.Contains(n.IdResponsable)).OrderBy(n => n.numero).ToListAsync();
-             }
+            }
 
             List<int> ids = new List<int>();
 
@@ -230,7 +230,7 @@ namespace seguimiento.Controllers
                             listadoParaSubtotal.Add(respuesta); //almacena ejecucón para el calculo del subtotal
                             break;
                         case "subtotal":
-                            object[] argsSubtotal = { registro, listadoParaSubtotal }; //carga los argumentos en un objeto 
+                            object[] argsSubtotal = { registro, listadoParaSubtotal, lineaBase }; //carga los argumentos en un objeto 
                             respuesta = (EjecucionCalculada)operadorSubtotal.Invoke(op, argsSubtotal); //envia los argumentos mediante invoke al metodo Calculo_subtotal
                             listadoEjecuciones.Add(controlEvaluacion.SetEvaluacion((Unidad.Formato(respuesta)), evaluaciones)); //almacena cada ejecucionCalcuada en la lista pero antes ajusta el formato con la clase unidadess de medida
                             listadoParaTotal.Add(respuesta); //almacena ejecucón para el calculo del subtotal
@@ -283,15 +283,15 @@ namespace seguimiento.Controllers
             return View();
         }
 
-        public async Task<ActionResult> DetailsPop(int id, string tipo="", string mensaje="")
+        public async Task<ActionResult> DetailsPop(int id, string tipo = "", string mensaje = "")
         {
             ConfiguracionsController configuracionControl = new ConfiguracionsController(db, userManager);
             Indicador indicador = new Indicador();
-           
+
             var indicadorn = await db.Indicador.FindAsync(id);
             if (indicadorn != null)
             {
-                    indicador= indicadorn;
+                indicador = indicadorn;
 
                 //-------------------------------------------------------identificar si un usuario tiene acceso a editar una ejecucion
 
@@ -328,15 +328,33 @@ namespace seguimiento.Controllers
         {
             List<IndicadorChartViewModel> dataset = new List<IndicadorChartViewModel>();
 
-            var periodos = await db.Periodo.Where(n => n.Ocultar == false && n.tipo == tipo).OrderBy(n => n.orden).Select(n => n.id).ToListAsync();
-            var ejecuciones = await db.Ejecucion.Where(n => n.idindicador == id && periodos.Contains(n.idperiodo)).OrderBy(n=>n.Periodo.orden)
-                .Select(n => new {
-                    Periodo = n.Periodo.nombre,
-                    Planeado = n.planeado,
-                    Ejecutado = n.ejecutado
-                }).ToListAsync();
+            List<EjecucionGrafica> ejecuciones = new List<EjecucionGrafica>();
 
-            foreach(var eje in ejecuciones)
+            var periodos = await db.Periodo.Where(n => n.Ocultar == false && n.tipo == tipo).OrderBy(n => n.orden).Select(n => n.id).ToListAsync();
+
+            if (tipo == "subtotal")
+            {
+                var ejecucionesN = await Ejecuciones(id);
+                ejecuciones = ejecucionesN.Where(n=>n.Periodo.tipo == "subtotal")
+                    .Select(n => new EjecucionGrafica
+                    {
+                        Periodo = n.Periodo.nombre,
+                        Planeado = n.planeado,
+                        Ejecutado = n.Periodo.cargado == true ? n.ejecutado:"",
+                    }).ToList();
+            }
+            else
+            {
+                 ejecuciones = await db.Ejecucion.Where(n => n.idindicador == id && periodos.Contains(n.idperiodo)).OrderBy(n => n.Periodo.orden)
+                   .Select(n => new EjecucionGrafica 
+                   {
+                       Periodo = n.Periodo.nombre,
+                       Planeado = n.planeado,
+                       Ejecutado = n.ejecutado
+                   }).ToListAsync();
+            }
+
+            foreach (var eje in ejecuciones)
             {
                 var item = new IndicadorChartViewModel();
                 item.Periodo = eje.Periodo;
@@ -347,7 +365,7 @@ namespace seguimiento.Controllers
                     catch { }
                 }
                 item.Planeado = null;
-                if (  eje.Planeado != null && eje.Planeado != "")
+                if (eje.Planeado != null && eje.Planeado != "")
                 {
                     try { item.Planeado = System.Convert.ToDecimal(eje.Planeado); }
                     catch { }
@@ -378,7 +396,7 @@ namespace seguimiento.Controllers
 
             if (indicador == null)
             {
-            //    return HttpNotFound();
+                //    return HttpNotFound();
             }
 
             //-----------------------------Campos adicionales Inicio
@@ -421,17 +439,17 @@ namespace seguimiento.Controllers
             }
             if (ModelState.IsValid)
             {
-               // Logg.CambioModelo("Indicador", "Edit", indicador); //registro log
+                // Logg.CambioModelo("Indicador", "Edit", indicador); //registro log
                 db.Entry(indicador).State = EntityState.Modified;
                 await db.SaveChangesAsync();
 
-                
+
                 //------------------------------------------------- inicio almacenar campos adicionales
                 //List<CampoValor> campos = (List<CampoValor>)Session["Campos"];
                 foreach (CampoValor campon in campos)
                 {
                     var valor = HttpContext.Request.Form[campon.Campo.Nombre].ToString();
-                   
+
                     if (campon.Valor != null)
                     {
                         ValorCampo valoredit = db.ValorCampo.Find(campon.Valor.Id);
@@ -452,10 +470,10 @@ namespace seguimiento.Controllers
                     }
                 }
 
-                
+
                 HttpContext.Session.Remove("Campos");
                 //------------------------------------------------- fin almacenar campos adicionales
-               
+
                 return true;
             }
 
@@ -466,7 +484,7 @@ namespace seguimiento.Controllers
 
         public async Task<List<Indicador>> getFromCategoria(int idcategorias)
         {
-            List<Indicador> indicadores = await db.Indicador.Where(n=>n.idCategoria== idcategorias).ToListAsync();
+            List<Indicador> indicadores = await db.Indicador.Where(n => n.idCategoria == idcategorias).ToListAsync();
 
 
             return indicadores;
@@ -474,7 +492,7 @@ namespace seguimiento.Controllers
 
         public async Task<List<Ejecucion>> getFromIndicador(int idIndicador)
         {
-            List<Ejecucion> ejecuciones = await db.Ejecucion.Where(n=>n.idindicador== idIndicador).ToListAsync();
+            List<Ejecucion> ejecuciones = await db.Ejecucion.Where(n => n.idindicador == idIndicador).ToListAsync();
 
             return ejecuciones;
         }
@@ -512,7 +530,7 @@ namespace seguimiento.Controllers
         [Authorize(Policy = "Indicador.Editar")]
         public async Task<ActionResult> Create()
         {
-            
+
             List<SelectListItem> CategoriaLista = new List<SelectListItem>();
             var CategoriaListadb = await db.Categoria.ToListAsync();
             foreach (var itemn in CategoriaListadb)
@@ -539,19 +557,19 @@ namespace seguimiento.Controllers
         [Authorize(Policy = "Indicador.Editar")]
         public async Task<ActionResult> Create(Indicador indicador)
         {
-          
+
             if ((indicador.codigo == null || indicador.codigo == "") && indicador.Categoria != null)
             {
                 indicador.codigo = indicador.Categoria.numero;
             }
 
-            EjecucionsController controlejecuciones = new EjecucionsController(db,userManager);
+            EjecucionsController controlejecuciones = new EjecucionsController(db, userManager);
             if (ModelState.IsValid)
             {
                 db.Indicador.Add(indicador);
                 db.SaveChanges();
                 bool resultado = await controlejecuciones.CrearEjecucionesDeIndicador(indicador);
-               
+
 
                 return RedirectToAction("Index");
             }
@@ -559,7 +577,7 @@ namespace seguimiento.Controllers
             List<SelectListItem> CategoriaLista = new List<SelectListItem>();
             var CategoriaListadb = await db.Categoria.ToListAsync();
             foreach (var itemn in CategoriaListadb)
-            { 
+            {
                 CategoriaLista.Add(new SelectListItem() { Text = itemn.numero + " " + itemn.nombre, Value = itemn.id.ToString() });
             }
 
@@ -578,8 +596,8 @@ namespace seguimiento.Controllers
         [Authorize(Policy = "Indicador.Editar")]
         public async Task<ActionResult> Edit(int id)
         {
-        
-            Indicador indicador =await db.Indicador.FindAsync(id);
+
+            Indicador indicador = await db.Indicador.FindAsync(id);
             if (indicador == null) { return NotFound(); }
 
             List<SelectListItem> CategoriaLista = new List<SelectListItem>();
@@ -604,12 +622,12 @@ namespace seguimiento.Controllers
                 CampoValor cp = new CampoValor();
                 cp.Campo = campon;
                 cp.Campo.Nombre = cp.Campo.Nombre + "Add";
-                cp.Valor =await db.ValorCampo.Where(m => m.CampoPadre.Id == campon.Id && m.IndicadorPadre.id == indicador.id).FirstOrDefaultAsync();
+                cp.Valor = await db.ValorCampo.Where(m => m.CampoPadre.Id == campon.Id && m.IndicadorPadre.id == indicador.id).FirstOrDefaultAsync();
                 if (cp.Valor != null)
                 {
                     cp.Valor.IndicadorPadre = null;
                 }
-                    campos.Add(cp);
+                campos.Add(cp);
             }
             HttpContext.Session.SetComplex("Campos", campos);
             ViewBag.Campos = campos;
@@ -637,7 +655,7 @@ namespace seguimiento.Controllers
 
                 //------------------------------------------------- inicio almacenar campos adicionales
                 var campos = HttpContext.Session.GetComplex<List<CampoValor>>("Campos");
-                
+
                 foreach (CampoValor campon in campos)
                 {
                     var valor = HttpContext.Request.Form[campon.Campo.Nombre].ToString();
@@ -690,7 +708,7 @@ namespace seguimiento.Controllers
         [Authorize(Policy = "Indicador.Editar")]
         public async Task<ActionResult> Delete(int id)
         {//-------------------- VERIFICA PERMISOS DE ACUERDO AL ROL DE USUSARIO --------------------------------
-           
+
             Indicador indicador = await db.Indicador.FindAsync(id);
             if (indicador == null) { return NotFound(); }
 
@@ -752,7 +770,7 @@ namespace seguimiento.Controllers
         [Authorize(Policy = "Indicador.Editar")]
         public async Task<ActionResult> Details(int? id)
         {
-           
+
             Indicador indicador = await db.Indicador.FindAsync(id);
             if (indicador == null) { return NotFound(); }
 
@@ -763,7 +781,7 @@ namespace seguimiento.Controllers
             {
                 CampoValor cp = new CampoValor();
                 cp.Campo = campon;
-                cp.Valor =await  db.ValorCampo.Where(m => m.CampoPadre.Id == campon.Id && m.IndicadorPadre.id == indicador.id).FirstOrDefaultAsync();
+                cp.Valor = await db.ValorCampo.Where(m => m.CampoPadre.Id == campon.Id && m.IndicadorPadre.id == indicador.id).FirstOrDefaultAsync();
                 campos.Add(cp);
             }
             ViewBag.Campos = campos;
@@ -778,11 +796,11 @@ namespace seguimiento.Controllers
             ResponsablesController controlResponsable = new ResponsablesController(db, userManager);
 
             List<Indicador> indicadores = new List<Indicador>();
-            
+
             List<ReporteViewModel> reporte = new List<ReporteViewModel>();
 
             if (User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Super" && c.Value == "1")))
-            { 
+            {
                 indicadores = await db.Indicador.OrderBy(n => n.Categoria.numero).ThenBy(n => n.codigo).ThenBy(n => n.id).ToListAsync();
 
             }
@@ -797,9 +815,9 @@ namespace seguimiento.Controllers
                     .Include(n => n.Categoria.CategoriaPadre)
                     .Include(n => n.Categoria.Nivel)
                     .Include(n => n.TipoIndicador)
-                    .OrderBy(n => n.Categoria.numero).ThenBy(n=>n.codigo).ThenBy(n => n.id).AsNoTracking().ToListAsync();
-                    
-                      //indicadores = db.Indicadors.Where(n => n.Categoria.IdResponsable ).OrderBy(n=>n.Categoria.numero).ThenBy(n => n.id).ToList();
+                    .OrderBy(n => n.Categoria.numero).ThenBy(n => n.codigo).ThenBy(n => n.id).AsNoTracking().ToListAsync();
+
+                //indicadores = db.Indicadors.Where(n => n.Categoria.IdResponsable ).OrderBy(n=>n.Categoria.numero).ThenBy(n => n.id).ToList();
             }
             foreach (var Indicador in indicadores)
             {
@@ -811,7 +829,7 @@ namespace seguimiento.Controllers
                 item.Indicador = Indicador;
                 var ejecuciones = await db.Ejecucion.Where(n => n.idindicador == Indicador.id && (n.Periodo.EditarEjecucion == true || n.Periodo.EditarProgramacion == true)).OrderBy(n => n.Periodo.orden).ToListAsync();
 
-                foreach(var ejecucion in ejecuciones)
+                foreach (var ejecucion in ejecuciones)
                 {
                     ejecucion.Indicador.Categoria.Responsable = null;
                     if (ejecucion.Indicador.Categoria.CategoriaPadre != null) { ejecucion.Indicador.Categoria.CategoriaPadre = null; }
@@ -820,13 +838,13 @@ namespace seguimiento.Controllers
 
                 item.Ejecuciones = ejecuciones;
 
-               reporte.Add(item);
+                reporte.Add(item);
             }
 
-          
+
 
             HttpContext.Session.SetComplex("reporte", reporte);
-          
+
 
             return View(reporte);
         }
@@ -887,6 +905,93 @@ namespace seguimiento.Controllers
             }
 
         }
+
+        private async Task<List<EjecucionCalculada>> Ejecuciones(int idIndicador)
+        {
+            var indicador = await db.Indicador.FindAsync(idIndicador);
+
+            //variables para cada indicador
+            var ejecuciones = await db.Ejecucion.Where(n => n.idindicador == indicador.id).OrderBy(n => n.Periodo.orden).ToListAsync();
+            //var ejecuciones = db.ejecucions.SqlQuery("select * from ejecucions where idindicador = " + indicador.id).ToList();  //Recupera de la base de datos el listado de ejecuciones existentes
+            List<EjecucionCalculada> listadoEjecuciones = new List<EjecucionCalculada>(); //variable con las ejecuciones
+            List<object> listadoParaSubtotal = new List<object>(); //variable con las ejecuciones necesarias para calcular cada subtotal
+            List<object> listadoParaTotal = new List<object>(); //variable con los subtotales necesarios para calcular el total
+            EjecucionCalculada respuesta = new EjecucionCalculada();
+            decimal lineaBase = 0;
+            string msg = "";
+
+            //-------------- generacion de un objeto genérico para manejar los diferentes tipos de indicadores
+            ObjectHandle manejador = Activator.CreateInstance(null, "seguimiento.Formulas." + indicador.TipoIndicador.file); //se crea un manejador  op -objeto generico- y un operador generico que permite llamar a las formulas con la cadena del tipo de indiciador: mantenimiento, incremento etc
+            Object op = manejador.Unwrap();
+            Type t = op.GetType();
+            MethodInfo operadorPeriodo = t.GetMethod("Calculo_periodo"); //operador es un metodo generico que refleja la funcionalidad de Calculo periodo
+            MethodInfo operadorSubtotal = t.GetMethod("Calculo_subtotal"); //operador es un metodo generico que refleja la funcionalidad de Calculo subtotal
+            MethodInfo operadorTotal = t.GetMethod("Calculo_total"); //operador es un metodo generico que refleja la funcionalidad de Calculo total
+
+
+
+
+            foreach (var registro in ejecuciones)
+            {
+                switch (registro.Periodo.tipo)
+                {
+                    case "periodo":
+                        object[] args = { registro, lineaBase }; //carga los argumentos en un objeto 
+                        respuesta = (EjecucionCalculada)operadorPeriodo.Invoke(op, args); //envia los argumentos mediante invoke al metodo Calculo_periodo
+                        listadoEjecuciones.Add(respuesta); //almacena cada ejecucionCalcuada en la lista pero antes ajusta el formato con la clase unidadess de medida
+                        listadoParaSubtotal.Add(respuesta); //almacena ejecucón para el calculo del subtotal
+                        break;
+                    case "subtotal":
+                        object[] argsSubtotal = { registro, listadoParaSubtotal, lineaBase }; //carga los argumentos en un objeto 
+                        respuesta = (EjecucionCalculada)operadorSubtotal.Invoke(op, argsSubtotal); //envia los argumentos mediante invoke al metodo Calculo_subtotal
+                        listadoEjecuciones.Add(respuesta); //almacena cada ejecucionCalcuada en la lista pero antes ajusta el formato con la clase unidadess de medida
+                        listadoParaTotal.Add(respuesta); //almacena ejecucón para el calculo del subtotal
+                        listadoParaSubtotal.Clear();
+                        break;
+                    case "total":
+                        object[] argstotal = { registro, listadoParaTotal }; //carga los argumentos en un objeto
+                        respuesta = (EjecucionCalculada)operadorTotal.Invoke(op, argstotal); //envia los argumentos mediante invoke al metodo Calculo_total
+                        listadoEjecuciones.Add(respuesta); //almacena cada ejecucionCalcuada en la lista pero antes ajusta el formato con la clase unidadess de medida
+                        listadoParaTotal.Clear();
+                        break;
+
+                    case "lineabase":
+
+                        var lb = registro.ejecutado;
+                        if (lb != null)
+                        {
+                            lb = lb.Replace("%", "");
+                            lb = Regex.Replace(lb, "^-$", "");
+                            lb = Regex.Replace(lb, "^_$", "");
+                            lb = Regex.Replace(lb, "[a-zA-Z^&()<>//:@#$%;+_!¡]", "");
+                        }
+                        try { lineaBase = string.IsNullOrEmpty(lb) ? 0 : System.Convert.ToDecimal(lb); }
+                        catch (System.OverflowException) { msg = "el valor ejecutado genera desbordamiento"; }
+                        catch (System.FormatException) { msg = "el valor ejecutado genera desbordamiento"; }
+                        catch (System.ArgumentNullException) { msg = "el valor ejecutado genera desbordamiento"; }
+
+
+
+                        object[] argslineabase = { registro, (decimal)10.00 }; //carga los argumentos en un objeto 
+                        respuesta = (EjecucionCalculada)operadorPeriodo.Invoke(op, argslineabase); //envia los argumentos mediante invoke al metodo Calculo_periodo
+                        listadoEjecuciones.Add(respuesta); //almacena cada ejecucionCalcuada en la lista
+
+                        break;
+                    default:
+
+                        object[] argsotros = { registro, (decimal)10.00 }; //carga los argumentos en un objeto 
+                        respuesta = (EjecucionCalculada)operadorPeriodo.Invoke(op, argsotros); //envia los argumentos mediante invoke al metodo Calculo_periodo
+                        listadoEjecuciones.Add(respuesta); //almacena cada ejecucionCalcuada en la lista
+
+                        break;
+
+                }
+            }
+
+
+            return listadoEjecuciones;
+        }
+
     }
 
 }

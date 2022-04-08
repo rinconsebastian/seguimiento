@@ -2,6 +2,7 @@
 using seguimiento.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,13 +37,17 @@ namespace seguimiento.Formulas
             {
                 decimal valEjecutado = 0, valPlaneado = 0;
                 string msg = "";
-                try { valEjecutado = System.Convert.ToDecimal(ejecucion.ejecutado); }
-                catch (System.OverflowException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "el valor ejecutado genera desbordamiento, "; }
+
+            if (ejecucion.ejecutado != null) { ejecucion.ejecutado = ejecucion.ejecutado.Replace(',', '.'); }
+            if (ejecucion.planeado != null) { ejecucion.planeado = ejecucion.planeado.Replace(',', '.'); }
+
+            try { decimal.TryParse(ejecucion.ejecutado, NumberStyles.Any, CultureInfo.InvariantCulture, out valEjecutado); }
+            catch (System.OverflowException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "el valor ejecutado genera desbordamiento, "; }
                 catch (System.FormatException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "el valor ejecutado tiene un formato incorrecto, "; }
                 catch (System.ArgumentNullException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "ejecutado Nulo"; }
 
-                try { valPlaneado = System.Convert.ToDecimal(ejecucion.planeado); }
-                catch (System.OverflowException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "el valor planeado genera desbordamiento, "; }
+            try { decimal.TryParse(ejecucion.planeado, NumberStyles.Any, CultureInfo.InvariantCulture, out valPlaneado); }
+            catch (System.OverflowException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "el valor planeado genera desbordamiento, "; }
                 catch (System.FormatException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "el valor planeado tiene un formato incorrecto, "; }
                 catch (System.ArgumentNullException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "planeado Nulo, "; }
 
@@ -149,13 +154,17 @@ namespace seguimiento.Formulas
             {
                 decimal valEjecutado = 0, valPlaneado = 0;
                 string msg = "";
-                try { valEjecutado = System.Convert.ToDecimal(ejecucion.ejecutado); }
-                catch (System.OverflowException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "el valor ejecutado genera desbordamiento, "; }
+
+            if (ejecucion.ejecutado != null) { ejecucion.ejecutado = ejecucion.ejecutado.Replace(',', '.'); }
+            if (ejecucion.planeado != null) { ejecucion.planeado = ejecucion.planeado.Replace(',', '.'); }
+
+            try { decimal.TryParse(ejecucion.ejecutado, NumberStyles.Any, CultureInfo.InvariantCulture, out valEjecutado); }
+            catch (System.OverflowException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "el valor ejecutado genera desbordamiento, "; }
                 catch (System.FormatException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "el valor ejecutado tiene un formato incorrecto, "; }
                 catch (System.ArgumentNullException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "ejecutado Nulo"; }
 
-                try { valPlaneado = System.Convert.ToDecimal(ejecucion.planeado); }
-                catch (System.OverflowException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "el valor planeado genera desbordamiento, "; }
+            try { decimal.TryParse(ejecucion.planeado, NumberStyles.Any, CultureInfo.InvariantCulture, out valPlaneado); }
+            catch (System.OverflowException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "el valor planeado genera desbordamiento, "; }
                 catch (System.FormatException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "el valor planeado tiene un formato incorrecto, "; }
                 catch (System.ArgumentNullException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "planeado Nulo, "; }
 
@@ -241,13 +250,17 @@ namespace seguimiento.Formulas
             {
                 decimal valEjecutado = 0, valPlaneado = 0;
                 string msg = "";
-                try { valEjecutado = System.Convert.ToDecimal(ejecucion.ejecutado); }
-                catch (System.OverflowException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "el valor ejecutado genera desbordamiento, "; }
+
+            if (ejecucion.ejecutado != null) { ejecucion.ejecutado = ejecucion.ejecutado.Replace(',', '.'); }
+            if (ejecucion.planeado != null) { ejecucion.planeado = ejecucion.planeado.Replace(',', '.'); }
+
+            try { decimal.TryParse(ejecucion.ejecutado, NumberStyles.Any, CultureInfo.InvariantCulture, out valEjecutado); }
+            catch (System.OverflowException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "el valor ejecutado genera desbordamiento, "; }
                 catch (System.FormatException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "el valor ejecutado tiene un formato incorrecto, "; }
                 catch (System.ArgumentNullException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "ejecutado Nulo"; }
 
-                try { valPlaneado = System.Convert.ToDecimal(ejecucion.planeado); }
-                catch (System.OverflowException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "el valor planeado genera desbordamiento, "; }
+            try { decimal.TryParse(ejecucion.planeado, NumberStyles.Any, CultureInfo.InvariantCulture, out valPlaneado); }
+            catch (System.OverflowException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "el valor planeado genera desbordamiento, "; }
                 catch (System.FormatException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "el valor planeado tiene un formato incorrecto, "; }
                 catch (System.ArgumentNullException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "planeado Nulo, "; }
 
@@ -331,13 +344,17 @@ namespace seguimiento.Formulas
             {
                 decimal valEjecutado = 0, valPlaneado = 0;
                 string msg = "";
-                try { valEjecutado = System.Convert.ToDecimal(ejecucion.ejecutado); }
-                catch (System.OverflowException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "el valor ejecutado genera desbordamiento, "; }
+
+            if (ejecucion.ejecutado != null) { ejecucion.ejecutado = ejecucion.ejecutado.Replace(',', '.'); }
+            if (ejecucion.planeado != null) { ejecucion.planeado = ejecucion.planeado.Replace(',', '.'); }
+
+            try { decimal.TryParse(ejecucion.ejecutado, NumberStyles.Any, CultureInfo.InvariantCulture, out valEjecutado); }
+            catch (System.OverflowException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "el valor ejecutado genera desbordamiento, "; }
                 catch (System.FormatException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "el valor ejecutado tiene un formato incorrecto, "; }
                 catch (System.ArgumentNullException) { ejecucion.EjecutadoError = ejecucion.EjecutadoError + "ejecutado Nulo"; }
 
-                try { valPlaneado = System.Convert.ToDecimal(ejecucion.planeado); }
-                catch (System.OverflowException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "el valor planeado genera desbordamiento, "; }
+            try { decimal.TryParse(ejecucion.planeado, NumberStyles.Any, CultureInfo.InvariantCulture, out valPlaneado); }
+            catch (System.OverflowException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "el valor planeado genera desbordamiento, "; }
                 catch (System.FormatException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "el valor planeado tiene un formato incorrecto, "; }
                 catch (System.ArgumentNullException) { ejecucion.PlaneadoError = ejecucion.PlaneadoError + "planeado Nulo, "; }
 

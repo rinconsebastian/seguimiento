@@ -111,7 +111,7 @@ namespace seguimiento.Formulas
                                 listadoParaSubtotal.Add(respuesta); //almacena ejecucón para el calculo del subtotal
                                 break;
                             case "subtotal":
-                                Object[] argsSubtotal = { registro, listadoParaSubtotal }; //carga los argumentos en un objeto 
+                                Object[] argsSubtotal = { registro, listadoParaSubtotal, lineaBase }; //carga los argumentos en un objeto 
                                 respuesta = (EjecucionCalculada)operadorSubtotal.Invoke(op, argsSubtotal); //envia los argumentos mediante invoke al metodo Calculo_subtotal
                                 listadoEjecuciones.Add(respuesta); //almacena cada ejecucionCalcuada en la lista pero antes ajusta el formato con la clase unidadess de medida
                                 listadoParaTotal.Add(respuesta); //almacena ejecucón para el calculo del subtotal
@@ -152,6 +152,7 @@ namespace seguimiento.Formulas
                 foreach (Periodo periodo in periodos)
                 {
                     decimal total = 0, calculado = 0;
+                    bool mostrar = false;
 
                     var ejecucionesperiodo =
                         (from ejecucionx in listadoEjecuciones
@@ -169,6 +170,7 @@ namespace seguimiento.Formulas
                     if (total > 0)
                     {
                         calculado = (calculado / total) * 100;
+                        mostrar = true; 
                     }
                     else
                     {
@@ -182,7 +184,7 @@ namespace seguimiento.Formulas
                     resultado.IdCategoria = categoriax.id;
                     resultado.idperiodo = periodo.id;
                     resultado.Maximo = total;
-                    //resultado.Periodo = periodo;
+                    resultado.Mostrar = mostrar;
 
                     var r = await controlEjecucionCategoria.Crear(resultado);
 
@@ -255,7 +257,7 @@ namespace seguimiento.Formulas
                                 listadoParaSubtotal.Add(respuesta); //almacena ejecucón para el calculo del subtotal
                                 break;
                             case "subtotal":
-                                Object[] argsSubtotal = { registro, listadoParaSubtotal }; //carga los argumentos en un objeto 
+                                Object[] argsSubtotal = { registro, listadoParaSubtotal, lineaBase }; //carga los argumentos en un objeto 
                                 respuesta = (EjecucionCalculada)operadorSubtotal.Invoke(op, argsSubtotal); //envia los argumentos mediante invoke al metodo Calculo_subtotal
                                 listadoEjecuciones.Add(respuesta); //almacena cada ejecucionCalcuada en la lista pero antes ajusta el formato con la clase unidadess de medida
                                 listadoParaTotal.Add(respuesta); //almacena ejecucón para el calculo del subtotal
@@ -296,6 +298,7 @@ namespace seguimiento.Formulas
                 foreach (Periodo periodo in periodos)
                 {
                     decimal total = 0, calculado = 0;
+                    bool mostrar = false;
 
                     var ejecucionesperiodo =
                         (from ejecucionx in listadoEjecuciones
@@ -313,6 +316,7 @@ namespace seguimiento.Formulas
                     if (total > 0)
                     {
                         calculado = (calculado / total) * 100;
+                        mostrar = true;
                     }
                     else
                     {
@@ -327,6 +331,7 @@ namespace seguimiento.Formulas
                     resultado.idperiodo = periodo.id;
                     resultado.Maximo = total;
                     //resultado.Periodo = periodo;
+                    resultado.Mostrar = mostrar;
 
                     var r = await controlEjecucionCategoria.Crear(resultado);
 

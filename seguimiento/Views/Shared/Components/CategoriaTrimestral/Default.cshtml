@@ -44,7 +44,7 @@
             tempBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(@ejecucionn[0].Categoria.Nivel.nombre);
             string asciiStr = System.Text.Encoding.UTF8.GetString(tempBytes);
 
-         @: (dataSource_@ViewBag.Numero).push({ @asciiStr.Replace(" ", "_"): "@ejecucionn[0].Periodo.nombre", Cumplimiento: @ejecucionn[0].Calculado, tag: "Basic?id=@ejecucionn[0].Categoria.id&Periodo=@ViewBag.periodo", color: '@ejecucionn[1].Color', ColorNombre: '@ejecucionn[1].texto' });
+         @: (dataSource_@ViewBag.Numero).push({ @asciiStr.Replace(" ", "_"): "@ejecucionn[0].Periodo.nombre", Cumplimiento: @ejecucionn[0].Calculado.ToString("0.0"), tag: "Basic?id=@ejecucionn[0].Categoria.id&Periodo=@ViewBag.periodo", color: '@ejecucionn[1].Color', ColorNombre: '@ejecucionn[1].texto' });
         }
 
         if ((ViewBag.Ejecuciones)!= null) {

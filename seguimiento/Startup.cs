@@ -18,6 +18,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+
 namespace seguimiento
 {
     public class Startup
@@ -37,6 +40,7 @@ namespace seguimiento
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             services.AddSession();
 
+            services.AddLocalization();
 
             /*services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
@@ -49,7 +53,7 @@ namespace seguimiento
              opt.UseLazyLoadingProxies().UseMySql(
                         // Replace with your connection string.
                         //"server=127.0.0.1;user=seguimiento;password=Seguimiento***123;database=seguimiento2",
-                         "server=192.168.0.250;user=desarrollo;password=Feserito87@;database=seguimientoods",
+                         "server=192.168.10.250;user=desarrollo;password=Feserito87@;database=seguimientoccs",
                         // Replace with your server version and type.
                         // For common usages, see pull request #1233.
                         new MariaDbServerVersion(new Version(10, 4, 10)), // use MariaDbServerVersion for MariaDB MySqlServerVersion
@@ -155,6 +159,18 @@ namespace seguimiento
                     pattern: "{controller=Dashboard}/{action=Basic}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+
+            var supportedCultures = new[]{
+             new CultureInfo("en-US")
+                };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = supportedCultures,
+                FallBackToParentCultures = false
+            });
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
         }
     }
 }

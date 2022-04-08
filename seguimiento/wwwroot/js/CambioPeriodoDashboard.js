@@ -21,9 +21,9 @@ $(document).ready(function () {
             }
         }
         if (id !== null) {
-            window.location.href = ruta + "?id=" + id + "&periodo=" + val;
+            window.location.href = ruta + "?id=" + id + "&tperiodo=" + val;
         } else {
-            window.location.href = ruta + "?periodo=" + val;
+            window.location.href = ruta + "?tperiodo=" + val;
         }
 
 

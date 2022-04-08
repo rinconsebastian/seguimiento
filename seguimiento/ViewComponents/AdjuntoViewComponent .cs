@@ -24,7 +24,7 @@ namespace seguimiento.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(String fileName, String name = null)
         { 
             if(name == null) { name = Path.GetFileNameWithoutExtension(fileName); }
-            var _path = Path.Combine(_env.WebRootPath, "UploadedFiles", fileName);
+            var _path = Path.Combine("../", "UploadedFiles", fileName);
             var ext = Path.GetExtension(fileName);
 
             var icon = "fas fa-file text-dark";

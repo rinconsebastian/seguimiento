@@ -11,7 +11,7 @@ using System.Web;
 
 namespace seguimiento.Formulas
 {
-    public class AIncnoacumTmtto
+    public class AmttoTmtto
     {
         //eta función toma un modelo ejecucion y agrega el valor calculado y un mensaje con posibles errores y los almacena en un tipo de dato ejecucionCalculada
         public EjecucionCalculada Calculo_periodo(Ejecucion ejecucion, decimal lineaBase)
@@ -79,7 +79,7 @@ namespace seguimiento.Formulas
         public Object Calculo_subtotal(Ejecucion ejecucion, List<object> listadoParaSubtotal, decimal lineaBase)
         {
             decimal sumaPlaneado = 0, sumaEjecutados = 0, valEjecutado = 0, valPlaneado = 0, valCalculado = 0;
-            int cuenta = 0;
+            int cuenta = 0, cuentaejecutado = 0;
             EjecucionCalculada respuesta = new EjecucionCalculada();
             string msg = "";
 
@@ -105,12 +105,19 @@ namespace seguimiento.Formulas
                 if (calculada.cargado == true && calculada.Periodo.cargado == true)
                 {
                     sumaEjecutados = sumaEjecutados + valEjecutado;
+                    cuentaejecutado++;
                 }
                 cuenta++;
             }
 
             if (cuenta > 0)
             {
+                if (cuentaejecutado > 0)
+                {
+                    sumaEjecutados = sumaEjecutados / cuentaejecutado;
+                }
+               
+                sumaPlaneado = sumaPlaneado / cuenta;
 
 
                 if (sumaPlaneado > 0)

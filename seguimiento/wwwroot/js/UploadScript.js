@@ -19,6 +19,7 @@ var funcUpload = {
             $('#link_'+key).empty();
             $('#info_' + key).html('Cargando <img src="/images/ajax-loader.gif">');
 
+            alert(formulario.attr('action'));
             //alert(formData.stringify());
             $.ajax({
                 type: "POST",

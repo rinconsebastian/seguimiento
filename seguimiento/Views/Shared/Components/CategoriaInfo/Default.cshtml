@@ -26,18 +26,18 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 widgetInfoContent">
-                        @Html.DisplayFor(model => model.Ponderador)
+                        @Html.DisplayFor(model => model.Ponderador) %
                     </div>
                 </div>
             </div>
         }
         @if (ViewBag.numeroHijos > 0)
         {
-            var tituloHijos = ViewBag.nombreHijos + "s ";
+            var tituloHijos =  ViewBag.nombreHijos + "s ";
 
             <div class="col-md-4">
                 <div class="row widgetInfoHead">
-                    <div class="col-md-12 lowercase nowrap">
+                    <div class="col-md-12  nowrap">
                         @tituloHijos
 
                     </div>
@@ -100,7 +100,7 @@
 
     <div class="row ">
         <div class="col-md-12 btn-reporte-widget-info">
-            <a class="btn btn-primary btn-unicentro" href="../../ods/Main/index?categoriaid=@Model.id">Ver estructura &raquo;</a>
+            <a class="btn btn-primary btn-unicentro" href="../../ccs/Main/index?categoriaid=@Model.id">Ver estructura &raquo;</a>
         </div>
 
     </div>

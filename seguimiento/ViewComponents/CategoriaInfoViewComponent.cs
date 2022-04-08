@@ -48,7 +48,11 @@ namespace seguimiento.ViewComponents
 
             if (hijos.Count > 0)
             {
-                ViewBag.nombreHijos = hijos[0].Nivel.nombre;
+                 var nombreHijos =hijos[0].Nivel.nombre;
+
+                nombreHijos = nombreHijos.Substring(nombreHijos.Length - 1) == "r" ? nombreHijos + "e" : nombreHijos;
+
+                ViewBag.nombreHijos = nombreHijos;
                 ViewBag.numeroHijos = hijos.Count;
             }
 

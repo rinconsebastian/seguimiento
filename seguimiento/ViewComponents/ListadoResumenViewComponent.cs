@@ -77,7 +77,7 @@ namespace seguimiento.ViewComponents
                             listadoParaSubtotal.Add(respuesta); //almacena ejecucón para el calculo del subtotal
                             break;
                         case "subtotal":
-                            object[] argsSubtotal = { registro, listadoParaSubtotal }; //carga los argumentos en un objeto 
+                            object[] argsSubtotal = { registro, listadoParaSubtotal, lineaBase }; //carga los argumentos en un objeto 
                             respuesta = (EjecucionCalculada)operadorSubtotal.Invoke(op, argsSubtotal); //envia los argumentos mediante invoke al metodo Calculo_subtotal
                             listadoEjecuciones.Add(ControlEvaluacion.SetEvaluacion((Unidad.Formato(respuesta)), evaluaciones)); //almacena cada ejecucionCalcuada en la lista pero antes ajusta el formato con la clase unidadess de medida
                             listadoParaTotal.Add(respuesta); //almacena ejecucón para el calculo del subtotal

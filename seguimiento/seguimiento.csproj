@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="UploadedFiles\Adjuntos\" />
     <Folder Include="wwwroot\UploadedFiles\" />
   </ItemGroup>
 

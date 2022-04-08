@@ -35,7 +35,7 @@
     </div>
     <div class="row rowIndicador">
         <div class="col-md-12 tablaEjecucion">
-            <table class="table table-bordered small font-weight-lighter table-condensed tablaIndicador">
+            <table class="table table-bordered small font-weight-bold table-condensed tablaIndicador">
 
                 <tbody>
                     <tr>
@@ -61,7 +61,7 @@
                                 }
                                 else if (ejecucion.Periodo.tipo == "lineabase")
                                 {
-                                    <td class="paddingTablaEjecucion IndicadorHistoricoCabecera text-center IndicadorHistoricoCol2">@ejecucion.Periodo.nombre</td>
+                                    <td class="paddingTablaEjecucion IndicadorHistoricoCabecera text-center periodoaccion2 IndicadorHistoricoCol2">@ejecucion.Periodo.nombre</td>
                                 }
                                 else
                                 {
@@ -107,7 +107,7 @@
                                 }
                                 else if (ejecucion.Periodo.tipo == "lineabase")
                                 {
-                                    <td class="paddingTablaEjecucion text-right IndicadorHistoricoCol2">@ejecucion.planeado</td>
+                                    <td rowspan="3" class="paddingTablaEjecucion text-right periodoaccion periodoDetalle IndicadorHistoricoCol2 vertical-center" data-IdEjecucion="@ejecucion.id">@ejecucion.ejecutado</td>
                                 }
                                 else
                                 {
@@ -174,8 +174,7 @@
 
                                 else if (ejecucion.Periodo.tipo == "lineabase")
                                 {
-                                    <td class="paddingTablaEjecucion text-right IndicadorHistoricoCol2">@ejecucion.ejecutado</td>
-
+                                    
                                 }
                                 else
                                 {
@@ -224,12 +223,8 @@
                                     </td>
                                     grupo = grupo + 1;
                                 }
-                                else if (ejecucion.Periodo.tipo == "linebase")
+                                else if (ejecucion.Periodo.tipo == "lineabase")
                                 {
-                                    <td display="block" class="paddingTablaEjecucion text-right IndicadorHistoricoCol2">
-                                        @if (@ejecucion.Evaluacion.Color != null && @ejecucion.CalculadoDisplay != null && @ejecucion.CalculadoDisplay != "")
-                                        {<svg width='16' height='16' class='float-left'><circle cx='8' cy='8' r='8' fill='@ejecucion.Evaluacion.Color' />@ejecucion.Evaluacion.texto</svg>}@ejecucion.CalculadoDisplay
-                                    </td>
                                 }
                                 else
                                 {
