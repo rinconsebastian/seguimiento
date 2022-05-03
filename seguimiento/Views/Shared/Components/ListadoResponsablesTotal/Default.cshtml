@@ -1,0 +1,30 @@
+﻿@model IEnumerable<seguimiento.Models.Responsable>
+
+@{var i = 0;
+    var disp = "";
+    Layout = null;
+}
+<div class="container-listado-responsable">
+
+    @foreach (var item in Model)
+    {
+        disp = "";
+
+        var padre = "";
+        
+
+        <div class="row rowListado rowListadoNivel-1" style='; display:@disp' data-padre="@padre" data-nivel="1">
+            <div class="row ">
+                <div class="col-md-12">
+                    <input type="button" value="@item.Nombre" class="ListadoCategoria btn " data-id="@item.Id" data-childs="hide" data-nivel="1" />
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>
+
+@*@Scripts.Render("~/bundles/ajaxlistadoTotal")*@
+
+<script src="~/js/ajaxlistadoResponsableTotal.js"></script>

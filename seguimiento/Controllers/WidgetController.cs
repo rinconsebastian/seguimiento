@@ -99,7 +99,7 @@ namespace seguimiento.Controllers
             ViewBag.tipo = tipo;
 
             //listado de periodos
-            ViewBag.Periodos = new SelectList(await db.Periodo.Where(n => n.tipo == "periodo" || n.tipo == "subtotal" || n.tipo == "total").ToListAsync(), "id", "nombre", System.Convert.ToInt32(periodo));
+            ViewBag.Periodos = new SelectList(await db.Periodo.Where(n => n.tipo == "periodo" || n.tipo == "subtotal" || n.tipo == "Total").ToListAsync(), "id", "nombre", System.Convert.ToInt32(periodo));
 
             return View(Categorias);
 
@@ -127,7 +127,7 @@ namespace seguimiento.Controllers
             // var id = Int32.Parse(Request["id"]);
             // var Periodo = Int32.Parse(Request["periodo"]);
 
-            if (periodoO.tipo == "total")
+            if (periodoO.tipo == "Total")
             {
                 datos = await controlEjecucionCategoria.GetFromCategoriaYTotal(Id, IdPeriodo);
 

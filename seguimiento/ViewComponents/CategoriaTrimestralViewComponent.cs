@@ -43,7 +43,7 @@ namespace seguimiento.ViewComponents
             // var id = Int32.Parse(Request["id"]);
             // var Periodo = Int32.Parse(Request["periodo"]);
 
-            if (periodoO.tipo == "total")
+            if (periodoO.tipo == "Total")
             {
                 datos = await controlEjecucionCategoria.GetFromCategoriaYTotal(Id, IdPeriodo);
 

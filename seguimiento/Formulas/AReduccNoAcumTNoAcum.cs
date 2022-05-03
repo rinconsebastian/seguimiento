@@ -11,7 +11,7 @@ using System.Web;
 
 namespace seguimiento.Formulas
 {
-    public class AIncacumTmtto
+    public class AReduccNoAcumTNoAcum
     {
         //eta función toma un modelo ejecucion y agrega el valor calculado y un mensaje con posibles errores y los almacena en un tipo de dato ejecucionCalculada
         public EjecucionCalculada Calculo_periodo(Ejecucion ejecucion, decimal lineaBase)
@@ -22,8 +22,9 @@ namespace seguimiento.Formulas
             if (ejecucion.ejecutado != null) { ejecucion.ejecutado = ejecucion.ejecutado.Replace(',', '.'); }
             if (ejecucion.planeado != null) { ejecucion.planeado = ejecucion.planeado.Replace(',', '.'); }
 
+
             //conversión a # de los valores ejecutados y planeados
-            try { decimal.TryParse(ejecucion.ejecutado, NumberStyles.Any, CultureInfo.InvariantCulture, out valEjecutado); }
+            try { decimal.TryParse(ejecucion.ejecutado, NumberStyles.Any, CultureInfo.InvariantCulture, out valEjecutado);  }
             catch (System.OverflowException) { msg = "el valor ejecutado genera desbordamiento"; }
             catch (System.FormatException) { msg = "el valor ejecutado tiene un formato incorrecto"; }
             catch (System.ArgumentNullException) { msg = "ejecutado Nulo"; }
@@ -37,20 +38,17 @@ namespace seguimiento.Formulas
             if (msg == "")
             {
                 //evita planeados negativos y 0 para evitar divisiones por 0, si es aso genera mensaje de error
-                if (valPlaneado <= 0)
+                if (valPlaneado == lineaBase)
                 {
-                    msg = "ejecución no planeada";
-                    if (valEjecutado >= valPlaneado)
-                    {
-                        valCalculado = 100;
-                    }
-                    else { valCalculado = 0; }
 
+                    msg = "Se está tomando un Lb de "+(valPlaneado+10);
+                    lineaBase = valPlaneado + 10;
+                    valCalculado = (((valEjecutado - lineaBase) / (valPlaneado - lineaBase)) * 100);
                 }
                 else
                 {
                     //realiza el calculo del valor a devolver, siempre en porcentaje
-                    valCalculado = ((valEjecutado / valPlaneado) * 100);
+                    valCalculado = (((valEjecutado-lineaBase) /(valPlaneado-lineaBase)) * 100);
                 }
 
                 respuesta.Calculado = valCalculado;
@@ -88,7 +86,7 @@ namespace seguimiento.Formulas
                 valPlaneado = 0;
                 if (calculada.ejecutado != null) { calculada.ejecutado = calculada.ejecutado.Replace(',', '.'); }
                 if (calculada.planeado != null) { calculada.planeado = calculada.planeado.Replace(',', '.'); }
-               
+
                 try { decimal.TryParse(calculada.ejecutado, NumberStyles.Any, CultureInfo.InvariantCulture, out valEjecutado); }
                 catch (System.OverflowException) { msg = "el valor ejecutado genera desbordamiento"; }
                 catch (System.FormatException) { msg = "el valor ejecutado tiene un formato incorrecto"; }
@@ -99,14 +97,10 @@ namespace seguimiento.Formulas
                 catch (System.FormatException) { msg = "el valor ejecutado tiene un formato incorrecto"; }
                 catch (System.ArgumentNullException) { msg = "ejecutado Nulo"; }
 
-                if (calculada.planeado != "")
-                {
-                    sumaPlaneado = valPlaneado;
-
-                }
+                sumaPlaneado = sumaPlaneado + valPlaneado;
                 if (calculada.cargado == true && calculada.Periodo.cargado == true)
                 {
-                    sumaEjecutados = valEjecutado;
+                    sumaEjecutados = sumaEjecutados + valEjecutado;
                 }
                 cuenta++;
             }
@@ -115,9 +109,9 @@ namespace seguimiento.Formulas
             {
 
 
-                if (sumaPlaneado > 0)
+                if (sumaPlaneado != lineaBase)
                 {
-                    valCalculado = sumaEjecutados / sumaPlaneado;
+                    valCalculado = (sumaEjecutados -lineaBase) /(sumaPlaneado -lineaBase);
 
                     if (valCalculado > 1)
                     {
@@ -128,14 +122,21 @@ namespace seguimiento.Formulas
                         valCalculado = 0;
                     }
                 }
-                else if (sumaPlaneado <= 0)
+                else if (sumaPlaneado == lineaBase)
                 {
+                    
+                    lineaBase = sumaPlaneado + 10;
+                    valCalculado = (sumaEjecutados - lineaBase) / (sumaPlaneado - lineaBase);
 
-                    if (sumaEjecutados >= valCalculado)
+                    if (valCalculado > 1)
                     {
-                        valCalculado = 100;
+                        valCalculado = 1;
                     }
-                    else { valCalculado = 0; }
+                    if (valCalculado < 0)
+                    {
+                        valCalculado = 0;
+                    }
+
                 }
                 else
                 {
@@ -164,8 +165,8 @@ namespace seguimiento.Formulas
         }
         public EjecucionCalculada Calculo_total(Ejecucion ejecucion, List<object> listadoParaTotal, decimal lineaBase)
         {
-            decimal valEjecutado = 0, valPlaneado = 0, valCalculado = 0, sumaPlaneado = 0, sumaEjecutado=0;
-            int cuenta = 0, cuenta2=0;
+            decimal valEjecutado = 0, valPlaneado = 0, valCalculado = 0, sumaPlaneado = 0, sumaEjecutados = 0;
+            int cuenta = 0;
             EjecucionCalculada respuesta = new EjecucionCalculada();
             string msg = "";
 
@@ -184,9 +185,12 @@ namespace seguimiento.Formulas
                 catch (System.FormatException) { msg = "el valor ejecutado tiene un formato incorrecto"; }
                 catch (System.ArgumentNullException) { msg = "ejecutado Nulo"; }
 
-                if (calculada.Periodo.cargado == true)
+
+
+                sumaPlaneado = sumaPlaneado + valPlaneado;
+                if (calculada.cargado == true && calculada.Periodo.cargado == true)
                 {
-                    valCalculado = calculada.Calculado + valCalculado;
+                    sumaEjecutados = sumaEjecutados + valEjecutado;
                 }
                 cuenta++;
 
@@ -198,22 +202,40 @@ namespace seguimiento.Formulas
             {
 
 
-
-                valCalculado = valCalculado / cuenta;
-
-                if (valCalculado > 100)
+                if (sumaPlaneado != lineaBase)
                 {
-                    valCalculado = 100;
+                    valCalculado = (sumaEjecutados -lineaBase) /(sumaPlaneado -lineaBase);
+
+                    if (valCalculado > 1)
+                    {
+                        valCalculado = 1;
+                    }
+                    if (valCalculado< 0)
+                    {
+                        valCalculado = 0;
+                    }
                 }
-                if (valCalculado < 0)
+                else if (sumaPlaneado == lineaBase)
+{
+
+                    lineaBase = sumaPlaneado + 10;
+                    valCalculado = (sumaEjecutados - lineaBase) / (sumaPlaneado - lineaBase);
+
+                    if (valCalculado > 1)
+                    {
+                        valCalculado = 1;
+                    }
+                    if (valCalculado < 0)
+                    {
+                        valCalculado = 0;
+                    }
+
+                }
+                else
                 {
                     valCalculado = 0;
                 }
-
-
             }
-
-
 
             respuesta.id = ejecucion.id;
             respuesta.FechaActualizacion = ejecucion.FechaActualizacion;
@@ -222,12 +244,12 @@ namespace seguimiento.Formulas
             respuesta.idperiodo = ejecucion.idperiodo;
             respuesta.Periodo = ejecucion.Periodo;
             respuesta.cargado = ejecucion.cargado;
-            respuesta.ejecutado = "";
-            respuesta.planeado = "";
+            respuesta.ejecutado = sumaEjecutados.ToString();
+            respuesta.planeado = sumaPlaneado.ToString();
             respuesta.Nota = ejecucion.Nota;
             respuesta.adjunto = ejecucion.adjunto;
             respuesta.Mensaje = msg;
-            respuesta.Calculado = (valCalculado);
+            respuesta.Calculado = (valCalculado * 100);
 
 
             if (respuesta.Calculado > 100) { respuesta.Calculado = 100; }

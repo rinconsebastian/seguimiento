@@ -119,7 +119,7 @@ namespace seguimiento.Formulas
                         }
 
                         break;
-                    case "total":
+                    case "Total":
 
 
                         //estilo de los calculado en los totales tipo porcentaje
@@ -220,7 +220,7 @@ namespace seguimiento.Formulas
                             ejecucion.ejecutado = "";
                         }
                         break;
-                    case "total":
+                    case "Total":
 
                         //estilo de los calculado en los totales tipo numero
                         if (ejecucion.Periodo.cargado)
@@ -311,7 +311,7 @@ namespace seguimiento.Formulas
                             ejecucion.ejecutado = "";
                         }
                         break;
-                    case "total":
+                    case "Total":
 
                         //estilo de los calculado en los totales tipo numero
                         if (ejecucion.Periodo.cargado)
@@ -415,7 +415,7 @@ namespace seguimiento.Formulas
                         }
 
                         break;
-                    case "total":
+                    case "Total":
 
 
                         //estilo de los calculado en los totales tipo porcentaje

@@ -268,16 +268,26 @@ namespace seguimiento.Controllers
             Categoria categoria = null;
             if (evaluacion.IdCategoria != 0)
             {
-                categoria = await db.Categoria.FindAsync(evaluacion.IdCategoria);    
+                categoria = await db.Categoria.FindAsync(evaluacion.IdCategoria);
+                evaluacion.Categoria = categoria;
             }
-            evaluacion.Categoria = categoria;
+            else
+            {
+                evaluacion.Categoria = null;
+            }
+            
 
             Indicador indicador = null;
             if (evaluacion.IdIndicador != 0)
             {
                 indicador = await db.Indicador.FindAsync(evaluacion.IdIndicador);
+                evaluacion.Indicador = indicador;
             }
-            evaluacion.Indicador = indicador;
+            else
+            {
+                evaluacion.Indicador= null;
+            }
+            
 
             if (ModelState.IsValid)
             {
@@ -285,12 +295,12 @@ namespace seguimiento.Controllers
 
                 if(evaluacion.Categoria == null)
                 {
-                    db.Database.ExecuteSqlRaw("UPDATE `evaluacion` SET `Categoriaid` = null WHERE `Id` = {0};", evaluacion.Id);
+                   // db.Database.ExecuteSqlRaw("UPDATE `evaluacion` SET `Categoriaid` = null WHERE `Id` = {0};", evaluacion.Id);
                 }
 
                 if (evaluacion.Indicador == null)
                 {
-                    db.Database.ExecuteSqlRaw("UPDATE `evaluacion` SET `Indicadorid` = null WHERE `Id` = {0};", evaluacion.Id);
+                    //db.Database.ExecuteSqlRaw("UPDATE `evaluacion` SET `Indicadorid` = null WHERE `Id` = {0};", evaluacion.Id);
                 }
 
                 await db.SaveChangesAsync();

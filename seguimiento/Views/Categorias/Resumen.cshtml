@@ -28,14 +28,19 @@
         </div>
         <div class="row margin-left-0">
             <div class="col-md-6">
-                <div class="row categoriaDescripcionFila">
-                    <div class="col-md-3 categoriaDescripcionTitulo">Texto</div>
-                    <div class="col-md-9 text-justify categoriaDescripcion">@categoria[0].texto</div>
-                </div>
+                    @if (categoria[0].texto != "" && categoria[0].texto != null)
+                    {
+                        <div class="row categoriaDescripcionFila">
+                            <div class="col-md-3 categoriaDescripcionTitulo">Definición</div>
+                            <div class="col-md-9 text-justify categoriaDescripcion">@categoria[0].texto</div>
+                        </div>
+                    }
+                    <!--
                 <div class="row categoriaDescripcionFila">
                     <div class="col-md-3 categoriaDescripcionTitulo">Objetivo</div>
                     <div class="col-md-9 text-justify categoriaDescripcion">@categoria[0].objetivo</div>
                 </div>
+                -->
                 <div class="row categoriaDescripcionFila">
                     <div class="col-md-3 categoriaDescripcionTitulo">Responsable</div>
                     <div class="col-md-9 text-right categoriaDescripcion">@categoria[0].Responsable.Nombre</div>
@@ -44,7 +49,9 @@
                     <div class="col-md-3 categoriaDescripcionTitulo">Ponderador</div>
                     <div class="col-md-9 text-right categoriaDescripcion">@categoria[0].Ponderador.ToString("#.##")</div>
                 </div>
+                <!--
                 <div class="row categoriaDescripcionFila">
+                    
                     <div class="col-md-3 categoriaDescripcionTitulo">Seguimiento</div>
                     <div class="col-md-9 right categoriaDescripcion">
                         <button type="button" id="AbrirNotas" class="btn btn-outline-dark btn-xs" aria-label="Left Align" data-categoria="@categoria[0].id">
@@ -59,6 +66,7 @@
 
                     </div>
                 </div>
+                -->
                 @foreach (var campo in ViewBag.campos)
                 {
 
@@ -244,29 +252,6 @@ if (@categoria[0].unificacion != null)
 </div>
 <!--  --------------------------- MODAL GRÁFICA ------------------------------------------------------------- -->
 
-<!--  --------------------------- MODAL  NOTAS ------------------------------------------------------------- -->
-<div class="modal fade" id="myModalNotas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title tituloCategoria" id="myModalLabelNotas">
-                    @categoria[0].numero@if (@categoria[0].numero != "")
-                    {@Html.Encode(".");
-                }  @categoria[0].Nivel.nombre @categoria[0].nombre
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body padding-bottom-0">
-            <div id="notas"></div>
-        </div>
-
-    </div>
-</div>
-</div>
-
-<!--  --------------------------- MODAL  NOTAS ------------------------------------------------------------- -->
 
 
 

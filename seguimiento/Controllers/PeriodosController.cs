@@ -179,7 +179,19 @@ namespace seguimiento.Controllers
 
         public async  Task<Periodo> GetLastEnabled()
         {
-            Periodo respuesta =await db.Periodo.Where(m => m.cargado == true && (m.tipo == "subtotal" || m.tipo == "total")).OrderByDescending(m => m.orden).FirstOrDefaultAsync();
+            Periodo respuesta =await db.Periodo.Where(m => m.cargado == true && (m.tipo == "subtotal" || m.tipo == "Total")).OrderByDescending(m => m.orden).FirstOrDefaultAsync();
+            if (respuesta == null)
+            {
+                respuesta = await db.Periodo.Where(m => m.tipo == "subtotal").OrderBy(m => m.orden).FirstOrDefaultAsync();
+            }
+
+
+            return respuesta;
+        }
+
+        public async Task<Periodo> GetLastSubtotalEnabled()
+        {
+            Periodo respuesta = await db.Periodo.Where(m => m.cargado == true && (m.tipo == "subtotal" )).OrderByDescending(m => m.orden).FirstOrDefaultAsync();
             if (respuesta == null)
             {
                 respuesta = await db.Periodo.Where(m => m.tipo == "subtotal").OrderBy(m => m.orden).FirstOrDefaultAsync();
@@ -234,7 +246,7 @@ namespace seguimiento.Controllers
 
             int ajusteSubtotal = 0;
 
-            if (total.tipo == "total") { ajusteSubtotal += 1; }
+            if (total.tipo == "Total") { ajusteSubtotal += 1; }
 
             if (total.orden > 1)
             {

@@ -39,7 +39,7 @@ namespace seguimiento.Controllers
 
             if (tperiodo == "" || tperiodo == null)
             {
-                var pertemp = await controlPeriodo.GetLastEnabled();
+                var pertemp = await controlPeriodo.GetLastSubtotalEnabled();
                 if (pertemp == null)
                 {
                     return RedirectToAction("Index", "Main");

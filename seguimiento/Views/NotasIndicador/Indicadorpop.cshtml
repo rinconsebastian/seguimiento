@@ -1,0 +1,124 @@
+﻿@model IEnumerable<seguimiento.Models.NotaIndicador>
+@{
+    Layout = null;
+}
+
+
+
+
+    @if (ViewBag.editar)
+    {
+        <p>
+            <button type="button" class="btn btn-outline-dark NotaIndicadorCreate" aria-label="Left Align" data-Indicador="@ViewBag.indicador.id">
+                <i class="fas fa-plus-square"></i> nueva nota
+            </button>
+
+        </p>
+    }
+
+    @if (ViewBag.tipo == "exito")
+    {
+        <div class="alert alert-success" role="alert">@ViewBag.mensaje</div>
+    }
+    @if (ViewBag.tipo == "error")
+    {
+        <div class="alert alert-danger" role="alert">@ViewBag.mensaje</div>
+    }
+
+    <table class="table ui-responsive" data-role="table">
+        <tr>
+            <th class="hide-small-dev">
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaCreacion)
+
+            </th>
+            <th class="hide-small-dev">
+                @Html.DisplayNameFor(model => model.FechaActualizacion)
+            </th>
+            <th class="hide-small-dev">
+                @Html.DisplayNameFor(model => model.User.Nombre)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Adjunto)
+            </th>
+
+            <th></th>
+        </tr>
+        @if (ViewBag.visible)
+        {
+            foreach (var item in Model)
+            {
+                <tr class="font-smaller">
+                    <td class="hide-small-dev">
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Titulo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaCreacion)
+                    </td>
+
+                    <td class="hide-small-dev">
+                        @Html.DisplayFor(modelItem => item.FechaActualizacion)
+                    </td>
+                    <td class="hide-small-dev">
+                        @Html.DisplayFor(modelItem => item.User.Nombre)
+                        @Html.DisplayFor(modelItem => item.User.Apellido)
+                    </td>
+                    <td>
+
+
+                        @if (item.Adjunto != null && item.Adjunto != "")
+                        {
+                            @Html.ActionLink(" ", "UploadedFiles/" + @item.Adjunto, "Upload", new { }, htmlAttributes: new { @Class = "glyphicon glyphicon-paperclip", target = "_blank" })
+                        }
+
+                    </td>
+
+                    <td>
+
+
+                        <button type="button" title="Ver detalle" class="btn btn-default btn-sm NotaIndicadorDetalle" aria-label="Left Align" data-id="@item.Id">
+                            <i class="fas fa-file-alt"></i>
+                        </button>
+                        @if (ViewBag.editar && ViewBag.userFull != null)
+                        {
+                            if ((ViewBag.editar && ViewBag.userFull.Id == item.UserId) )
+                            {
+
+                                <button type="button" title="Editar" class="btn btn-default btn-sm NotaIndicadorEdit" aria-label="Left Align" data-id="@item.Id" data-indicador="@item.Indicador.id">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            }
+                        }
+
+                        @if (ViewBag.editar && ViewBag.userFull != null)
+                        {
+                            if ((ViewBag.editar && ViewBag.userFull.Id == item.UserId) )
+                            {
+                                <button type="button" title="Eliminar" class="btn btn-default btn-sm NotaIndicadorBorrar" aria-label="Left Align" data-id="@item.Id">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+
+                            }
+                        }
+                    </td>
+
+                </tr>
+            }
+        }
+    </table>

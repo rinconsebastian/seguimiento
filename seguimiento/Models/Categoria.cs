@@ -59,5 +59,7 @@ namespace seguimiento.Models
         [Display(Name = "Nota")]
         public string nota { get; set; }
 
+        public virtual ICollection<Indicador> Indicadores { get; set; }
+
     }
 }

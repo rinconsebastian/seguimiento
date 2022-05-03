@@ -42,7 +42,9 @@ namespace seguimiento.Data
 
         public DbSet<Nota> Nota { get; set; }
 
-        
+        public DbSet<NotaIndicador> NotaIndicador { get; set; }
+
+
         public DbSet<ValorCampo> ValorCampo { get; set; }
         public DbSet<Policy> Policy { get; set; }
 

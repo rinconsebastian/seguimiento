@@ -117,8 +117,8 @@ namespace seguimiento.Formulas
                                 listadoParaTotal.Add(respuesta); //almacena ejecucón para el calculo del subtotal
                                 listadoParaSubtotal.Clear();
                                 break;
-                            case "total":
-                                object[] argstotal = { registro, listadoParaTotal }; //carga los argumentos en un objeto
+                            case "Total":
+                                object[] argstotal = { registro, listadoParaTotal, lineaBase }; //carga los argumentos en un objeto
                                 respuesta = (EjecucionCalculada)operadorTotal.Invoke(op, argstotal); //envia los argumentos mediante invoke al metodo Calculo_total
                                 listadoEjecuciones.Add(respuesta); //almacena cada ejecucionCalcuada en la lista pero antes ajusta el formato con la clase unidadess de medida
                                 listadoParaTotal.Clear();
@@ -133,6 +133,9 @@ namespace seguimiento.Formulas
                                     lb = Regex.Replace(lb, "^-$", "");
                                     lb = Regex.Replace(lb, "^_$", "");
                                     lb = Regex.Replace(lb, "[a-zA-Z^&()<>//:@#$%;+_!¡]", "");
+                                    lb = Regex.Replace(lb, "^\\.$", "");
+                                    lb = Regex.Replace(lb, "^\\.\\.$", "");
+                                    lb = Regex.Replace(lb, "\\.", "");
                                 }
 
                                 try { lineaBase = lb == "" ? 0 : System.Convert.ToDecimal(lb); }
@@ -263,8 +266,8 @@ namespace seguimiento.Formulas
                                 listadoParaTotal.Add(respuesta); //almacena ejecucón para el calculo del subtotal
                                 listadoParaSubtotal.Clear();
                                 break;
-                            case "total":
-                                object[] argstotal = { registro, listadoParaTotal }; //carga los argumentos en un objeto
+                            case "Total":
+                                object[] argstotal = { registro, listadoParaTotal, lineaBase }; //carga los argumentos en un objeto
                                 respuesta = (EjecucionCalculada)operadorTotal.Invoke(op, argstotal); //envia los argumentos mediante invoke al metodo Calculo_total
                                 listadoEjecuciones.Add(respuesta); //almacena cada ejecucionCalcuada en la lista pero antes ajusta el formato con la clase unidadess de medida
                                 listadoParaTotal.Clear();
@@ -280,6 +283,9 @@ namespace seguimiento.Formulas
                                     lb = Regex.Replace(lb, "^-$", "");
                                     lb = Regex.Replace(lb, "^_$", "");
                                     lb = Regex.Replace(lb, "[a-zA-Z^&()<>//:@#$%;+_!¡]", "");
+                                    lb = Regex.Replace(lb, "^\\.$", "");
+                                    lb = Regex.Replace(lb, "^\\.\\.$", "");
+                                    lb = Regex.Replace(lb, "\\.", "");
                                 }
 
                                 try { lineaBase = lb == "" ? 0 : System.Convert.ToDecimal(lb); }
@@ -308,7 +314,7 @@ namespace seguimiento.Formulas
                     foreach (EjecucionCalculada calcuada in ejecucionesperiodo)
                     {
                         total = total + calcuada.Indicador.ponderador;
-                        if (calcuada.cargado == true || ((calcuada.Periodo.tipo == "subtotal" || calcuada.Periodo.tipo == "total") && calcuada.Periodo.cargado == true))
+                        if (calcuada.cargado == true || ((calcuada.Periodo.tipo == "subtotal" || calcuada.Periodo.tipo == "Total") && calcuada.Periodo.cargado == true))
                         {
                             calculado = calculado + (calcuada.Calculado / 100) * calcuada.Indicador.ponderador;
                         }

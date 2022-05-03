@@ -23,26 +23,29 @@
         categoria = categoriaActual;
         <div class="row tituloCategoriaUsuario">
 
-            <div class="col-md-11">
+            <div class="col-md-12">
                 <span class="IndicadorTitulo">@categoria</span>
             </div>
+          <!--
             <div class="col-md-1">
                 <button type="button" class=" AbrirNotas btn btn-outline-light btn-sm" data-categoria="@registro[0].Categoria.id" aria-label="Left Align">
                     <small><b><i class='fas fa-sticky-note'></i> Notas</b></small>
                 </button>
 
             </div>
-
+            -->
         </div>
 
     }
     var codigo = registro[0].codigo != null ? registro[0].codigo : registro[0].id;
     grupo = 1;
     <div class="row tituloUsuario">
-        <div class="col-md-10">
+        <div class="col-md-9">
             <span class="IndicadorNumero">@codigo</span> <span class="IndicadorTitulo"> @registro[0].nombre</span>
         </div>
-        <div class="col-md-2 text-right">
+        <div class="col-md-3 text-right">
+            <button class="btn btn-outline-light btn-sm  ml-1 AbrirNotasIndicador" title="Ver Notas" data-indicador="@registro[0].id" data-nombre=" @codigo @registro[0].nombre"><i class="fas fa-sticky-note"></i>
+                </button>
             <button class="btn btn-outline-light btn-sm  ml-1 button-open-indicador" title="Ver detalles" data-id="@registro[0].id"><i class="fas fa-external-link-alt"></i></button>
             <button class="btn btn-outline-warning btn-sm ml-1 button-open-indicador-chart"
                     title="Ver gráfica" data-id="@registro[0].id" data-title="@codigo @registro[0].nombre"

@@ -27,5 +27,7 @@ namespace seguimiento.Models
         public bool Editar { get; set; }
 
         public virtual ICollection<Responsable> Hijos { get; set; }
+
+        public virtual ICollection<Categoria> Categorias { get; set; }
     }
 }

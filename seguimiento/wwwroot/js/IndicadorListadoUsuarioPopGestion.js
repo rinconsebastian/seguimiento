@@ -311,4 +311,168 @@ function loadNotas(id, tipo, mensaje) {
 }
 
 
+//NOTAS INDICADORES
+
+$(".AbrirNotasIndicador").click(function () {
+
+
+    loadNotasIndicador($(this).attr("data-indicador"), "", "", $(this).attr("data-nombre"));
+});
+$('#myModalNotas').on('click', '.NotasIndicadorVolver', function () {
+    loadNotasIndicador($(this).attr("data-indicador"));
+});
+
+$('#myModalNotas').on('click', '.NotaIndicadorEdit', function () {
+    // alert("clic");
+    $('#notas').empty();
+    $('#notas').append('<div class="loading"><img src="images/loadingcircle.gif" ></div>');
+    $('#myModalNotas').modal('show');
+    $.get("../NotasIndicador/Editpop/", {
+        id: $(this).attr("data-id"), idindicador: $(this).attr("data-indicador")
+    })
+        .done(function (data) {
+            //   alert(data);
+            $('#notas').empty();
+            $('#notas').append(data);
+
+
+
+
+        });
+
+});
+
+//-------------------------------- AJAX PARA ALMACENAR LA EDICION DE NOTAS
+$('#myModalNotas').on('click', '.NotaIndicadorSaveEdit', function () {
+    //alert("click");
+    categ = $(this).attr("data-indicador");
+    $.post("../NotasIndicador/Editpop", $('#NotaIndicadorEditForm').serialize())
+        .done(function (data) {
+            //alert(data);
+            $('#notasIndicado').empty();
+            if (data == true) {
+                loadNotasIndicador(categ, "exito", "Nota editada exitosamente");
+            }
+            else {
+
+                loadNotasIndicador(categ, "error", "No se pudo actualizar la nota");
+            }
+
+        });
+
+});
+// ------------------------ AJAX GET FORMULARIO NOTA NUEVA
+$('#myModalNotas').on('click', '.NotaIndicadorCreate', function () {
+    $('#notas').empty();
+    $('#notas').append('<div class="loading"><img src="images/loadingcircle.gif" ></div>');
+    $('#myModalNotas').modal('show');
+
+    $.get("../NotasIndicador/Createpop/" + $(this).attr("data-indicador"))
+        .done(function (data) {
+            //   alert(data);
+            $('#notas').empty();
+            $('#notas').append(data);
+        });
+
+});
+
+
+//-----------------------------AJAXA POST PARA ALMACENAR LAS NUEVAS NOTAS CREADAS
+$('#myModalNotas').on('click', '.NotaIndicadorCreateButton', function () {
+    categ = $(this).attr("data-indicador");
+    //alert("click");
+    $.post("../NotasIndicador/Createpop", $('#NotaIndicadorCreateForm').serialize())
+        .done(function (data) {
+            //alert(data);
+            $('#notas').empty();
+            if (data == true) {
+
+                loadNotas(categ, "exito", "Nota creada con exito");
+            }
+            else {
+
+                loadNotas(categ, "error", "No se pudo Crear la nota");
+            }
+
+        });
+
+});
+
+// ------------------------ AJAX GET DETALLE NOTA 
+$('#myModalNotas').on('click', '.NotaIndicadorDetalle', function () {
+    $('#notas').empty();
+    $('#notas').append('<div class="loading"><img src="images/loadingcircle.gif" ></div>');
+    $('#myModalNotas').modal('show');
+
+    $.get("../NotasIndicador/Detailspop/" + $(this).attr("data-id"))
+        .done(function (data) {
+            //   alert(data);
+            $('#notas').empty();
+            $('#notas').append(data);
+        });
+
+});
+
+// ------------------------ AJAX GET DELETE NOTA 
+$('#myModalNotas').on('click', '.NotaIndicadorBorrar', function () {
+    $('#notas').empty();
+    $('#notas').append('<div class="loading"><img src="images/loadingcircle.gif" ></div>');
+    $('#myModalNotas').modal('show');
+
+    $.get("../NotasIndicador/Deletepop/" + $(this).attr("data-id"))
+        .done(function (data) {
+            //   alert(data);
+            $('#notas').empty();
+            $('#notas').append(data);
+        });
+
+});
+
+//-----------------------------AJAXA POST PARA ELIMINAR NOTAS CREADAS
+$('#myModalNotas').on('click', '.NotaIndicadorDelete', function () {
+    //alert("click");
+    categ = $(this).attr("data-indicador");
+    $.post("../NotasIndicador/Deletepop/" + $(this).attr("data-id"), $('#NotaDeleteForm').serialize())
+        .done(function (data) {
+            //alert(data);
+            $('#notas').empty();
+            if (data == true) {
+
+                loadNotasIndicador(categ, "exito", "Nota eliminada");
+            }
+            else {
+
+                loadNotasIndicador(categ, "error", "No se pudo eliminar la nota");
+            }
+
+        });
+
+});
+
+
+
+function loadNotasIndicador(id, tipo, mensaje, nombre) {
+    //alert(nombre);
+    $('#myModalLabelNotas').empty();
+    $('#myModalLabelNotas').append(nombre);
+
+    $('#notas').empty();
+    $('#notas').append('<div class="loading"><img src="../images/loadingcircle.gif" ></div>');
+    $('#myModalNotas').modal('show');
+    $.get("../NotasIndicador/Indicadorpop", {
+        'Indicadorid': id, 'tipo': tipo, 'mensaje': mensaje
+    })
+        .done(function (data) {
+            //alert(tipo);
+            //alert(mensaje);
+
+
+            $('#notas').empty();
+            $('#notas').append(data);
+
+        });
+
+
+}
+
 

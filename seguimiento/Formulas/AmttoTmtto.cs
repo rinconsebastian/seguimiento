@@ -114,7 +114,7 @@ namespace seguimiento.Formulas
             {
                 if (cuentaejecutado > 0)
                 {
-                    sumaEjecutados = sumaEjecutados / cuentaejecutado;
+                    sumaEjecutados = sumaEjecutados / cuenta;
                 }
                
                 sumaPlaneado = sumaPlaneado / cuenta;
@@ -167,10 +167,10 @@ namespace seguimiento.Formulas
 
             return (Object)respuesta;
         }
-        public EjecucionCalculada Calculo_total(Ejecucion ejecucion, List<object> listadoParaTotal)
+        public EjecucionCalculada Calculo_total(Ejecucion ejecucion, List<object> listadoParaTotal, decimal lineaBase)
         {
-            decimal valEjecutado = 0, valPlaneado = 0, valCalculado = 0, sumaPlaneado = 0;
-            int cuenta = 0;
+            decimal valEjecutado = 0, valPlaneado = 0, valCalculado = 0, sumaPlaneado = 0, sumaEjecutado = 0;
+            int cuenta = 0, cuenta2 = 0;
             EjecucionCalculada respuesta = new EjecucionCalculada();
             string msg = "";
 
@@ -189,20 +189,32 @@ namespace seguimiento.Formulas
                 catch (System.FormatException) { msg = "el valor ejecutado tiene un formato incorrecto"; }
                 catch (System.ArgumentNullException) { msg = "ejecutado Nulo"; }
 
-                if (valPlaneado > 0)
+                if (calculada.Periodo.cargado == true)
                 {
-                    cuenta++;
-                    valCalculado = valCalculado + calculada.Calculado;
-                    sumaPlaneado = sumaPlaneado + valPlaneado;
+                    valCalculado = calculada.Calculado + valCalculado;
                 }
-
+                cuenta++;
 
 
             }
+
+
             if (cuenta > 0)
             {
+
+
+
                 valCalculado = valCalculado / cuenta;
-                sumaPlaneado = sumaPlaneado / cuenta;
+
+                if (valCalculado > 100)
+                {
+                    valCalculado = 100;
+                }
+                if (valCalculado < 0)
+                {
+                    valCalculado = 0;
+                }
+
 
             }
 
@@ -214,8 +226,8 @@ namespace seguimiento.Formulas
             respuesta.idperiodo = ejecucion.idperiodo;
             respuesta.Periodo = ejecucion.Periodo;
             respuesta.cargado = ejecucion.cargado;
-            respuesta.ejecutado = ejecucion.ejecutado;
-            respuesta.planeado = sumaPlaneado.ToString();
+            respuesta.ejecutado = "";
+            respuesta.planeado = "";
             respuesta.Nota = ejecucion.Nota;
             respuesta.adjunto = ejecucion.adjunto;
             respuesta.Mensaje = msg;
