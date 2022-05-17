@@ -27,7 +27,7 @@ namespace seguimiento.ViewComponents
         {
             List<Responsable> r = new List<Responsable>();
 
-            var r0= await db.Responsable.Where(n=>n.Categorias.Count > 0).ToListAsync();
+            var r0= await db.Responsable.Where(n=>n.Categorias.Count > 0).OrderBy(n=>n.Nombre).ToListAsync();
 
             if (r0.Count > 0) {
                 var r1 = r0.Where(n => n.Categorias.First().Indicadores.Count > 0).ToList();

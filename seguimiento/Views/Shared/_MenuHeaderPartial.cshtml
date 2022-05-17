@@ -24,6 +24,15 @@
                 <a class="nav-link text-dark" asp-area="" asp-controller="Indicadors" asp-action="ListadoUsuario">Mis indicadores</a>
             </li>
         }
+
+        @if (User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Nota.Editar" && c.Value == "1") ||
+          (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Nota.Ver" && c.Value == "1")))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="NotasIndicador" asp-action="Index">Acciones</a>
+            </li>
+        }
+
         @if (User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.General" && c.Value == "1") ||
    (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Configuracion.Responsable" && c.Value == "1") ||
    (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Indicador.Editar" && c.Value == "1") ||

@@ -34,9 +34,62 @@ namespace seguimiento.Controllers
             return numero;
         }
 
-        public async Task<ActionResult> Indicadorpop(int indicadorid = 0, string tipo = "", string mensaje="")
+       
+
+        public async Task<ActionResult> Index( string tipo = "", string mensaje="")
         {
             IndicadorsController controlIndicador = new  IndicadorsController(db, userManager);
+            ResponsablesController controlResponsable = new ResponsablesController(db, userManager);
+            ConfiguracionsController controlConfiguracion = new ConfiguracionsController(db, userManager);
+
+           
+            
+            if (User.Identity.Name != null)
+            {
+                var userFull = await userManager.FindByEmailAsync(User.Identity.Name);
+
+                // obtiene las categorias
+                var idsx = controlResponsable.GetAllIdsFromResponsable(userFull.IDDependencia);
+
+                var notasE = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Nota.Editar" && c.Value == "1"));
+                var super = User.HasClaim(c => (c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/Super" && c.Value == "1"));
+
+
+
+                ViewBag.tipo = tipo;
+                ViewBag.mensaje = mensaje;
+                ViewBag.editar = controlConfiguracion.Editable(userFull.IDDependencia, notasE, super);
+                ViewBag.visible = true;
+                ViewBag.configuracion = await controlConfiguracion.Get();
+                
+                ViewBag.userFull = userFull;
+
+                ViewBag.PermisoResponsable = idsx;
+            }
+            else
+            {
+                Configuracion config = await controlConfiguracion.Get();
+                ViewBag.tipo = tipo;
+                ViewBag.mensaje = mensaje;
+
+
+                ViewBag.editar = false;
+                ViewBag.userFull = false;
+                ViewBag.configuracion = config;
+                ViewBag.visible = config.libre;
+                ViewBag.PermisoResponsable = false;
+
+            }
+
+
+            var notas = await db.NotaIndicador.Include(n => n.Indicador).Include(n => n.User).OrderByDescending(n => n.FechaCreacion).ToListAsync();
+            return View(notas.ToList());
+        }
+
+
+        public async Task<ActionResult> Indicadorpop(int indicadorid = 0, string tipo = "", string mensaje = "")
+        {
+            IndicadorsController controlIndicador = new IndicadorsController(db, userManager);
             ResponsablesController controlResponsable = new ResponsablesController(db, userManager);
             ConfiguracionsController controlConfiguracion = new ConfiguracionsController(db, userManager);
 
@@ -44,7 +97,7 @@ namespace seguimiento.Controllers
 
             Indicador indicador = await controlIndicador.getFromId(ID);
 
-            
+
             if (User.Identity.Name != null)
             {
                 var userFull = await userManager.FindByEmailAsync(User.Identity.Name);

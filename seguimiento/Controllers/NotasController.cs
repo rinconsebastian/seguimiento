@@ -34,7 +34,10 @@ namespace seguimiento.Controllers
             return numero;
         }
 
-        public async Task<ActionResult> Categoriapop(int categoriaid = 0, string tipo = "", string mensaje="")
+       
+
+
+        public async Task<ActionResult> Categoriapop(int categoriaid = 0, string tipo = "", string mensaje = "")
         {
             CategoriasController controlCategoria = new CategoriasController(db, userManager);
             ResponsablesController controlResponsable = new ResponsablesController(db, userManager);
@@ -44,7 +47,7 @@ namespace seguimiento.Controllers
 
             Categoria categoria = await controlCategoria.getFromId(ID);
 
-            
+
             if (User.Identity.Name != null)
             {
                 var userFull = await userManager.FindByEmailAsync(User.Identity.Name);

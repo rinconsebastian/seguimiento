@@ -1,20 +1,12 @@
 ﻿@model IEnumerable<seguimiento.Models.NotaIndicador>
 @{
-    Layout = null;
+     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 
 
-    @if (ViewBag.editar)
-    {
-        <p>
-            <button type="button" class="btn btn-outline-dark NotaIndicadorCreate" aria-label="Left Align" data-Indicador="@ViewBag.indicador.id">
-                <i class="fas fa-plus-square"></i> Nueva acción
-            </button>
-
-        </p>
-    }
+  
 
     @if (ViewBag.tipo == "exito")
     {
@@ -24,7 +16,24 @@
     {
         <div class="alert alert-danger" role="alert">@ViewBag.mensaje</div>
     }
+@{
+    var indicadores = @Model.OrderBy(n=>n.Indicador.codigo).GroupBy(n => n.IdIndicador);
+}
 
+<div class="row titulo-principal titulo-principal-2 IndicadoresTituloGeneral">
+        <h5 class="text-center IndicadoresTitulo-margen mayuscula">ACCIONES CORRECTIVAS O DE MEJORA</h5>
+    </div>
+
+
+@foreach(var indicador in indicadores)
+{
+    <div class="row tituloUsuario">
+        <div class="col-md-12">
+            <span class="IndicadorNumero"> @indicador.First().Indicador.codigo</span> <span class="IndicadorTitulo">@indicador.First().Indicador.nombre</span>
+        </div>
+        
+    </div>
+    
     <table class="table ui-responsive" data-role="table">
         <tr>
             <th class="hide-small-dev">
@@ -55,7 +64,7 @@
         </tr>
         @if (ViewBag.visible)
         {
-            foreach (var item in Model)
+            foreach (var item in indicador)
             {
                 <tr class="font-smaller">
                     <td class="hide-small-dev">
@@ -122,3 +131,34 @@
             }
         }
     </table>
+
+    
+}
+
+    
+
+
+
+    <!--  --------------------------- MODAL  NOTAS ------------------------------------------------------------- -->
+<div class="modal fade" id="myModalNotas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title tituloCategoria" id="myModalLabelNotas">
+                   
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body padding-bottom-0">
+            <div id="notas"></div>
+        </div>
+
+    </div>
+</div>
+</div>
+
+<!--  --------------------------- MODAL  NOTAS ------------------------------------------------------------- -->
+
+<script src="~/js/indexNotas.js" async></script>

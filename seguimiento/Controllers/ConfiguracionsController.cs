@@ -230,6 +230,27 @@ namespace seguimiento.Controllers
             }
 
         }
+
+        public bool Editable(int idresponsable, bool permiso, bool super)
+        {
+            ResponsablesController controlResponsable = new ResponsablesController(db, userManager);
+
+            var ids = controlResponsable.GetAllIdsFromResponsable(idresponsable);
+
+            //if ((responsable.Id == categoria.Responsable.Id && permiso) ||super)
+
+            if (((ids.Contains(idresponsable)) && permiso) || super)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+
         // metodo para determinar si un usuario puede ver las notas dentro de una categoria
         public bool Visible(Configuracion configuracion, bool permiso, bool super)
         {
