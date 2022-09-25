@@ -224,17 +224,18 @@ $('#myModalNotas').on('click', '.NotaIndicadorCreate', function () {
 $('#myModalNotas').on('click', '.NotaIndicadorCreateButton', function () {
     categ = $(this).attr("data-indicador");
     //alert("click");
+    $("#idIndicadorNotas").val(categ);
     $.post("../NotasIndicador/Createpop", $('#NotaIndicadorCreateForm').serialize())
         .done(function (data) {
-            alert(data);
+            //alert(data);
             $('#notas').empty();
             if (data == true) {
-
-                loadNotas(categ, "exito", "Nota creada con exito");
+              //  alert($("#idIndicadorNotas").val());
+                loadNotasIndicador($("#idIndicadorNotas").val(), "exito", "Nota creada con exito");
             }
             else {
 
-                loadNotas(categ, "error", "No se pudo Crear la nota");
+                loadNotasIndicador($("#idIndicadorNotas").val(), "error", "No se pudo Crear la nota");
             }
 
         });

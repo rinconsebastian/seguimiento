@@ -646,6 +646,13 @@ textarea {
     margin-right: auto;
 }
 
+
+.form-notas-width2 {
+    max-width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 input[type="file"] {
     display: inline-block;
     padding: 6px 12px;
@@ -704,6 +711,8 @@ input, select, textarea, .input-size {
 .nota-details-textarea {
     border-width: 0px;
     cursor: text !important;
+    max-width: 100% !important;
+    font-size: small;
 }
 
 .periodoDetalle {
@@ -1184,8 +1193,10 @@ input, select, textarea, .input-size {
         box-shadow: 0 0 0 .2rem rgba(220,53,69,.25)
     }
 
-.custom-file{
-    max-width: 424px!important;
+.custom-file {
+    max-width: 424px !important;
+    text-align: center;
+    border-style:hidden !important;
 }
 /*##################################### DETAILS POP UP #####################################*/
 .condensed .row {
@@ -1232,4 +1243,167 @@ input, select, textarea, .input-size {
 
 .titulo-principal-2{
     color: white;
+}
+
+.ajuste-list-nota-ccs {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    max-height: 21px;
+    overflow-y: hidden;
+    font-size: small;
+}
+.titulo-nota-indicador {
+    position: relative;
+    bottom: 46px;
+}
+.relative-nota-ccs {
+    position: relative;
+    top: -17px;
+}
+
+@media(min-width: 768px) {
+    .relative-nota-ccs2 {
+        position: relative;
+        top: -69px;
+    }
+
+    .margen-accion-edit2 {
+        margin-left: 6px;
+        margin-right: 0px;
+    }
+
+    .offsetupload-accion2 {
+        position: relative;
+        top: -454px;
+        font-size: small;
+    }
+
+    .offsetupload-accion {
+        position: relative;
+        top: -622px;
+        font-size: small;
+    }
+
+    .offsetupload-accion-create {
+        position: relative;
+        top: -599px;
+        font-size: small;
+    }
+
+
+    .offset-anexos-ccs4 {
+        position: relative;
+        top: -168px;
+        right: 13px;
+        min-height: 40px;
+    }
+    .offset-anexos-ccs4-create {
+        position: relative;
+        top: -120px;
+        right: 13px;
+        min-height: 40px;
+    }
+}
+.font-small{
+   font-size: small;
+}
+
+.borde-div-ccs div {
+    border-style: solid;
+    border-color: #80808061;
+    border-width: 1px;
+}
+
+
+
+.titulo-nota-indicador2{
+    position: relative;
+    bottom: 48px;
+}
+
+.mb-0{
+    margin-bottom: 0px;
+}
+.mb-5px{
+    margin-bottom:5px;
+}
+
+
+.margen-accion-edit {
+    margin-left: 0px;
+    margin-right: 0px;
+       
+}
+
+
+
+
+.pd-0{
+    padding: 0px;
+}
+
+
+.pd-0 .form-control {
+        padding-top: 6px;
+        padding-bottom: 6px;
+        padding-left: 1px;
+        padding-right: 1px;
+    }
+
+
+
+
+.ajuste-anexo-ccs {
+    margin-right: -9px;
+    margin-left: 11px;
+}
+
+.custom-file-label2 {
+    background-color: #3172c3;
+    color: white;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    font-family: sans-serif;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+}
+.custom-file-label3 {
+    background-color: #409475;
+    color: white;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    font-family: sans-serif;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    margin-top: 0rem;
+    
+}
+.custom-file-label2:hover {
+    
+    color: orange;
+    
+}
+    .custom-file-label3:hover {
+        color: orange;
+    }
+
+
+.overflow-upload-ccs {
+    margin-top: -3px;
+    overflow-y: hidden;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.modal-header h5{
+    overflow-y: hidden;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

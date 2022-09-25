@@ -16,10 +16,11 @@ var funcUpload = {
             formData.append("id", time);
 
 
-            $('#link_'+key).empty();
+            $('#link_' + key).empty();
+            $('#link_' + key).addClass("hide")
             $('#info_' + key).html('Cargando <img src="/images/ajax-loader.gif">');
 
-            alert(formulario.attr('action'));
+            //alert(formulario.attr('action'));
             //alert(formData.stringify());
             $.ajax({
                 type: "POST",
@@ -35,7 +36,13 @@ var funcUpload = {
                         $('#Adjunto_'+key).val(response.nombre);
                         $('#info_' + key).empty();
                         $('#link_' + key).attr("href", "../UploadedFiles/" + response.nombre)
-                        $('#link_' + key).html(response.nombre);
+                        $('#link_' + key).removeClass("hide")
+                        if (key.includes("S")) {
+                            $('#link_' + key).html('<i class="fas fa-file-download"></i>');
+                        } else {
+                            $('#link_' + key).html(response.nombre);
+                        }
+                        
                     }
                     else {
                         $('#info_' + key).html("Imposible cargar el archivo.");

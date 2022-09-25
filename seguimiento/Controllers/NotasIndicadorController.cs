@@ -178,6 +178,8 @@ namespace seguimiento.Controllers
         {
             try
             {
+                nota.FechaInicio1 = null;
+
                 db.NotaIndicador.Add(nota);
                 await db.SaveChangesAsync();
                 return true;

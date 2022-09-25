@@ -4,80 +4,251 @@
     Layout = null;
     var link = "";
     var text = "";
+    var link1 = "";
+    var text1 = "";
+    var link2 = "";
+    var text2 = "";
+    var link3 = "";
+    var text3 = "";
+
     var key = "Nota-0";
+      var key1 = "S1-0";
+      var key2 = "S2-0";
+       var key3 = "S3-0";
 }
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "NotaIndicadorCreateForm", @class = "form-notas-width" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "NotaIndicadorCreateForm", @class = "form-notas-width2" }))
 {
     @Html.AntiForgeryToken()
 
+    <div class="form-horizontal font-small ">
+   
+       
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+       
 
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-    <div class="form-group hide">
-        @Html.LabelFor(model => model.IdIndicador, "IdIndicador", htmlAttributes: new { @class = "col-md-3 col-form-label" })
-        <div class="col-md-9">
-            @Html.DropDownList("IdIndicador", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.IdIndicador, "", new { @class = "text-danger" })
+        <div class="form-group hide">
+            <label class="control-label  col-md-3" for="FechaCreacion">F. Creación</label>
+            <div class="col-md-9">
+                 @Html.EditorFor(model => model.FechaCreacion, new { htmlAttributes = new { @class = "form-control hide", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.FechaCreacion, "", new { @class = "text-danger" })
+            </div>
         </div>
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.IdIndicador, "IdIndicador", htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownList("IdIndicador", null, htmlAttributes: new { @class = "form-control", @readonly = "true" })
+                @Html.ValidationMessageFor(model => model.IdIndicador, "", new { @class = "text-danger" })
+            </div>
+        </div>
+         <div class="form-group hide">
+            @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control", @readonly = "true" })
+                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group hide">
+            <label class="control-label  col-md-3" for="FechaActualizacion">F. Actualización</label>
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.FechaActualizacion, new { htmlAttributes = new { @class = "form-control", @readonly = "true", @Value = DateTime.Now.ToLocalTime().ToString() } })
+                @Html.ValidationMessageFor(model => model.FechaActualizacion, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group mb-5px">
+                    @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label mb-0" })
+                    <div>
+                        @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group mb-5px">
+                    <label class = "control-label  mb-0">Análisis de causas</label>
+                    <div>
+                        @Html.TextAreaFor(model => model.Texto, htmlAttributes: new { @class = "form-control", rows = "3" })
+                        @Html.ValidationMessageFor(model => model.Texto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group  mb-5px">
+            @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label mb-0" })
+            <div>
+                @Html.DropDownList("Estado", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group  mb-5px">
+              <!-- Hdden input Adjunto para el formulario-->
+              @Html.EditorFor(model => model.Adjunto, new { htmlAttributes = new { @id = "Adjunto_Nota-0", @class = "form-control hide", @readonly = "true" } })
+   
+        </div>
+
+            </div>
+
+        </div>
+
+
+       </div>
+
+<div class="row margen-accion-edit">
+
+    <div class="col-sm-12">
+
+ <div class="d-flex flex-row justify-content-center">
+        <div class="p-1 font-small"><b>PLAN DE ACCION</b></div>
+        
+    </div>
+   <div class="row font-small borde-div-ccs">
+        <div class="col-md-1"><b>N</b></div>
+        <div class="col-md-5"><b>Acción a tomar</b></div>
+        <div class="col-md-2"><b>Responsable</b></div>
+        <div class="col-md-2"><b>F inicio</b></div>
+        <div class="col-md-2"><b>F fin</b></div>
+    </div>
+    <div class="row  font-small borde-div-ccs">
+        <div class="col-md-1">1</div>
+        <div class="col-md-5 pd-0">@Html.TextAreaFor(model => model.Accion1, htmlAttributes: new { @class = "form-control", rows = "1" })</div>
+        <div class="col-md-2 pd-0">@Html.TextAreaFor(model => model.Responsable1, htmlAttributes: new { @class = "form-control", rows = "1" })</div>
+        <div class="col-md-2 pd-0">@Html.EditorFor(model => model.FechaInicio1, new { htmlAttributes = new { @class = "form-control", @type = "date" } })</div>
+        <div class="col-md-2 pd-0">@Html.EditorFor(model => model.FechaFinal1, new { htmlAttributes = new { @class = "form-control", @type = "date"   } })</div>
+    </div>
+    <div class="row  font-small borde-div-ccs">
+        <div class="col-md-1">2</div>
+        <div class="col-md-5 pd-0">@Html.TextAreaFor(model => model.Accion2, htmlAttributes: new { @class = "form-control", rows = "1" })</div>
+        <div class="col-md-2 pd-0">@Html.TextAreaFor(model => model.Responsable2, htmlAttributes: new { @class = "form-control", rows = "1" })</div>
+        <div class="col-md-2 pd-0">@Html.EditorFor(model => model.FechaInicio2, new { htmlAttributes = new { @class = "form-control", @type = "date" } })</div>
+        <div class="col-md-2 pd-0">@Html.EditorFor(model => model.FechaFinal2, new { htmlAttributes = new { @class = "form-control", @type = "date"  } })</div>
+    </div>
+     <div class="row  font-small borde-div-ccs">
+        <div class="col-md-1">3</div>
+        <div class="col-md-5 pd-0">@Html.TextAreaFor(model => model.Accion3, htmlAttributes: new { @class = "form-control", rows = "1" })</div>
+        <div class="col-md-2 pd-0">@Html.TextAreaFor(model => model.Responsable3, htmlAttributes: new { @class = "form-control", rows = "1" })</div>
+        <div class="col-md-2 pd-0">@Html.EditorFor(model => model.FechaInicio3, new { htmlAttributes = new { @class = "form-control", @type = "date" } })</div>
+        <div class="col-md-2 pd-0">@Html.EditorFor(model => model.FechaFinal3, new { htmlAttributes = new { @class = "form-control", @type = "date" } })</div>
     </div>
 
-    <div class="form-group hide">
-        @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "col-md-3 col-form-label" })
-        <div class="col-md-9">
-            @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
-    <div class="form-group hide">
-        @Html.LabelFor(model => model.FechaCreacion, htmlAttributes: new { @class = "col-md-3 col-form-label" })
-        <div class="col-md-9">
-            @Html.EditorFor(model => model.FechaCreacion, new { htmlAttributes = new { @class = "form-control", @readonly = "true", @Value = DateTime.Now.ToLocalTime().ToString() } })
-            @Html.ValidationMessageFor(model => model.FechaCreacion, "", new { @class = "text-danger" })
-        </div>
+    <div class="d-flex flex-row justify-content-center">
+        <div class="p-1 font-small"><b>SEGUIMIENTO</b></div>
+        
     </div>
-    <div class="form-group hide">
-        @Html.LabelFor(model => model.FechaActualizacion, htmlAttributes: new { @class = "col-md-3 col-form-label" })
-        <div class="col-md-9">
-            @Html.EditorFor(model => model.FechaActualizacion, new { htmlAttributes = new { @class = "form-control", @readonly = "true", @Value = DateTime.Now.ToLocalTime().ToString() } })
-            @Html.ValidationMessageFor(model => model.FechaActualizacion, "", new { @class = "text-danger" })
-        </div>
+    <div class="row font-small borde-div-ccs">
+        <div class="col-md-1"><b>N</b></div>
+        <div class="col-md-2"><b>Fecha</b></div>
+        <div class="col-md-5"><b>Desc resultado</b></div>
+       
+        <div class="col-md-2"><b>Cerrada</b></div>
+         <div class="col-md-2"><b>Soporte</b></div>
     </div>
+    <div class="row  font-small borde-div-ccs">
+        <div class="col-md-1">1</div>
+        <div class="col-md-2 pd-0">@Html.EditorFor(model => model.FechaSeg1, new { htmlAttributes = new { @class = "form-control", @type = "date" } })</div>
+        <div class="col-md-5 pd-0">@Html.TextAreaFor(model => model.Descripcion1, htmlAttributes: new { @class = "form-control", rows = "1" })</div>
+        <div class="col-md-2 centrar">@Html.EditorFor(model => model.Cerrada1)</div>
+        <div class="col-md-2 pd-0 hide">@Html.EditorFor(model => model.Soporte1, new { htmlAttributes = new { @id = "Adjunto_S1-0", @class = "form-control hide", @readonly = "true" } })</div>
 
-    <div class="form-group row">
-        @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "col-md-3 col-form-label" })
-        <div class="col-md-9">
-            @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
-        </div>
     </div>
-    <div class="form-group row">
-        @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "col-md-3 col-form-label" })
-        <div class="col-md-9">
-            @Html.DropDownList("Estado", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
-        </div>
+    <div class="row  font-small borde-div-ccs">
+        <div class="col-md-1">2</div>
+        <div class="col-md-2 pd-0">@Html.EditorFor(model => model.FechaSeg2, new { htmlAttributes = new { @class = "form-control", @type = "date" } })</div>
+        <div class="col-md-5 pd-0">@Html.TextAreaFor(model => model.Descripcion2, htmlAttributes: new { @class = "form-control", rows = "1" })</div>
+        <div class="col-md-2 centrar">@Html.EditorFor(model => model.Cerrada2)</div>
+        <div class="col-md-2 pd-0 hide">@Html.EditorFor(model => model.Soporte2, new { htmlAttributes = new { @id = "Adjunto_S2-0", @class = "form-control hide", @readonly = "true" } })</div>
     </div>
+    <div class="row  font-small borde-div-ccs">
+        <div class="col-md-1">3</div>
+        <div class="col-md-2 pd-0">@Html.EditorFor(model => model.FechaSeg3, new { htmlAttributes = new { @class = "form-control", @type = "date" } })</div>
+        <div class="col-md-5 pd-0">@Html.TextAreaFor(model => model.Descripcion3, htmlAttributes: new { @class = "form-control", rows = "1" })</div>
+        <div class="col-md-2 centrar">@Html.EditorFor(model => model.Cerrada3)</div>
+        <div class="col-md-2 pd-0 hide">@Html.EditorFor(model => model.Soporte3, new { htmlAttributes = new { @id = "Adjunto_S3-0", @class = "form-control hide", @readonly = "true" } })</div>
+    </div>
+    
+  </div>
+</div>  
 
-    <div class="form-group row">
-        @Html.LabelFor(model => model.Texto, htmlAttributes: new { @class = "col-md-3 col-form-label" })
-        <div class="col-md-9">
-            @Html.TextAreaFor(model => model.Texto, htmlAttributes: new { @class = "form-control", rows = "6" })
-            @Html.ValidationMessageFor(model => model.Texto, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
-    <!-- Hdden input Adjunto para el formulario-->
-    @Html.EditorFor(model => model.Adjunto, new { htmlAttributes = new { @id = "Adjunto_Nota-0", @class = "form-control hide", @readonly = "true" } })
 
 }
-<!-- Input file para Adjunto -->
-<form asp-action="UploadFile" asp-controller="Upload" enctype="multipart/form-data" method="post">
-    <div class="form-group row">
 
-        <label asp-for="Adjunto" class="col-md-3 col-form-label"></label>
-        <div class="col-md-9">
+<div class="row margen-accion-edit2">
+
+    <div class="col-sm-12">
+
+
+        <div class="row  font-small borde-div-ccs ajuste-anexo-ccs">
+            <div class="col-md-2 offset-md-10 pd-0 offset-anexos-ccs4-create">
+                <form asp-action="UploadFile" asp-controller="Upload" enctype="multipart/form-data" method="post">
+                   
+                            <div class="custom-file">
+                                <input id="fileupload_@key1" name="file" data-key="@key1" type="file" class="custom-file-input fileUploadAdjunto" lang="es"  hidden>
+                                 <label title="Cargar" class="custom-file-label2" for="fileupload_@key1" data-browse="I"><i class="fas fa-file-upload"></i></label>
+                        
+                            <a title="Descargar" href="@link1" target="_blank" id="link_@key1" class="custom-file-label3 @(text1==""?"hide":"")"><i class="fas fa-file-download"></i></a>
+                            <span asp-validation-for="Adjunto" id="info_@key1" class="overflow-upload-ccs uploading_@key1 form-text small text-danger"></span>
+                        
+                    </div>
+                            
+
+                      
+                </form>
+            </div>
+
+        </div>
+        <div class="row  font-small borde-div-ccs ajuste-anexo-ccs">
+            <div class="col-md-2 offset-md-10 pd-0  offset-anexos-ccs4-create">
+                <form asp-action="UploadFile" asp-controller="Upload" enctype="multipart/form-data" method="post">
+                   
+                            <div class="custom-file">
+                                <input id="fileupload_@key2" name="file" data-key="@key2" type="file" class="custom-file-input fileUploadAdjunto" lang="es"  hidden>
+                                 <label title="Cargar" class="custom-file-label2" for="fileupload_@key2" data-browse="I"><i class="fas fa-file-upload"></i></label>
+                      
+                                <a title="Descargar" href="@link2" target="_blank" id="link_@key2" class="custom-file-label3 @(text2==""?"hide":"")" ><i class="fas fa-file-download"></i></a>
+                            <span asp-validation-for="Adjunto" id="info_@key2" class="overflow-upload-ccs uploading_@key2 form-text small text-danger"></span>
+                        
+                             </div>
+                           
+
+                      
+                </form>
+            </div>
+        </div>
+        <div class="row  font-small borde-div-ccs ajuste-anexo-ccs">
+            <div class="col-md-2 offset-md-10 pd-0  offset-anexos-ccs4-create">
+                <form asp-action="UploadFile" asp-controller="Upload" enctype="multipart/form-data" method="post">
+                   
+                            <div class="custom-file">
+                                <input id="fileupload_@key3" name="file" data-key="@key3" type="file" class="custom-file-input fileUploadAdjunto" lang="es" hidden>
+                                 <label title="Cargar" class="custom-file-label2" for="fileupload_@key3" data-browse="I"><i class="fas fa-file-upload"></i></label>
+                           
+                                <a  title="Descargar" href="@link3" target="_blank" id="link_@key3" class="custom-file-label3 @(text3==""?"hide":"")"><i class="fas fa-file-download"></i></a>
+                            <span asp-validation-for="Adjunto" id="info_@key3" class="overflow-upload-ccs uploading_@key3 form-text small text-danger"></span>
+                       
+                             </div>
+                          
+
+                      
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+}
+
+<div class="row">
+    <div class="col-md-6 offset-6">
+        <!-- Input file para Adjunto -->
+<form asp-action="UploadFile" asp-controller="Upload" enctype="multipart/form-data" method="post">
+    <div class="form-group row offsetupload-accion-create">
+
+        <label asp-for="Adjunto" class="col-md-12 col-form-label mb-0 pb-0"></label>
+        <div class="col-md-12">
             <div class="custom-file">
                 <input id="fileupload_@key" name="file" data-key="@key" type="file" class="custom-file-input fileUploadAdjunto" lang="es">
                 <label class="custom-file-label" for="fileupload_@key" data-browse="Elegir">Seleccionar Archivo</label>
@@ -88,6 +259,9 @@
         </div>
     </div>
 </form>
+    </div>
+</div>
+
 
 <div class="modal-footer">
 

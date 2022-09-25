@@ -76,7 +76,7 @@ $('body').on('click', '.NotaIndicadorCreateButton', function () {
     //alert("click");
     $.post("../NotasIndicador/Createpop", $('#NotaIndicadorCreateForm').serialize())
         .done(function (data) {
-            alert(data);
+            //alert(data);
             $('#notas').empty();
             if (data == true) {
 
@@ -96,6 +96,7 @@ $('body').on('click', '.NotaIndicadorCreateButton', function () {
 // ------------------------ AJAX GET DETALLE NOTA 
 $('body').on('click', '.NotaIndicadorDetalle', function () {
     $('#notas').empty();
+
     $('#notas').append('<div class="loading"><img src="images/loadingcircle.gif" ></div>');
     $('#myModalNotas').modal('show');
 
