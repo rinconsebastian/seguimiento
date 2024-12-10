@@ -50,15 +50,9 @@ namespace seguimiento
 
 
             services.AddDbContext<ApplicationDbContext>(opt =>
-             opt.UseLazyLoadingProxies().UseMySql(Configuration.GetConnectionString("DefaultConnection"),
-                        // Replace with your server version and type.
-                        // For common usages, see pull request #1233.
-                        //new MariaDbServerVersion(new Version(10, 4, 10)), // use MariaDbServerVersion for MariaDB MySqlServerVersion
-                        new MySqlServerVersion(new Version(5, 7, 39)),
-                        mySqlOptions => mySqlOptions
-                            .CharSetBehavior(CharSetBehavior.NeverAppend))
-                    // Everything from this point on is optional but helps with debugging.
-                    .EnableSensitiveDataLogging()
+             opt.UseLazyLoadingProxies()
+             .UseMySql(Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(5, 7, 39)))
+                   .EnableSensitiveDataLogging()
                     .EnableDetailedErrors());
 
             services.AddDatabaseDeveloperPageExceptionFilter();

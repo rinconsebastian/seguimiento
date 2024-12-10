@@ -1407,3 +1407,7 @@ input, select, textarea, .input-size {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+#ModalConfirm {
+    z-index: 1500;
+}
